@@ -1,0 +1,108 @@
+﻿
+@model Drop.Common.ApiObjects.Request.User.VerificationLinkRequest
+@{
+    string errorMessage = (string)ViewBag.ErrorMessage;
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <meta name="description" content="Email doğrulama" />
+</head>
+<body>
+    <div class="container body-content">
+
+        <h4>Yeni email doğrulama kodu isteği</h4>
+        <hr />
+        <div id="warning" class="alert alert-danger hide">
+            <button class="close" data-close="alert"></button>
+            <span> Kullanıcı bilgisi ve güvenlik kodunuzu giriniz.</span>
+        </div>
+
+        <div id="success" class="alert alert-success hide">
+            <button class="close" data-close="alert"></button>
+            <span> Doğrulama kodunuz mail adresinize gönderildi.</span>
+        </div>
+
+        <div id="danger" class="alert alert-danger hide">
+            <button class="close" data-close="alert"></button>
+            <span>Uygulamada beklenmedik bir hata meydana geldi, lütfen daha sonra tekrar deneyiniz.</span>
+        </div>
+
+        <div class="form-group">
+            <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
+            <label class="control-label visible-ie8 visible-ie9">Kullanıcı Adı ya da Email</label>
+            <div class="input-icon">
+                <i class="fa fa-user"></i>
+                @Html.TextBoxFor(m => m.UserNameOrEmail, new { @class = "form-control  placeholder-no-fix", type = "text", autocomplete = "off", placeholder = "Kullanıcı Adı ya da Email", name = "username" })
+                @Html.ValidationMessageFor(m => m.UserNameOrEmail)
+            </div>
+        </div>
+        <div class="form-group">
+            <img alt="Captcha" src="User/CaptchaImage/Get" style="" />
+            <div class="input-icon">
+                <i class="fa fa-lock"></i>
+                @Html.TextBoxFor(m => m.SecurityCode, new { @class = "form-control placeholder-no-fix", type = "number", autocomplete = "off", placeholder = "Güvenlik Kodu", name = "code" })
+                @Html.ValidationMessageFor(m => m.SecurityCode)
+            </div>
+        </div>
+        <div class="form-group">
+            <input type="button" value="Gönder" class="btn btn-default" onclick="getVerificationMail()" />
+        </div>
+
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Raqun</p>
+        </footer>
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+
+    <script type="text/javascript">
+
+        function getVerificationMail() {
+
+            debugger;
+            var securityCode = $("#SecurityCode").val();
+            var userNameOrEmail = $("#UserNameOrEmail").val();
+
+            if (!securityCode || !userNameOrEmail) {
+
+                $("#warning").removeClass("hide");
+                return;
+            }
+
+            $.ajax({
+                url: '@ViewBag.ApiUrl.ToString()' + 'Mail/NewEmailVerification',
+                type: 'Post',
+                data: {
+                    UserNameOrEmail: userNameOrEmail,
+                    SecurityCode: securityCode,
+                    SecurityCodeHash: '@ViewBag.SecurityCodeHash'
+                },
+                content: 'application/json; charset=utf-8',
+                //  dataType: "json", //if uncommented request body always must be json typed
+                success: function (result) {
+                    console.log("sendRequest: method successfully ended");
+                    $("#success").removeClass("hide");
+                    $("#danger").addClass("hide");
+                    $("#warning").addClass("hide");
+                },
+                error: function (e, settings, exception) {
+                    $("#danger").removeClass("hide");
+                    var errorText = e.responseJSON.message;
+                    $("#danger>span")[0].innerHTML = errorText;
+                    console.log(e);
+                }
+            });
+        }
+
+    </script>
+</body>
+
+</html>

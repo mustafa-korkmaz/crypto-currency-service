@@ -1,0 +1,189 @@
+﻿
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_ProductLayout.cshtml";
+}
+<style>
+    h5 {
+        font-size: 12px;
+    }
+</style>
+<div class="content-wrapper" ng-cloak ng-controller="ProductDetailController as ctrl">
+    <div class="row">
+        <div class="col-lg-3 hidden-xs">
+            <!-- START List group-->
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <div class="row row-table pv-lg">
+                        <div class="col-xs-6">
+                            <p class="m0 lead">1500</p>
+                            <p class="m0">
+                                <small>ürün</small>
+                            </p>
+                        </div>
+                        <div class="col-xs-6 text-center">
+                            <div data-sparkline="" data-bar-color="#23b7e5" data-height="60" data-bar-width="10" data-bar-spacing="6" data-chart-range-min="0" values="3,6,7,8,4,5"></div>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="row row-table pv-lg">
+                        <div class="col-xs-12">
+                            <h5>Fiyat Değişimi</h5>
+                            <ul class="list-group">
+                                <li class="list-group-item" ng-repeat="priceHis in ctrl.product.histories">
+                                    <div class="">{{priceHis.price}} TL <span class="label label-info pull-right">{{priceHis.created_at | date:'MM.yyyy'}}</span></div>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+                    <div class="row row-table pv-lg" ng-show="ctrl.product.histories.length>1">
+                        <div class="col-xs-12 text-center">
+                            <div data-sparkline="" data-type="line" data-height="60" data-width="80%" data-line-width="2" data-line-color="#7266ba" data-chart-range-min="90" data-spot-color="#888" data-min-spot-color="#7266ba" data-max-spot-color="#7266ba"
+                                 data-fill-color="" data-highlight-line-color="#fff" data-spot-radius="3" values="{{productPrices}}" data-resize="true"></div>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="row row-table pv-lg">
+                        <div class="col-xs-6">
+                            <p class="m0 lead">44</p>
+                            <p class="m0">
+                                <small>yeni üye</small>
+                            </p>
+                        </div>
+                        <div class="col-xs-6">
+                            <ul class="list-inline text-center">
+                                <li>
+                                    <a href="#" tooltip="Katie">
+                                        <img src="@Url.Content("~/ProductContent/img/user/02.jpg")" alt="Follower" class="img-responsive img-circle thumb24">
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" tooltip="Cody">
+                                        <img src="@Url.Content("~/ProductContent/img/user/01.jpg")" alt="Follower" class="img-responsive img-circle thumb24">
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" tooltip="Tamara">
+                                        <img src="@Url.Content("~/ProductContent/img/user/03.jpg")" alt="Follower" class="img-responsive img-circle thumb24">
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" tooltip="Gene">
+                                        <img src="@Url.Content("~/ProductContent/img/user/04.jpg")" alt="Follower" class="img-responsive img-circle thumb24">
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" tooltip="Marsha">
+                                        <img src="@Url.Content("~/ProductContent/img/user/04.jpg")" alt="Follower" class="img-responsive img-circle thumb24">
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" tooltip="Robin">
+                                        <img src="@Url.Content("~/ProductContent/img/user/09.jpg")" alt="Follower" class="img-responsive img-circle thumb24">
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <!-- END List group-->
+            <div class="panel panel-default hidden-xs hidden-sm">
+                <div class="panel-heading">
+                    <div class="panel-title text-center">En Çok Takip Edilenler</div>
+                </div>
+                <div class="panel-body">
+                    <div class="media" ng-repeat="product in ctrl.topFollowedProducts">
+                        <div class="media-left media-middle">
+                            <a href="@Url.Action("Detail","Product")?id={{product.id}}">
+                                <img ng-src="{{product.image_url}}" alt="{{product.name}}" class="media-object img-circle img-thumbnail thumb48">
+                            </a>
+                        </div>
+                        <div class="media-body pt-sm">
+                            <div class="text-bold" title="{{product.name}}">
+                                {{(product.name.length >15 ? product.name.substring(0,15)+'...':product.name)  }}
+                                <div class="text-sm text-muted">{{product.price}} TL</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-lg-9">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <a href="#" class="text-muted pull-right">
+                        @*<em class="fa fa-arrow-right"></em>*@
+                    </a>
+                    <h3 class="text-info">
+                        {{ctrl.product.name}}
+                        <span class="pull-right">
+                            <strong style="color: black">Güncel Fiyat: <span class="label label-success">{{ctrl.product.price +' '+ctrl.product.currency}}</span> </strong>
+                        </span>
+                    </h3>
+                    <div class="text-center pv-xl">
+                        <img class="img-responsive" style="max-height: 600px; margin-left: auto; margin-right: auto" alt="..." ng-src="{{ctrl.product.image_url}}">
+                    </div>
+                    <div class="form-group">
+                        <div class="pull-left">
+                            <a href="#" class="btn"> &nbsp; Takipçi <span class="badge alert-info ng-binding pull-left">{{ctrl.product.follower_total}} </span></a>
+                        </div>
+                        <div class="pull-right">
+                            <a ng-click="ctrl.follow(product.url)" class="btn btn-success pull-right">Takip Et</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <p class="text-muted">
+                        <em class=""></em>
+                        <span class="text-dark"><b>{{ctrl.product.web_site_name}}</b></span>
+                    </p>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4>
+                        İlişkili Ürünler
+                    </h4>
+                </div>
+                <div class="panel-body">
+                    <div class="col-lg-12">
+                        <div class="col-lg-4" ng-repeat="relationProduct in ctrl.relationProducts">
+                            <div class="panel widget">
+                                <div class="panel-body">
+                                    <div class="row row-table">
+                                        <div class="col-xs-6 text-center">
+                                            <img src="{{relationProduct.image_url}}" alt="Image" class="img-thumbnail img-circle img-responsive thumb96">
+                                        </div>
+                                        <div class="col-xs-9">
+                                            <h5 class="mt0" title="{{relationProduct.name}}">{{relationProduct.name.length>25 ? relationProduct.name.substring(0,25)+'...' : relationProduct.name}}</h5>
+
+                                            <p class="text-muted">{{relationProduct.price}} TL</p>
+
+                                            <div class="pull-right">
+                                                <a ng-click="follow(relationProduct.url)" class="btn btn-success pull-right">Takip Et</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script src="~/Content/js/productDetailService.js"></script>
+}

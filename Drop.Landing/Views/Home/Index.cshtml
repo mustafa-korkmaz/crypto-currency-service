@@ -1,0 +1,599 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<!-- START APP SHOTS-->
+<section id="versions" class="versions">
+    <div class="container">
+        <!-- START SECTION HEADER-->
+        <div data-wow-offset="120" data-wow-duration="1.3s" class="section-header wow fadeIn animated">
+            <!-- SECTION TITLE-->
+            <h2>Son takip edilen ürünler</h2>
+            <div class="section-description">Sen de hemen ürününü takip et ve indirim bildirimlerimizle kazanmaya başla. </div>
+        </div>
+        <!-- END SECTION HEADER-->
+        <div class="row bottom-space">
+
+            <div class="col-lg-4 col-sm-6 col-xs-12" ng-repeat="product in ctrl.recentProducts">
+                <div class="media media-card">
+                    <div class="media-left media-middle">
+                        <a href="#">
+                            <img ng-src="{{product.image_url}}" width="128" alt="" data-no-retina="" data-wow-offset="15" data-wow-duration=".5s" class="wow zoomIn animated img-responsive version-pic">
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <h5 class="media-heading" style="color:black">{{product.web_site_name}}</h5>
+                        <p class="media-card-text">{{product.name.length>15 ? product.name.substring(0,15)+'...' : product.name}}</p>
+                        <h5 class="media-heading">{{product.price+' '+product.currency}}</h5>
+                        <div class="text-right">
+                            <a href="@Url.Action("Detail","Product")?id={{product.id}}" target="_blank" class="btn btn-sm btn-default">Detay</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- START SECTION HEADER-->
+        <div data-wow-offset="120" data-wow-duration="1.3s" class="section-header wow fadeIn animated">
+            <!-- SECTION TITLE-->
+            <h2>En çok takip edilen ürünler</h2>
+            <div class="section-description">Sen de hemen ürününü takip et ve indirim bildirimlerimizle kazanmaya başla. </div>
+        </div>
+        <!-- END SECTION HEADER-->
+        <div class="row bottom-space">
+
+            <div class="col-lg-4 col-sm-6 col-xs-12" ng-repeat="product in ctrl.topFollowedProducts">
+                <div class="media media-card">
+                    <div class="media-left media-middle">
+                        <a href="#">
+                            <img ng-src="{{product.image_url}}" width="128px" alt="" data-no-retina="" data-wow-offset="15" data-wow-duration=".5s" class="wow zoomIn animated img-responsive version-pic">
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">{{product.web_site_name}}</h4>
+                        <p class="media-card-text">{{product.name.length>15 ? product.name.substring(0,15)+'...' : product.name}}</p>
+                        <h5 class="media-heading">{{product.price+' '+product.currency}}</h5>
+                        <div class="text-right">
+                            <a href="{{product.url}}" target="_blank" class="btn btn-sm btn-default">Git</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+<!-- START FEATURE LIST-->
+<section id="features" class="features-list">
+    <div class="container">
+        <!-- START SECTION HEADER-->
+        <div data-wow-offset="120" data-wow-duration="1.3s" class="section-header wow fadeIn animated">
+            <!-- SECTION TITLE-->
+            <h2>Uygulama Özellikleri</h2>
+            <div class="section-description">Hızlı ve kolay takip sistemiyle en uygun fiyata alışveriş yapmanı sağlıyoruz.</div>
+        </div>
+        <!-- END SECTION HEADER-->
+        <div class="row">
+            <!-- START FEATURES LEFT-->
+            <div class="col-md-4 col-sm-4 features-left">
+                <!-- FEATURE-->
+                <div class="feature">
+                    <!-- FEATURE ICON-->
+                    <div data-wow-offset="15" data-wow-duration="1.3s" class="feature-icon wow fadeIn animated">
+                        <span class="fa-stack fa-lg">
+                            <em class="fa fa-circle fa-stack-2x"></em>
+                            <em class="fa fa-random fa-stack-1x fa-inverse"></em>
+                        </span>
+                    </div>
+                    <!-- FEATURE TEXT-->
+                    <div class="feature-details">
+                        <h4 class="main-color">Kolay Takip</h4>
+                        <p>Takip etmek istediğin ürünün adresini sisteme girmen yeterli</p>
+                    </div>
+                </div>
+                <!-- FEATURE-->
+                <div class="feature">
+                    <!-- FEATURE ICON-->
+                    <div data-wow-offset="15" data-wow-duration="1.3s" class="feature-icon wow fadeIn animated">
+                        <span class="fa-stack fa-lg">
+                            <em class="fa fa-circle fa-stack-2x"></em>
+                            <em class="fa fa-rocket fa-stack-1x fa-inverse"></em>
+                        </span>
+                    </div>
+                    <!-- FEATURE TEXT-->
+                    <div class="feature-details">
+                        <h4 class="main-color">Özelliştirme</h4>
+                        <p>İstediğin orana göre indirim bildirimi alabilirsin. </p>
+                    </div>
+                </div>
+                <!-- FEATURE-->
+                <div class="feature">
+                    <!-- FEATURE ICON-->
+                    <div data-wow-offset="15" data-wow-duration="1.3s" class="feature-icon wow fadeIn animated">
+                        <span class="fa-stack fa-lg">
+                            <em class="fa fa-circle fa-stack-2x"></em>
+                            <em class="fa fa-crosshairs fa-stack-1x fa-inverse"></em>
+                        </span>
+                    </div>
+                    <!-- FEATURE TEXT-->
+                    <div class="feature-details">
+                        <h4 class="main-color">Ortam Bağımsız</h4>
+                        <p>Evde, işte veya cepte istediğin yerde hesabınla sisteme girip ürünlerini takip edebilirsin.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- END FEATURES LEFT-->
+            <!-- START MOBILE MOCKUP-->
+            <div class="col-md-4 col-sm-4">
+                <div data-wow-offset="120" data-wow-duration="1.3s" class="mockup-mobile wow fadeIn animated">
+                    <img src="@Url.Content("~/Content/img/iphone-minimal.png")" alt="" data-no-retina>
+                </div>
+            </div>
+            <!-- END MOBILE MOCKUP-->
+            <!-- START FEATURES RIGHT-->
+            <div class="col-md-4 col-sm-4 features-right">
+                <!-- FEATURE-->
+                <div class="feature">
+                    <!-- FEATURE ICON-->
+                    <div data-wow-offset="15" data-wow-duration="1.3s" class="feature-icon wow fadeIn animated">
+                        <span class="fa-stack fa-lg">
+                            <em class="fa fa-circle fa-stack-2x"></em>
+                            <em class="fa fa-moon-o fa-stack-1x fa-inverse"></em>
+                        </span>
+                    </div>
+                    <!-- FEATURE TEXT-->
+                    <div class="feature-details">
+                        <h4 class="main-color">Bildirim Kolaylığı</h4>
+                        <p>Bildirimlerini Mobil, Web ve E-posta ile kolayca alabilirsin.</p>
+                    </div>
+                </div>
+                <!-- FEATURE-->
+                <div class="feature">
+                    <!-- FEATURE ICON-->
+                    <div data-wow-offset="15" data-wow-duration="1.3s" class="feature-icon wow fadeIn animated">
+                        <span class="fa-stack fa-lg">
+                            <em class="fa fa-circle fa-stack-2x"></em>
+                            <em class="fa fa-sitemap fa-stack-1x fa-inverse"></em>
+                        </span>
+                    </div>
+                    <!-- FEATURE TEXT-->
+                    <div class="feature-details">
+                        <h4 class="main-color">Geniş ürün yelpazesi</h4>
+                        <p>Bırak raqun senin için 100'den fazla eticaret sitesi üzerinden en uygun fiyatı bulmana yardımcı olsun!</p>
+                    </div>
+                </div>
+                <!-- FEATURE-->
+                <div class="feature">
+                    <!-- FEATURE ICON-->
+                    <div data-wow-offset="15" data-wow-duration="1.3s" class="feature-icon wow fadeIn animated">
+                        <span class="fa-stack fa-lg">
+                            <em class="fa fa-circle fa-stack-2x"></em>
+                            <em class="fa fa-wrench fa-stack-1x fa-inverse"></em>
+                        </span>
+                    </div>
+                    <!-- FEATURE TEXT-->
+                    <div class="feature-details">
+                        <h4 class="main-color">Fiyat Hareketleri</h4>
+                        <p>Ürün fiyat değişiklerini kolayca takip edebilirsiniz.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- END FEATURES RIGHT-->
+        </div>
+    </div>
+</section>
+<!-- END FEATURE LIST-->
+<!-- START PIC TEXT LEFT-->
+<section id="desc2" class="pic-text pic-text-left">
+    <div class="container">
+        <div class="row">
+            <!-- LEFT PIC-->
+            <div data-wow-offset="15" data-wow-duration="1.2s" class="col-md-6 wow fadeInLeft animated">
+                <div class="mockup-mobile">
+                    <img src="@Url.Content("~/Content/img/ipad-air.png")" alt="" data-no-retina>
+                </div>
+            </div>
+            <!-- RIGHT TEXT-->
+            <div class="col-md-6">
+                <!-- SECTION TITLE-->
+                <h2>raqun nedir?</h2>
+                <p>Satın almak istediğin ürünü takibe alarak indirimli almana olanak sağlıyoruz.Tek yapman gereken üye olup hemen takip etmek istediğin ürünün adresini sisteme girmen. 100'den fazla eticaret sitesi takibi yapan raqun; indirim olduğunda seni bildirimlerle uyaracak.</p>
+                <!-- FEATURE LIST-->
+                <ul class="featured-list">
+                    <li>
+                        <span class="fa-stack fa-lg">
+                            <em class="fa fa-circle fa-stack-2x"></em>
+                            <em class="fa fa-money fa-stack-1x fa-inverse"></em>
+                        </span>
+                        <p>Hızlı Kazanç</p>
+                    </li>
+                    <li>
+                        <span class="fa-stack fa-lg">
+                            <em class="fa fa-circle fa-stack-2x"></em>
+                            <em class="fa fa-user fa-stack-1x fa-inverse"></em>
+                        </span>
+                        <p>Hızlı Üyelik</p>
+                    </li>
+                    <li>
+                        <span class="fa-stack fa-lg">
+                            <em class="fa fa-circle fa-stack-2x"></em>
+                            <em class="fa fa-bullhorn fa-stack-1x fa-inverse"></em>
+                        </span>
+                        <p>Hızlı Bildirim</p>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- END PIC TEXT LEFT-->
+<!-- START PIC TEXT RIGHT-->
+@*<section id="desc1" class="pic-text pic-text-right">
+        <div class="container">
+            <div class="row">
+                <!-- LEFT TEXT-->
+                <div class="col-md-6">
+                    <!-- SECTION TITLE-->
+                    <h2>Translation ready and RTL support</h2>
+                    <p>
+                        Suspendisse luctus, nisl a venenatis sagittis, ante odio pellentesque erat, ac bibendum felis est quis odio. Pellentesque odio purus, egestas ac luctus gravida, rutrum ut quam. Cras tristique metus nec diam ornare vitae placerat sapien
+                        pellentesque.
+                    </p>
+                    <p>Praesent nec metus eu urna tempor varius id quis mauris. Mauris porttitor tincidunt odio, id facilisis tortor auctor et. In urna nisl, convallis et malesuada quis, scelerisque at est.</p>
+                    <p>
+                        Vivamus et urna magna. Suspendisse tincidunt orci nec arcu semper imperdiet volutpat elit faucibus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+                        <br>
+                        <br>
+                    </p>
+                    <p>
+                        <em>Laoreet vitae pretium eget, lobortis sit amet ante.</em>
+                    </p>
+                </div>
+                <!-- RIGHT PIC-->
+                <div data-wow-offset="15" data-wow-duration="1.2s" class="col-md-6 wow fadeInRight animated">
+                    <div class="mockup-mobile">
+                        <img src="@Url.Content("~/Content/img/iphone-angle.png")" alt="" data-no-retina>
+                    </div>
+                </div>
+                <!-- /END PHONES IMAGE-->
+            </div>
+        </div>
+    </section>*@
+<!-- END PIC TEXT RIGHT-->
+<!-- START APP SHOTS-->
+@*<section id="shots" class="appshots">
+        <div class="container">
+            <!-- SECTION HEADER-->
+            <div class="section-header">
+                <h2>App Shots</h2>
+                <div class="section-description">Vestibulum ante ipsum primis in faucibus orci luctus et ultrices</div>
+            </div>
+            <!-- END SECTION HEADER-->
+            <div class="row">
+                <div id="appshots" class="owl-carousel owl-theme">
+                    <div class="shot">
+                        <a href="@Url.Content("~/Content/img/shots/01.jpg")" data-lightbox-gallery="appshots">
+                            <img src="@Url.Content("~/Content/img/shots/01.jpg")" alt="App Shot" data-no-retina>
+                        </a>
+                    </div>
+                    <div class="shot">
+                        <a href="@Url.Content("~/Content/img/shots/03.jpg")" data-lightbox-gallery="appshots">
+                            <img src="@Url.Content("~/Content/img/shots/03.jpg")" alt="App Shot" data-no-retina>
+                        </a>
+                    </div>
+                    <div class="shot">
+                        <a href="@Url.Content("~/Content/img/shots/02.jpg")" data-lightbox-gallery="appshots">
+                            <img src="@Url.Content("~/Content/img/shots/02.jpg")" alt="App Shot" data-no-retina>
+                        </a>
+                    </div>
+                    <div class="shot">
+                        <a href="@Url.Content("~/Content/img/shots/04.jpg")" data-lightbox-gallery="appshots">
+                            <img src="@Url.Content("~/Content/img/shots/04.jpg")" alt="App Shot" data-no-retina>
+                        </a>
+                    </div>
+                    <div class="shot">
+                        <a href="@Url.Content("~/Content/img/shots/01.jpg")" data-lightbox-gallery="appshots">
+                            <img src="@Url.Content("~/Content/img/shots/01.jpg")" alt="App Shot" data-no-retina>
+                        </a>
+                    </div>
+                    <div class="shot">
+                        <a href="@Url.Content("~/Content/img/shots/03.jpg")" data-lightbox-gallery="appshots">
+                            <img src="@Url.Content("~/Content/img/shots/03.jpg")" alt="App Shot" data-no-retina>
+                        </a>
+                    </div>
+                    <div class="shot">
+                        <a href="@Url.Content("~/Content/img/shots/02.jpg")" data-lightbox-gallery="appshots">
+                            <img src="@Url.Content("~/Content/img/shots/02.jpg")" alt="App Shot" data-no-retina>
+                        </a>
+                    </div>
+                    <div class="shot">
+                        <a href="@Url.Content("~/Content/img/shots/04.jpg")" data-lightbox-gallery="appshots">
+                            <img src="@Url.Content("~/Content/img/shots/04.jpg")" alt="App Shot" data-no-retina>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>*@
+<!-- END APP SHOTS-->
+<!-- START TESTIMONIAL SLIDER-->
+@*<section id="feedbacks" class="feedbacks">
+    <div data-wow-offset="15" data-wow-duration="1.3s" class="container wow fadeIn animated">
+        <div id="feedback-carousel" class="owl-carousel owl-theme text-center">
+            <!-- FEEDBACK-->
+            <div class="feedback-client">
+                <div class="feedback-client-picture">
+                    <img src="https://pbs.twimg.com/profile_images/506821900153405440/yaKGDT-Z_400x400.jpeg" alt="" data-no-retina class="img-thumbnail img-circle">
+                </div>
+                <div class="feedback-client-msg">Fiyat indirimi diye hergün sitelere sorgu atmaktan yorulmuştum. Uygulamayı duydum hemen takibe başladım ve uygun fiyata aradığım her ürünü alabiliyorum. Teşekkürler...</div>
+                <div class="feedback-client-name">Burak Çağlayan</div>
+                <div class="feedback-client-company">Yazılımcı, Doğuş Teknoloji</div>
+            </div>
+            <!-- FEEDBACK-->
+            <div class="feedback-client">
+                <div class="feedback-client-picture">
+                    <img src="https://instagram.fsaw1-2.fna.fbcdn.net/t51.2885-19/s320x320/14716386_1782780338645687_5296667928442175488_n.jpg" alt="" data-no-retina class="img-thumbnail img-circle">
+                </div>
+                <div class="feedback-client-msg">Adamlar yapmış beyler kullanın.</div>
+                <div class="feedback-client-name">Ali Can Batur</div>
+                <div class="feedback-client-company">Computer Engineer, sahibinden.com</div>
+            </div>
+            <!-- FEEDBACK-->
+            <div class="feedback-client">
+                <div class="feedback-client-picture">
+                    <img src="https://pbs.twimg.com/profile_images/489139378678005761/VQlsm3R4_400x400.png" alt="" data-no-retina class="img-thumbnail img-circle">
+                </div>
+                <div class="feedback-client-msg">İhtiyacımı karşılayan sade bir uygulama. Teşekkürler..</div>
+                <div class="feedback-client-name">Mustafa Korkmaz</div>
+                <div class="feedback-client-company">Yazılımcı, Doğuş Teknoloji</div>
+            </div>
+        </div>
+    </div>
+</section>*@
+<!-- END TESTIMONIAL SLIDER-->
+<!-- START PLAN TABLE-->
+@*<section id="plans" class="plan-table">
+        <div class="container">
+            <!-- SECTION HEADER-->
+            <div data-wow-offset="15" data-wow-duration="1.3s" class="section-header wow fadeIn animated">
+                <h2>Available Options</h2>
+                <div class="section-description">
+                    <u>Pay once</u>, get lifetime<u>free updates.</u>
+                </div>
+            </div>
+            <!-- END SECTION HEADER-->
+            <div class="row">
+                <!-- PLAN-->
+                <div data-wow-offset="15" data-wow-duration="1.3s" class="col-md-4 col-sm-4 wow fadeIn animated">
+                    <div class="plan">
+                        <h3 class="plan-header">Single</h3>
+                        <div class="plan-price">
+                            <h2>
+                                <sup><small>$</small></sup>18
+                                <!-- span.plan-period /mo-->
+                            </h2>
+                        </div>
+                        <ul class="plan-features">
+                            <li>
+                                <em class="fa fa-check"></em>Unlimited Styles
+                            </li>
+                            <li>
+                                <em class="fa fa-check"></em>RTL &amp; Translation
+                            </li>
+                            <li>
+                                <em class="fa fa-check"></em>Customer support
+                            </li>
+                            <li>
+                                <em class="fa fa-check"></em>Free Updates
+                            </li>
+                            <li>
+                                <em class="fa fa-check"></em>Limited to one client
+                            </li>
+                            <li>
+                                <em class="fa fa-times plan-feature-disable"></em>Multiple installation
+                            </li>
+                            <li>
+                                <em class="fa fa-times plan-feature-disable"></em>Not ready for resale
+                            </li>
+                        </ul>
+                        <hr>
+                        <div class="text-center">
+                            <a href="https://wrapbootstrap.com/theme/angle-bootstrap-admin-template-WB04HF123" class="btn btn-theme">Choose</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- PLAN-->
+                <div data-wow-offset="15" data-wow-duration="1.3s" class="col-md-4 col-sm-4 wow fadeIn animated">
+                    <div class="plan">
+                        <h3 class="plan-header">Multiple</h3>
+                        <div class="plan-price">
+                            <h2>
+                                <sup><small>$</small></sup>70
+                                <!-- span.plan-period /mo-->
+                            </h2>
+                        </div>
+                        <ul class="plan-features">
+                            <li>
+                                <em class="fa fa-check"></em>Unlimited Styles
+                            </li>
+                            <li>
+                                <em class="fa fa-check"></em>RTL &amp; Translation
+                            </li>
+                            <li>
+                                <em class="fa fa-check"></em>Customer support
+                            </li>
+                            <li>
+                                <em class="fa fa-check"></em>Free Updates
+                            </li>
+                            <li>
+                                <em class="fa fa-check"></em>Unlimited clients
+                            </li>
+                            <li>
+                                <em class="fa fa-check"></em>Multiple installation
+                            </li>
+                            <li>
+                                <em class="fa fa-times plan-feature-disable"></em>Not ready for resale
+                            </li>
+                        </ul>
+                        <hr>
+                        <p class="plan-description">The perfect price for all your project solutions.</p>
+                        <div class="text-center">
+                            <a href="https://wrapbootstrap.com/theme/angle-bootstrap-admin-template-WB04HF123?l=m" class="btn btn-theme">Choose</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- PLAN-->
+                <div data-wow-offset="15" data-wow-duration="1.3s" class="col-md-4 col-sm-4 wow fadeIn animated">
+                    <div class="plan">
+                        <h3 class="plan-header">Extended</h3>
+                        <div class="plan-price">
+                            <h2>
+                                <sup><small>$</small></sup>900
+                                <!-- span.plan-period /mo-->
+                            </h2>
+                        </div>
+                        <ul class="plan-features">
+                            <li>
+                                <em class="fa fa-check"></em>Unlimited Styles
+                            </li>
+                            <li>
+                                <em class="fa fa-check"></em>RTL &amp; Translation
+                            </li>
+                            <li>
+                                <em class="fa fa-check"></em>Customer support
+                            </li>
+                            <li>
+                                <em class="fa fa-check"></em>Free Updates
+                            </li>
+                            <li>
+                                <em class="fa fa-check"></em>Unlimited clients
+                            </li>
+                            <li>
+                                <em class="fa fa-check"></em>Multiple installation
+                            </li>
+                            <li>
+                                <em class="fa fa-check"></em>Ready for resale
+                            </li>
+                        </ul>
+                        <hr>
+                        <div class="text-center">
+                            <a href="https://wrapbootstrap.com/theme/angle-bootstrap-admin-template-WB04HF123?l=e" class="btn btn-theme">Choose</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>*@
+<!-- END PLAN TABLE-->
+<!-- START DOWNLOAD-->
+<section id="download" class="download">
+        <div class="container">
+            <h2 data-wow-offset="15" data-wow-duration="1.2s" class="wow fadeInDown animated">Raqun mobil uygulamasını hemen indirmek için</h2>
+            <div data-wow-offset="15" data-wow-duration="1.2s" class="wow fadeInUp animated">
+                <a href="https://wrapbootstrap.com/theme/angle-bootstrap-admin-app-angularjs-WB04HF123" class="btn btn-lg">
+                    @*<em class="fa fa-apple"></em>Itunes Store*@
+                    <img src="~/Content/img/google-play.png" />
+                </a>
+                <a href="https://wrapbootstrap.com/theme/angle-bootstrap-admin-app-angularjs-WB04HF123" class="btn btn-lg">
+                    @*<em class="fa fa-android"></em>Play Store*@
+                    <img src="~/Content/img/app-store.png" />
+                </a>
+            </div>
+        </div>
+    </section>
+<!-- END DOWNLOAD-->
+<!-- START PRODUCTS-->
+@*<section id="products" class="products">
+        <div class="container">
+            <!-- SECTION HEADER-->
+            <div data-wow-offset="15" data-wow-duration="1.3s" class="section-header wow fadeIn animated">
+                <h2>Our other products</h2>
+                <div class="section-description">
+                    <span>Click on images and discover more products</span>
+                </div>
+            </div>
+            <!-- END SECTION HEADER-->
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <div class="product-thumb wow fadeInUp animated">
+                        <a href="http://wrapbootstrap.com/preview/WB0901P31" target="_blank">
+                            <img src="@Url.Content("~/Content/img/products/centric.png")" alt="Centric" class="img-responsive">
+                        </a>
+                        <h4 class="product-caption">
+                            Centric
+                            <small>AngularJS and jQuery based admin template</small>
+                        </h4>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="product-thumb wow fadeInUp animated">
+                        <a href="http://wrapbootstrap.com/preview/WB020NMN7" target="_blank">
+                            <img src="@Url.Content("~/Content/img/products/beadmin.png")" alt="BeAdmin" class="img-responsive">
+                        </a>
+                        <h4 class="product-caption">
+                            BeAdmin
+                            <small>jQuery and Laravel admin template</small>
+                        </h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>*@
+<!-- START PLAN TABLE-->
+@*<section id="contact" class="contact">
+        <div class="container">
+            <!-- SECTION HEADER-->
+            <div data-wow-offset="15" data-wow-duration="1.3s" class="section-header wow fadeIn animated">
+                <h2>Get in contact with Us</h2>
+                <div class="text-center">
+                    <address>
+                        <strong>Twitter, Inc.</strong>
+                        <br>795 Folsom Ave, Suite 600
+                        <br>San Francisco, CA 94107
+                        <br>
+                        <abbr title="Phone">P:</abbr>(123) 456-7890
+                    </address>
+                </div>
+            </div>
+            <div class="row">
+                <img src="~/Content/img/contact.map.jpg" alt="Map" data-no-retina class="img-responsive img-rounded">
+            </div>
+            <!-- SOCIAL SHARE-->
+            <ul class="list-icons">
+                <li>
+                    <a href="">
+                        <em class="fa fa-twitter-square"></em>
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        <em class="fa fa-facebook-square"></em>
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        <em class="fa fa-google-plus-square"></em>
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        <em class="fa fa-instagram"></em>
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        <em class="fa fa-flickr"></em>
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        <em class="fa fa-pinterest-square"></em>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </section>*@
+

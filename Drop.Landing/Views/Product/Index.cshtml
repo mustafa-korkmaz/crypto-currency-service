@@ -1,0 +1,415 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_ProductLayout.cshtml";
+}
+
+<div class="content-wrapper" ng-cloak ng-controller="ProductSearchController as ctrl">
+    <div class="row">
+        <div class="col-lg-3 hidden-xs">
+            <!-- START List group-->
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <div class="row row-table pv-lg">
+                        <div class="col-xs-6">
+                            <p class="m0 lead">1500</p>
+                            <p class="m0">
+                                <small>ürün</small>
+                            </p>
+                        </div>
+                        <div class="col-xs-6 text-center">
+                            <div data-sparkline="" data-bar-color="#23b7e5" data-height="60" data-bar-width="10" data-bar-spacing="6" data-chart-range-min="0" values="3,6,7,8,4,5"></div>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="row row-table pv-lg">
+                        <div class="col-xs-6">
+                            <p class="m0 lead">1.500 TL</p>
+                            <p class="m0">
+                                <small>kazanç</small>
+                            </p>
+                        </div>
+                        <div class="col-xs-6 text-center">
+                            <div data-sparkline="" data-type="line" data-height="60" data-width="80%" data-line-width="2" data-line-color="#7266ba" data-chart-range-min="0" data-spot-color="#888" data-min-spot-color="#7266ba" data-max-spot-color="#7266ba"
+                                 data-fill-color="" data-highlight-line-color="#fff" data-spot-radius="3" values="7,3,4,7,5,9,4,4,7,5,9,6,4" data-resize="true"></div>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="row row-table pv-lg">
+                        <div class="col-xs-6">
+                            <p class="m0 lead">44</p>
+                            <p class="m0">
+                                <small>yeni üye</small>
+                            </p>
+                        </div>
+                        <div class="col-xs-6">
+                            <ul class="list-inline text-center">
+                                <li>
+                                    <a href="#" tooltip="Katie">
+                                        <img src="@Url.Content("~/ProductContent/img/user/02.jpg")" alt="Follower" class="img-responsive img-circle thumb24">
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" tooltip="Cody">
+                                        <img src="@Url.Content("~/ProductContent/img/user/01.jpg")" alt="Follower" class="img-responsive img-circle thumb24">
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" tooltip="Tamara">
+                                        <img src="@Url.Content("~/ProductContent/img/user/03.jpg")" alt="Follower" class="img-responsive img-circle thumb24">
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" tooltip="Gene">
+                                        <img src="@Url.Content("~/ProductContent/img/user/04.jpg")" alt="Follower" class="img-responsive img-circle thumb24">
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" tooltip="Marsha">
+                                        <img src="@Url.Content("~/ProductContent/img/user/04.jpg")" alt="Follower" class="img-responsive img-circle thumb24">
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" tooltip="Robin">
+                                        <img src="@Url.Content("~/ProductContent/img/user/09.jpg")" alt="Follower" class="img-responsive img-circle thumb24">
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <!-- END List group-->
+            @*<h3>Arama Geçmişi</h3>*@
+            @*<ul class="list-group">
+                <li class="list-group-item" ng-repeat="keyword in searchHistories"><a ng-click="changeSearch(keyword)">{{keyword}}</a></li>
+            </ul>*@
+        </div>
+        <div class="col-lg-9" ng-init="ctrl.search()">
+            <div class="row">
+                <div class="col-lg-12" style="padding-bottom:10px">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search for..." ng-keypress="ctrl.enterSearch($event)" ng-model="ctrl.keyword">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button" ng-click="ctrl.refreshSearch()">Ara</button>
+                        </span>
+                    </div><!-- /input-group -->
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6" ng-repeat="product in ctrl.searchProducts" ng-cloak ng-show="ctrl.searchProducts.length>0">
+                    <!-- START widget-->
+                    <div class="panel widget">
+                        <div class="row row-table row-flush">
+                            <div class="col-xs-12">
+                                <picture class="lateral-picture">
+                                    <img ng-src="{{product.image_url}}" alt="">
+                                </picture>
+                            </div>
+                            <div class="col-xs-12 align-middle p-lg">
+                                <div class="pull-right">
+                                    <a href="#" class="btn btn-success btn-sm">Takip Et</a>
+                                    <a href="@Url.Action("Detail","Product")?id={{product.id}}" class="btn btn-primary btn-sm">Detay</a>
+                                </div>
+                                <p>
+                                    <span class="text-lg">{{product.price}}</span>TL
+                                </p>
+                                <p>
+                                    <strong title="{{product.name}}">{{product.name.length>35 ? product.name.substring(0,35)+'...' : product.name}}</strong>
+                                </p>
+                                <span class="pull-right btn btn-default">{{product.company}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END widget-->
+                </div>
+                <div class="col-lg-12">
+                    <div class="alert alert-info" ng-show="ctrl.searchProducts.length == 0">
+                        Aradığınız kriterlerde ürün bulunamadı.
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <pagination ng-model="currentPage"
+                                previous-text="<"
+                                first-text="ilk"
+                                last-text="son"
+                                next-text=">"
+                                items-per-page="numPerPage"
+                                total-items="totalCount"
+                                max-size="maxSize"
+                                ng-click="search()"
+                                boundary-links="true">
+                    </pagination>
+                </div>
+            </div>
+            <!-- START bar chart-->
+            @*<div id="panelChart3" class="panel">
+                    <div class="panel-heading">
+                        <!-- START button group-->
+                        <div class="pull-right btn-group">
+                            <button type="button" data-toggle="dropdown" class="dropdown-toggle btn btn-default btn-sm">Monthly</button>
+                            <ul role="menu" class="dropdown-menu fadeInLeft animated">
+                                <li>
+                                    <a href="#">Daily</a>
+                                </li>
+                                <li>
+                                    <a href="#">Monthly</a>
+                                </li>
+                                <li>
+                                    <a href="#">Yearly</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- END button group-->
+                        <div class="panel-title">Projects Hours</div>
+                    </div>
+                    <div collapse="panelChart3" class="panel-wrapper">
+                        <div class="panel-body">
+                            <div class="indicator show">
+                                <span class="spinner"></span>
+                            </div>
+                            <div class="chart-bar-stackedv2 flot-chart"></div>
+                        </div>
+                    </div>
+                </div>*@
+            <!-- END bar chart-->
+        </div>
+    </div>
+    <div class="unwrap mv-lg">
+
+        <!-- START chart-->
+        @*<div id="panelChart9" class="panel">
+                <div class="panel-heading">
+                    <!-- START button group-->
+                    <div class="pull-right btn-group">
+                        <button type="button" data-toggle="dropdown" class="dropdown-toggle btn btn-default btn-sm">All time</button>
+                        <ul role="menu" class="dropdown-menu fadeInLeft animated">
+                            <li>
+                                <a href="#">Daily</a>
+                            </li>
+                            <li>
+                                <a href="#">Monthly</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a href="#">All time</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- END button group-->
+                    <div class="panel-title">Overall progress</div>
+                </div>
+                @*<div collapse="panelChart9" class="panel-wrapper">
+                    <div class="panel-body">
+                        <div class="chart-splinev2 flot-chart"></div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-3 col-xs-6 text-center">
+                                <p>Projects</p>
+                                <div class="h1">25</div>
+                            </div>
+                            <div class="col-sm-3 col-xs-6 text-center">
+                                <p>Teammates</p>
+                                <div class="h1">85</div>
+                            </div>
+                            <div class="col-sm-3 col-xs-6 text-center">
+                                <p>Hours</p>
+                                <div class="h1">380</div>
+                            </div>
+                            <div class="col-sm-3 col-xs-6 text-center">
+                                <p>Budget</p>
+                                <div class="h1">$ 10,000.00</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>*@
+        <!-- END chart-->
+    </div>
+    <!-- START radial charts-->
+    @*<div class="row mb-lg">
+            <div class="col-sm-3 col-xs-6 text-center">
+                <p>Current Project</p>
+                <div class="text-center pv-lg">
+                    <div data-easypiechart="" data-percent="60" data-animate="{duration: 800, enabled: true}" data-bar-color="#23b7e5" data-track-Color="#edf2f6" data-scale-Color="false" data-line-width="2" data-line-cap="round" data-size="130" class="easypie-chart easypie-chart-md">
+                        <span>60%</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3 col-xs-6 text-center">
+                <p>Current Progress</p>
+                <div class="text-center pv-lg">
+                    <div data-easypiechart="" data-percent="30" data-animate="{duration: 800, enabled: true}" data-bar-color="#f532e5" data-track-Color="#edf2f6" data-scale-Color="false" data-line-width="2" data-line-cap="round" data-size="130" class="easypie-chart easypie-chart-md">
+                        <span>30%</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3 col-xs-6 text-center">
+                <p>Space Usage</p>
+                <div class="text-center pv-lg">
+                    <div data-easypiechart="" data-percent="50" data-animate="{duration: 800, enabled: true}" data-bar-color="#7266ba" data-track-Color="#edf2f6" data-scale-Color="false" data-line-width="2" data-line-cap="round" data-size="130" class="easypie-chart easypie-chart-md">
+                        <span>50%</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3 col-xs-6 text-center">
+                <p>Interactions</p>
+                <div class="text-center pv-lg">
+                    <div data-easypiechart="" data-percent="75" data-animate="{duration: 800, enabled: true}" data-bar-color="#ff902b" data-track-Color="#edf2f6" data-scale-Color="false" data-line-width="2" data-line-cap="round" data-size="130" class="easypie-chart easypie-chart-md">
+                        <span>75%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- START radial charts-->
+        <!-- START Multiple List group-->
+        <div class="list-group">
+            <a href="#" class="list-group-item">
+                <table class="wd-wide">
+                    <tbody>
+                        <tr>
+                            <td class="wd-xs">
+                                <div class="ph">
+                                    <img src="@Url.Content("~/ProductContent/img/dummy.png")" alt="" class="media-box-object img-responsive img-rounded thumb64">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="ph">
+                                    <h4 class="media-box-heading">Project A</h4>
+                                    <small class="text-muted">Vestibulum ante ipsum primis in faucibus orci</small>
+                                </div>
+                            </td>
+                            <td class="wd-sm hidden-xs hidden-sm">
+                                <div class="ph">
+                                    <p class="m0">Last change</p>
+                                    <small class="text-muted">4 weeks ago</small>
+                                </div>
+                            </td>
+                            <td class="wd-xs hidden-xs hidden-sm">
+                                <div class="ph">
+                                    <p class="m0 text-muted">
+                                        <em class="icon-users mr fa-lg"></em>26
+                                    </p>
+                                </div>
+                            </td>
+                            <td class="wd-xs hidden-xs hidden-sm">
+                                <div class="ph">
+                                    <p class="m0 text-muted">
+                                        <em class="icon-doc mr fa-lg"></em>3500
+                                    </p>
+                                </div>
+                            </td>
+                            <td class="wd-sm">
+                                <div class="ph">
+                                    <progressbar value="80" type="success" class="m0 progress-xs">80%</progressbar>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </a>
+        </div>
+        <div class="list-group">
+            <a href="#" class="list-group-item">
+                <table class="wd-wide">
+                    <tbody>
+                        <tr>
+                            <td class="wd-xs">
+                                <div class="ph">
+                                    <img src="@Url.Content("~/ProductContent/img/dummy.png")" alt="" class="media-box-object img-responsive img-rounded thumb64">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="ph">
+                                    <h4 class="media-box-heading">Project X</h4>
+                                    <small class="text-muted">Vestibulum ante ipsum primis in faucibus orci</small>
+                                </div>
+                            </td>
+                            <td class="wd-sm hidden-xs hidden-sm">
+                                <div class="ph">
+                                    <p class="m0">Last change</p>
+                                    <small class="text-muted">Today at 06:23 am</small>
+                                </div>
+                            </td>
+                            <td class="wd-xs hidden-xs hidden-sm">
+                                <div class="ph">
+                                    <p class="m0 text-muted">
+                                        <em class="icon-users mr fa-lg"></em>3
+                                    </p>
+                                </div>
+                            </td>
+                            <td class="wd-xs hidden-xs hidden-sm">
+                                <div class="ph">
+                                    <p class="m0 text-muted">
+                                        <em class="icon-doc mr fa-lg"></em>150
+                                    </p>
+                                </div>
+                            </td>
+                            <td class="wd-sm">
+                                <div class="ph">
+                                    <progressbar value="50" type="purple" class="m0 progress-xs">50%</progressbar>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </a>
+        </div>
+        <div class="list-group">
+            <a href="#" class="list-group-item">
+                <table class="wd-wide">
+                    <tbody>
+                        <tr>
+                            <td class="wd-xs">
+                                <div class="ph">
+                                    <img src="@Url.Content("~/ProductContent/img/dummy.png")" alt="" class="media-box-object img-responsive img-rounded thumb64">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="ph">
+                                    <h4 class="media-box-heading">Project Z</h4>
+                                    <small class="text-muted">Vestibulum ante ipsum primis in faucibus orci</small>
+                                </div>
+                            </td>
+                            <td class="wd-sm hidden-xs hidden-sm">
+                                <div class="ph">
+                                    <p class="m0">Last change</p>
+                                    <small class="text-muted">Yesterday at 10:20 pm</small>
+                                </div>
+                            </td>
+                            <td class="wd-xs hidden-xs hidden-sm">
+                                <div class="ph">
+                                    <p class="m0 text-muted">
+                                        <em class="icon-users mr fa-lg"></em>15
+                                    </p>
+                                </div>
+                            </td>
+                            <td class="wd-xs hidden-xs hidden-sm">
+                                <div class="ph">
+                                    <p class="m0 text-muted">
+                                        <em class="icon-doc mr fa-lg"></em>480
+                                    </p>
+                                </div>
+                            </td>
+                            <td class="wd-sm">
+                                <div class="ph">
+                                    <progressbar value="20" type="green" class="m0 progress-xs">20%</progressbar>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </a>
+            <!-- END dashboard main content-->
+        </div>*@
+    <!-- END Multiple List group-->
+</div>
+@section scripts{
+   
+<script src="~/Content/js/productSearchService.js"></script>
+}

@@ -1,0 +1,1114 @@
+﻿@using System.Configuration
+<!DOCTYPE html>
+<html lang="en">
+@{
+    var siteAddress = ConfigurationManager.AppSettings["SiteAddress"];
+}
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Landing Page Template">
+    <meta name="keywords" content="bootstrap, app, theme">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Sen de takip et Sen de Kazan</title>
+    <!-- PREALOADER (loads asap)-->
+    <link rel="stylesheet" href="@Url.Content("~/Content/vendor/nprogress/nprogress.css")">
+    <script src="@Url.Content("~/Content/vendor/nprogress/nprogress.js")"></script>
+    <!-- FAVICON-->
+    <link rel="icon" href="@Url.Content("~/Content/img/favicon/favicon.ico")">
+    <link rel="apple-touch-icon" href="@Url.Content("~/Content/img/favicon/apple-touch-icon.png")">
+    <link rel="apple-touch-icon" sizes="57x57" href="@Url.Content("~/Content/img/favicon/apple-touch-icon-57x57-precomposed.png")">
+    <link rel="apple-touch-icon" sizes="72x72" href="@Url.Content("~/Content/img/favicon/apple-touch-icon-72x72-precomposed.png")">
+    <link rel="apple-touch-icon" sizes="114x114" href="@Url.Content("~/Content/img/favicon/apple-touch-icon-114x114-precomposed.png")">
+    <link rel="apple-touch-icon" sizes="144x144" href="@Url.Content("~/Content/img/favicon/apple-touch-icon-144x144-precomposed.png")">
+    <!-- FONT-->
+    <link href="//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,400italic" rel="stylesheet" type="text/css">
+    <!-- ICONS-->
+    <link rel="stylesheet" href="@Url.Content("~/Content/vendor/font-awesome/css/font-awesome.min.css")">
+    <script src="@Url.Content("~/Content/vendor/jquery.browser/dist/jquery.browser.js")"></script>
+    <script>
+        if (window.jQBrowser.mobile && top.location != location) top.location.href = document.location.href;
+    </script>
+    <!-- VENDOR CSS-->
+    <link rel="stylesheet" href="@Url.Content("~/Content/vendor/owl.carousel/dist/assets/owl.carousel.css")">
+    <link rel="stylesheet" href="@Url.Content("~/Content/vendor/owl.carousel/dist/assets/owl.theme.default.css")">
+    <link rel="stylesheet" href="@Url.Content("~/Content/vendor/Nivo-Lightbox/nivo-lightbox.css")">
+    <link rel="stylesheet" href="@Url.Content("~/Content/vendor/Nivo-Lightbox/themes/default/default.css")">
+    <link rel="stylesheet" href="@Url.Content("~/Content/vendor/animate.css/animate.css")">
+    <!-- SITE CSS-->
+    <link rel="stylesheet" href="@Url.Content("~/Content/css/styles.css")" id="stylescss">
+    <link rel="stylesheet" href="@Url.Content("~/Content/css/theme-a.css")">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css">
+    <!--[if lt IE 9]><script src="js/html5shiv.js"></script><script src="js/respond.min.js"></script><![endif]-->
+</head>
+
+<body ng-app="productServiceApp" ng-controller="ProductListController as ctrl">
+    <!-- WEBSITE PRELOADER-->
+    <div class="preloader">
+        <div class="loading">Loading ...</div>
+    </div>
+    <!-- START HEADER-->
+    <header id="header" class="header novideo">
+        <div class="full-screen">
+            <!-- START STICKY NAVBAR-->
+            <div class="navbar navbar-default navbar-fixed-top navbar-sticky">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" data-toggle="collapse" data-target="#navbar-main" class="navbar-toggle">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a href="#" class="navbar-brand">
+                            <img src="@Url.Content("~/Content/img/logo-dark.png")" alt="">
+                        </a>
+                    </div>
+                    <!-- MENU-->
+                    <div id="navbar-main" class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav navbar-right main-navbar">
+                            <li>
+                                <a href="#header">Anasayfa</a>
+                            </li>
+                            <li>
+                                <a href="#features">Özellikler</a>
+                            </li>
+                            <li>
+                                <a href="#feedbacks">Geri Bildirim</a>
+                            </li>
+                            <li>
+                                <a href="#plans">Nedir</a>
+                            </li>
+                            <li>
+                                <a href="#plans">Blog</a>
+                            </li>
+                            @*<li>
+                                    <a href="#download">
+                                        <strong>Download</strong>
+                                    </a>
+                                </li>*@
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- END STICKY NAVBAR-->
+        <section>
+            <div class="top-logo">
+                <img src="@Url.Content("~/Content/img/logo-dark.png")" alt="">
+            </div>
+        <input class="fp-input" type="text" placeholder="marka,ürün" ng-model="ctrl.searchText" ng-keyup="ctrl.search()">
+            <div class="col-lg-12 col-md-12 scrollbar" id="style-2" style="max-height: 250px; overflow-y: auto; background-color: white; border-radius: 4px" ng-show="ctrl.searchProducts.length > 0">
+                <div class="form-group force-overflow">
+                    <div class="media" ng-repeat="product in ctrl.searchProducts" style="padding: 10px; border-bottom: 1px solid #ccc">
+                        <div class="media-left">
+                            <a href="#">
+                                <img class="media-object" width="72" height="72" ng-src="{{product.image_url}}" alt="...">
+                            </a>
+                        </div>
+                        <div class="media-body text-left">
+                            <h4 class="media-heading">{{product.name}}<span class="pull-right">{{product.company}}</span></h4>
+                            <strong>{{product.price}}</strong> <small>TL</small>
+                            <span class="pull-right">
+                                <a href="#" class="btn">&nbsp; Takipçi <span class="badge alert-info pull-left">{{product.follower_total}} </span></a>
+
+                                <a href="@Url.Action("Detail", "Product")?id={{product.id}}" class="btn btn-sm btn-default">Detay</a>
+                            </span>
+
+                        </div>
+                    </div>
+                    <span class="pull-right" ng-show="ctrl.searchProducts.length > 5">daha fazlası için <a href="@Url.Action("Index", "Product")?q={{ctrl.searchText}}"><b>tıklayınız</b></a></span>
+                </div>
+            </div>
+            @*<h1 class="intro">Sen de takip et sen de kazan!</h1>*@
+            <div class="col-lg-12 col-md-12" ng-show="ctrl.loading" style="background-color: white;">
+                <img src="~/Content/vendor/owl.carousel/dist/assets/ajax-loader.gif" />
+            </div>
+            
+            <!-- DEMO BUTTON-->
+            @*<div class="text-center">
+                <a class="btn btn-lg btn-theme scrollto"><i class="icon-app-download"></i><span>Takibe Başla</span></a>
+            </div>*@
+        <div id="bg">
+        <div class="box">
+            @*<i class="fa fa-eye" aria-hidden="true"></i>*@
+            <img src="~/Content/svg/0l4di-flbyy.svg" />
+        </div>
+        <div class="box">
+            @*<i class="fa fa-pencil" aria-hidden="true"></i>*@
+            <img src="~/Content/svg/1zt7v-l29v8.svg" />
+        </div>
+        @*<div class="box">
+            @*<i class="fa fa-home" aria-hidden="true"></i>
+            <img src="~/Content/svg/3g4j0-ymgna.svg" />
+        </div>*@
+        <div class="box">
+            @*<i class="fa fa-send" aria-hidden="true"></i>*@
+            <img src="~/Content/svg/4w3in-8y4lk.svg" />
+        </div>
+        <div class="box">
+            @*<i class="fa fa-trash" aria-hidden="true"></i>*@
+            <img src="~/Content/svg/52yu7-jp0qn.svg" />
+        </div>
+        <div class="box">
+            @*<i class="fa fa-user" aria-hidden="true"></i>*@
+            <img src="~/Content/svg/5b4gd-8zsbf.svg" />
+        </div>
+        <div class="box">
+            @*<i class="fa fa-link" aria-hidden="true"></i>*@
+            <img src="~/Content/svg/66z5l-bh4oj.svg" />
+        </div>
+        @*<div class="box">
+            @*<i class="fa fa-tree" aria-hidden="true"></i>
+            <img src="~/Content/svg/6eyz7-jd2db.svg" />
+        </div>*@
+        <div class="box">
+            @*<i class="fa fa-circle" aria-hidden="true"></i>*@
+            <img src="~/Content/svg/7li14-9vj3z.svg" />
+        </div>
+        <div class="box">
+            @*<i class="fa fa-book" aria-hidden="true"></i>*@
+            <img src="~/Content/svg/8tlo7-xc7jc.svg" />
+        </div>
+        <div class="box">
+            @*<i class="fa fa-eye" aria-hidden="true"></i>*@
+            <img src="~/Content/svg/968mx-6hvf6.svg" />
+        </div>
+        <div class="box">
+            @*<i class="fa fa-trash" aria-hidden="true"></i>*@
+            <img src="~/Content/svg/9is52-rgm2k.svg" />
+        </div>
+        <div class="box">
+            @*<i class="fa fa-link" aria-hidden="true"></i>*@
+            <img src="~/Content/svg/ckavl-e1lb3.svg" />
+        </div>
+        <div class="box">
+            @*<i class="fa fa-pencil" aria-hidden="true"></i>*@
+            <img src="~/Content/svg/clzm0-qyeet.svg" />
+        </div>
+        <div class="box">
+            @*<i class="fa fa-home" aria-hidden="true"></i>*@
+            <img src="~/Content/svg/fdron-2t7py.svg" />
+        </div>
+        <div class="box">
+            @*<i class="fa fa-trash" aria-hidden="true"></i>*@
+            <img src="~/Content/svg/fi06r-1xhe5.svg" />
+        </div>
+        <div class="box">
+            @*<i class="fa fa-send" aria-hidden="true"></i>*@
+            <img src="~/Content/svg/hn8f5-p2oxb.svg" />
+        </div>
+        @*<div class="box">
+            @*<i class="fa fa-user" aria-hidden="true"></i>
+            <img src="~/Content/svg/i3erq-q1ju3.svg" />
+        </div>*@
+        <div class="box">
+            @*<i class="fa fa-twitter" aria-hidden="true"></i>*@
+            <img src="~/Content/svg/ivmer-9h0zm.svg" />
+        </div>
+        <div class="box">
+            @*<i class="fa fa-address-book" aria-hidden="true"></i>*@
+            <img src="~/Content/svg/j1089-r6q34.svg" />
+        </div>
+        <div class="box">
+            @*<i class="fa fa-book" aria-hidden="true"></i>*@
+            <img src="~/Content/svg/m24ce-p9tdx.svg" />
+        </div>
+        <div class="box">
+            @*<i class="fa fa-circle" aria-hidden="true"></i>*@
+            <img src="~/Content/svg/m8ee5-6y5n8.svg" />
+        </div>
+        <div class="box">
+            @*<i class="fa fa-facebook" aria-hidden="true"></i>*@
+            <img src="~/Content/svg/m9278-5hn5o.svg" />
+        </div>
+        <div class="box">
+            @*<i class="fa fa-address-book" aria-hidden="true"></i>*@
+            <img src="~/Content/svg/mu8l4-eholy.svg" />
+        </div>
+        <div class="box">
+            @*<i class="fa fa-eye" aria-hidden="true"></i>*@
+            <img src="~/Content/svg/n95sk-47vit.svg" />
+        </div>
+        <div class="box">
+            @*<i class="fa fa-pencil" aria-hidden="true"></i>*@
+            <img src="~/Content/svg/nanrn-vatai.svg" />
+        </div>
+        <div class="box">
+            @*<i class="fa fa-home" aria-hidden="true"></i>*@
+            <img src="~/Content/svg/od71f-3lwck.svg" />
+        </div>
+        <div class="box">
+            @*<i class="fa fa-send" aria-hidden="true"></i>*@
+            <img src="~/Content/svg/pfoh8-tkzj0.svg" />
+        </div>
+        <div class="box">
+            @*<i class="fa fa-trash" aria-hidden="true"></i>*@
+            <img src="~/Content/svg/q2j4f-37cq8.svg" />
+        </div>
+        <div class="box">
+            @*<i class="fa fa-user" aria-hidden="true"></i>*@
+            <img src="~/Content/svg/qa5sm-lnvih.svg" />
+        </div>
+        <div class="box">
+            @*<i class="fa fa-link" aria-hidden="true"></i>*@
+            <img src="~/Content/svg/qiw6m-d4cci.svg" />
+        </div>
+        <div class="box">
+            @*<i class="fa fa-tree" aria-hidden="true"></i>*@
+            <img src="~/Content/svg/r44y4-rq8fm.svg" />
+        </div>
+        <div class="box">
+            @*<i class="fa fa-address-book" aria-hidden="true"></i>*@
+            <img src="~/Content/svg/ttcfm-r5l65.svg" />
+        </div>
+        <div class="box">
+            @*<i class="fa fa-eye" aria-hidden="true"></i>*@
+            <img src="~/Content/svg/txds8-pcdhm.svg" />
+        </div>
+        <div class="box">
+            @*<i class="fa fa-pencil" aria-hidden="true"></i>*@
+            <img src="~/Content/svg/vgpnp-sq3xa.svg" />
+        </div>
+        <div class="box">
+            @*<i class="fa fa-home" aria-hidden="true"></i>*@
+            <img src="~/Content/svg/w1w2z-3bdry.svg" />
+        </div>
+        <div class="box">
+            @*<i class="fa fa-send" aria-hidden="true"></i>*@
+            <img src="~/Content/svg/xrohb-31jyw.svg" />
+        </div>
+        <div class="box">
+            <i class="fa fa-trash" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-user" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-link" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-tree" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-circle" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-book" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-eye" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-trash" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-link" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-trash" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-send" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-user" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-twitter" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-address-book" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-book" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-circle" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-facebook" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-address-book" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-eye" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-send" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-trash" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-user" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-link" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-tree" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-twitter" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-address-book" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-book" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-circle" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-address-book" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-eye" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-twitter" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-address-book" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-book" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-circle" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-facebook" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-address-book" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-eye" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-send" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-trash" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-user" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-link" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-tree" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-address-book" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-eye" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-send" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-trash" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-user" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-link" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-tree" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-circle" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-book" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-eye" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-trash" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-link" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-trash" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-send" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-user" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-twitter" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-address-book" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-book" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-circle" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-facebook" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-address-book" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-eye" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-send" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-trash" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-user" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-link" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-tree" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-twitter" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-address-book" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-book" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-circle" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-tree" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-circle" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-book" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-eye" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-trash" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-link" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-trash" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-send" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-user" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-twitter" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-address-book" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-book" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-circle" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-facebook" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-address-book" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-eye" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-send" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-trash" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-user" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-link" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-tree" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-address-book" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-eye" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-send" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-trash" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-user" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-link" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-tree" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-circle" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-book" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-eye" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-trash" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-link" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-trash" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-send" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-user" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-twitter" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-address-book" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-book" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-circle" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-facebook" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-address-book" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-eye" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-send" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-trash" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-user" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-link" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-tree" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-twitter" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-address-book" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-book" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-circle" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-address-book" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-eye" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-send" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-trash" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-user" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-link" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-tree" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-circle" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-book" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-eye" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-trash" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-link" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-trash" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-send" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-user" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-twitter" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-address-book" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-book" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-circle" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-facebook" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-address-book" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-eye" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-send" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-trash" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-user" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-link" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-tree" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-address-book" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-eye" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-send" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-trash" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-user" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-link" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-tree" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-circle" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-book" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-eye" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-trash" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-link" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-trash" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-send" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-user" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-twitter" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-address-book" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-book" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-circle" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-facebook" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-address-book" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-eye" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-send" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-trash" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-user" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-home" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-send" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-trash" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-user" aria-hidden="true"></i>
+        </div>
+        <div class="box">
+            <i class="fa fa-link" aria-hidden="true"></i>
+        </div>
+        </div>
+        </section>
+            <div class="container">
+                <!-- MAIN LOGO-->
+                @*<div class="top-logo">
+                    <img src="@Url.Content("~/Content/img/logo.png")" alt="">
+                </div>*@
+                <div class="row">
+                    <div class="col-lg-12 col-md-10 col-xs-offset-1 col-lg-offset-0">
+                        <!-- INTRO MESSAGE-->
+                        <div class="intro-section">
+                            <div class="col-lg-4 col-xs-12 col-md-4">
+                                <div class="panel widget bg-navy">
+                                    <div class="row row-table">
+                                        <div class="col-xs-4 text-center bg-primary-dark pv-lg">
+                                            <em class="fa fa-shopping-basket fa-5x" style="padding: 10px;"></em>
+                                        </div>
+                                        <div class="col-xs-8 pv-lg">
+                                            <div class="h2 mt0">{{ctrl.totalProductsCount}}</div>
+                                            <div class="text-uppercase">Ürün</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-xs-12 col-md-4">
+                                <div class="panel widget bg-navy">
+                                    <div class="row row-table">
+                                        <div class="col-xs-4 text-center bg-primary-dark pv-lg">
+                                            <em class="fa fa-user fa-5x" style="padding: 10px;"></em>
+                                        </div>
+                                        <div class="col-xs-8 pv-lg">
+                                            <div class="h2 mt0">{{ctrl.totalUsersCount}}</div>
+                                            <div class="text-uppercase">Kullanıcı</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-xs-12 col-md-4">
+                                <div class="panel widget bg-navy">
+                                    <div class="row row-table">
+                                        <div class="col-xs-2 text-center bg-primary-dark pv-lg">
+                                            <em class="fa fa-lock fa-5x" style="padding:10px;"></em>
+                                        </div>
+                                        <div class="col-xs-10 pv-lg">
+                                            @*<div class="">Üye Değilseniz <small>üye ol</small></div>
+                                            <div class="">Zaten Üye misiniz? <small>giriş yap</small></div>*@
+                                            <div class="mt0" style="margin-top: 27.5px;" ng-show="!ctrl.isauth">
+                                                <div>Üye Değilseniz <small><a href="" data-toggle="modal" data-target="#register" class="btn-xs btn-default">Üye Ol</a> </small>
+                                                </div>
+                                                <div>Zaten Üye misiniz?
+                                                    <a class="btn-xs btn-default" data-toggle="modal" data-target="#login" href="#" role="button">Giriş Yap</a>
+                                                </div>
+                                            </div>
+                                            <div class="mt0" ng-show="ctrl.isauth">
+                                                Hoşgeldin <b>{{ctrl.session_username}}</b>
+                                                <br/>
+                                                <div class="container-fluid">
+                                                    <div class="text-center">Bana Özel <i class="fa fa-arrow-right"></i></div>
+                                                    <div class="text-center">Ayarlar <i class="fa fa-arrow-right"></i></div>  <div class="text-center" ng-click="ctrl.logout()">Çıkış <i class="fa fa-sign-out"></i></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @*<h1 class="intro">Sen de takip et sen de kazan!</h1>*@
+                            @*<div class="row">
+                                    <div class="">
+                                        <div class="input-group col-lg-12">
+                                            <input type="text" class="form-control" ng-model="ctrl.searchText" placeholder="marka,ürün ara">
+                                            <span class="input-group-btn" ng-show="loading">
+                                                <button class="btn btn-default" type="button">bekleyiniz...</button>
+                                            </span>
+                                        </div><!-- /input-group -->
+                                    </div><!-- /.col-lg-6 -->
+                                </div>*@
+                            @*<h5>
+                                <input type="text" placeholder="hemen ara" class="form-control col-md-11" ng-model="ctrl.searchText" ng-keyup="ctrl.search()"/>
+                            </h5>*@
+                            @*<div class="col-lg-12 col-md-12" ng-show="loading" style="background-color: white;">
+                                <img src="~/Content/vendor/owl.carousel/dist/assets/ajax-loader.gif"/>
+                            </div>*@
+                            @*<div class="col-lg-12 col-md-12 scrollbar" id="style-2" style="max-height: 250px; overflow-y: auto; background-color: white; border-radius: 4px" ng-show="searchProducts.length > 0">
+                                <div class="form-group force-overflow">
+                                    <div class="media" ng-repeat="product in searchProducts" style="padding: 10px; border-bottom: 1px solid #ccc">
+                                        <div class="media-left">
+                                            <a href="#">
+                                                <img class="media-object" width="72" height="72" ng-src="{{product.image_url}}" alt="...">
+                                            </a>
+                                        </div>
+                                        <div class="media-body text-left">
+                                            <h4 class="media-heading">{{product.name}}<span class="pull-right">{{product.company}}</span></h4>
+                                            <strong>{{product.price}}</strong> <small>TL</small>
+                                            <span class="pull-right">
+                                                <a href="#" class="btn">&nbsp; Takipçi <span class="badge alert-info pull-left">{{product.follower_total}} </span></a>
+
+                                                <a href="@Url.Action("Detail", "Product")?id={{product.id}}" class="btn btn-sm btn-default">Detay</a>
+                                            </span>
+
+                                        </div>
+                                    </div>
+                                    <span class="pull-right" ng-show="searchProducts.length > 5">daha fazlası için <a href="@Url.Action("Index", "Product")?q={{ctrl.searchText}}"><b>tıklayınız</b></a></span>
+                                </div>
+                            </div>*@
+                            <!-- DEMO BUTTON-->
+                            @*<div class="text-center">
+                                <a class="btn btn-lg btn-theme scrollto"><i class="icon-app-download"></i><span>Takibe Başla</span></a>
+                            </div>*@
+                        </div>
+                        @*<div class="intro-shot">
+                                <img src="@Url.Content("~/Content/img/header.shot.png")" alt="Header shot" data-no-retina="" class="img-responsive">
+                            </div>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- END HEADER-->
+    <div>
+        @RenderBody()
+    </div>
+
+    <!-- START FOOTER-->
+<footer id="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6">
+                <ul class="footer-nav">
+                    <li>
+                        <a href="#header" class="scrollto">Anasayfa</a>
+                    </li>
+                    <li>
+                        <a href="#features" class="scrollto">Özellikler</a>
+                    </li>
+                    <li>
+                        <a href="#plans" class="scrollto">Plans</a>
+                    </li>
+                    <li>
+                        <a href="#download" class="scrollto">Download</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-sm-6">
+                <!-- COPYRIGHT-->
+                <p class="copyright">Angle &copy; 2016</p>
+            </div>
+        </div>
+    </div>
+</footer>
+     @Html.Partial("~/Views/Shared/AccountViews.cshtml")
+    <!-- END FOOTER-->
+    <!-- START SETTINGS-->
+    <!-- END SETTINGS-->
+    <!-- VENDOR SCRIPTS-->
+    <script src="@Url.Content("~/Content/vendor/jquery/dist/jquery.min.js")"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.min.js"></script>
+    <script src="@Url.Content("~/Content/vendor/jquery.browser/dist/jquery.browser.js")"></script>
+    <script src="@Url.Content("~/Content/vendor/jquery.easing/js/jquery.easing.js")"></script>
+    <script src="@Url.Content("~/Content/vendor/bootstrap/dist/js/bootstrap.js")"></script>
+    <script src="@Url.Content("~/Content/vendor/waitForImages/dist/jquery.waitforimages.min.js")"></script>
+    <script src="@Url.Content("~/Content/vendor/smoothscroll/smoothscroll.js")"></script>
+    <script src="@Url.Content("~/Content/vendor/owl.carousel/dist/owl.carousel.js")"></script>
+    <script src="@Url.Content("~/Content/vendor/Nivo-Lightbox/nivo-lightbox.js")"></script>
+    <script src="@Url.Content("~/Content/vendor/jquery.scrollTo/jquery.scrollTo.js")"></script>
+    <script src="@Url.Content("~/Content/vendor/wow/dist/wow.js")"></script>
+    <script src="@Url.Content("~/Content/vendor/matchMedia/matchMedia.js")"></script>
+    @*<script src="@Url.Content("~/Content/vendor/background-video/jquery.backgroundvideo.js")"></script>*@
+    <script src="@Url.Content("~/Content/vendor/jQuery-One-Page-Nav/jquery.nav.js")"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script src="@Url.Content("~/Content/vendor/jQuery-Storage-API/jquery.storageapi.js")"></script>
+    <!-- SITE SCRIPTS-->
+    <script src="@Url.Content("~/Content/js/scripts.js")"></script>
+    <script src="@Url.Content("~/Content/js/app.js")"></script>
+    <script src="@Url.Content("~/Content/js/baseCtrl.js")"></script>
+    <script src="@Url.Content("~/Content/js/productservice.js")"></script>
+    <script>
+        window["siteAddress"] = "@(siteAddress)";
+    </script>
+    @*<script src="@Url.Content("~/Content/js/product-service.js")"></script>*@
+
+</body>
+
+</html>

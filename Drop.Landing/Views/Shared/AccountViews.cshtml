@@ -1,0 +1,110 @@
+﻿<div class="modal fade" id="register" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="panel">
+                    <div class="panel-heading">Üye Ol</div>
+                    <div class="panel-body">
+                        <form class="form-horizontal" name="registerForm" ng-submit="ctrl.register(registerForm.$valid)" novalidate>
+                            <div class="form-group">
+                                <label class="col-lg-4 control-label">E-Posta</label>
+                                <div class="col-lg-8">
+                                    <input type="email" placeholder="E-Posta" name="rgemail" ng-model="ctrl.rgemail" required class="form-control">
+                                    <p ng-show="!registerForm.rgemail.$valid && !registerForm.rgemail.$pristine" class="help-block">E-Posta Zorunlu.</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-4 control-label">Kullanıcı Adı</label>
+                                <div class="col-lg-8">
+                                    <input type="text" placeholder="Kullanıcı Adı" name="rgusername" ng-model="ctrl.rgusername" required class="form-control">
+                                    <p ng-show="!registerForm.rgusername.$valid && !registerForm.rgusername.$pristine" class="help-block">Kullanıcı Adı Zorunlu.</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-4 control-label">Şifre</label>
+                                <div class="col-lg-8">
+                                    <input type="password" placeholder="Şifre" name="rgpassword" ng-model="ctrl.rgpassword" required class="form-control">
+                                    <p ng-show="!registerForm.rgpassword.$valid && !registerForm.rgpassword.$pristine" class="help-block">Şifre Zorunlu.</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-offset-4 col-lg-8">
+                                    <button type="submit" class="btn btn-sm btn-success">Üye Ol</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade" id="forgotpassword" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="panel">
+                    <div class="panel-heading">Şifremi Unuttum</div>
+                    <div class="panel-body">
+                        <form class="form-horizontal" name="forgotpasswordForm" ng-submit="ctrl.forgotpassword(forgotpasswordForm.$valid)" novalidate>
+                            <div class="form-group">
+                                <label class="col-lg-4 control-label">E-Posta/Kullanıcı Adı</label>
+                                <div class="col-lg-8">
+                                    <input type="text" placeholder="E-Posta yada kullanıcı adı" ng-model="ctrl.forgotemail" name="forgotemail" ng-init="forgotpasswordForm.forgotemail.$setValidity('forgotemail', true)" required class="form-control">
+                                    <p ng-show="!forgotpasswordForm.forgotemail.$valid && !forgotpasswordForm.forgotemail.$pristine" class="help-block">E-Posta/Kullanıcı Adı Zorunlu.</p>
+                                </div>
+
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-lg-offset-4 col-lg-8">
+                                    <button type="submit" class="btn btn-sm btn-success">Gönder</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade" id="login" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="panel">
+                    <div class="panel-heading">Giriş Yap</div>
+                    <div class="panel-body">
+                        <form class="form-horizontal" name="userForm" ng-submit="ctrl.login(userForm.$valid)" novalidate>
+                            <div class="form-group">
+                                <label class="col-lg-4 control-label">E-Posta/Kullanıcı Adı</label>
+                                <div class="col-lg-8">
+                                    <input type="text" placeholder="E-Posta yada kullanıcı adı" ng-model="ctrl.username" name="username" ng-init="userForm.username.$setValidity('username', true)" required class="form-control">
+                                    <p ng-show="!userForm.username.$valid && !userForm.username.$pristine" class="help-block">E-Posta/Kullanıcı Adı Zorunlu.</p>
+                                </div>
+
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-lg-4 control-label">Şifre</label>
+                                <div class="col-lg-8">
+                                    <input type="password" placeholder="Şifre" ng-model="ctrl.password" required name="password" ng-init="userForm.password.$setValidity('password', true)" class="form-control">
+                                    <p ng-show="!userForm.password.$valid && !userForm.password.$pristine" class="help-block">Şifre Zorunlu.</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-offset-4 col-lg-8">
+                                    <button type="submit" class="btn btn-sm btn-success">Giriş Yap</button>
+                                    <a class="pull-right" ng-click="ctrl.forgotpasswordmodaltoggle()" href="#" role="button">Şifremi unuttum</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

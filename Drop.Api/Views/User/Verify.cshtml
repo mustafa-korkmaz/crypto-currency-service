@@ -1,0 +1,66 @@
+﻿@{
+    string errorMessage = (string)ViewBag.ErrorMessage;
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <meta name="description" content="The description of my page" />
+</head>
+<body>
+    <div class="container body-content">
+
+        <h4>Email doğrulama işlemi</h4>
+        <hr />
+
+        <div id="success" class="alert alert-success hide">
+            <button class="close" data-close="alert"></button>
+            <span> Email adresiniz doğrulandı. </span>
+        </div>
+
+        <div id="danger" class="alert alert-danger hide">
+            <button class="close" data-close="alert"></button>
+            <span>Uygulamada beklenmedik bir hata meydana geldi, lütfen daha sonra tekrar deneyiniz.</span>
+        </div>
+
+        <div class="form-group hide" id="newVerificationCode">
+            <input type="button" value="Yeni doğrulama kodu al" class="btn btn-default" onclick="goToNewVerificationPage()" />
+        </div>
+        <hr />
+        <footer>
+           <p>&copy; @DateTime.Now.Year - Raqun</p>
+        </footer>
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            var message = '@errorMessage';
+
+            if (message === "success") {
+                $("#success").removeClass("hide");
+            } else {
+                $("#danger").removeClass("hide");
+                $("#newVerificationCode").removeClass("hide");
+            }
+
+            console.log(message);
+        });
+
+        function goToNewVerificationPage() {
+
+            var url = '@ViewBag.ApiUrl' + "NewEmailVerification";
+            window.location.href = encodeURI(url);
+        }
+    </script>
+</body>
+
+</html>

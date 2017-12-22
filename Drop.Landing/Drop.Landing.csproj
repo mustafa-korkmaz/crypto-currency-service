@@ -1,0 +1,820 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{1F442458-63F6-4EC3-8229-45AFA6EC4CDA}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Drop.Landing</RootNamespace>
+    <AssemblyName>Drop.Landing</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <UseIISExpress>false</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TypeScriptToolsVersion>1.8</TypeScriptToolsVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="RazorGenerator.Mvc, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
+      <HintPath>..\packages\RazorGenerator.Mvc.2.4.9\lib\net40\RazorGenerator.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebActivatorEx.2.0.3\lib\net40\WebActivatorEx.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Web.Razor">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Webpages">
+      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.3\lib\net45\System.Web.Webpages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Webpages.Deployment">
+      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.3\lib\net45\System.Web.Webpages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Webpages.Razor">
+      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.3\lib\net45\System.Web.Webpages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Helpers">
+      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\css\styles-rtl.css" />
+    <Content Include="Content\css\styles.css" />
+    <Content Include="Content\css\theme-a.css" />
+    <Content Include="Content\css\theme-b.css" />
+    <Content Include="Content\css\theme-c.css" />
+    <Content Include="Content\css\theme-d.css" />
+    <Content Include="Content\img\app-store.png" />
+    <Content Include="Content\img\bg-fallback-download.jpg" />
+    <Content Include="Content\img\bg-fallback-feedback.jpg" />
+    <Content Include="Content\img\bg-fallback-header.jpg" />
+    <Content Include="Content\img\clients\01.jpg" />
+    <Content Include="Content\img\clients\02.jpg" />
+    <Content Include="Content\img\clients\03.jpg" />
+    <Content Include="Content\img\contact.map.jpg" />
+    <Content Include="Content\img\favicon\apple-touch-icon-114x114-precomposed.png" />
+    <Content Include="Content\img\favicon\apple-touch-icon-144x144-precomposed.png" />
+    <Content Include="Content\img\favicon\apple-touch-icon-57x57-precomposed.png" />
+    <Content Include="Content\img\favicon\apple-touch-icon-72x72-precomposed.png" />
+    <Content Include="Content\img\favicon\apple-touch-icon.png" />
+    <Content Include="Content\img\favicon\favicon.ico" />
+    <Content Include="Content\img\favicon\favicon.png" />
+    <Content Include="Content\img\google-play.png" />
+    <Content Include="Content\img\header.shot.png" />
+    <Content Include="Content\img\ipad-air.png" />
+    <Content Include="Content\img\iphone-angle.png" />
+    <Content Include="Content\img\iphone-minimal.png" />
+    <Content Include="Content\img\logo%402x.png" />
+    <Content Include="Content\img\logo-dark%402x.png" />
+    <Content Include="Content\img\logo-dark.png" />
+    <Content Include="Content\img\logo.png" />
+    <Content Include="Content\img\products\beadmin.png" />
+    <Content Include="Content\img\products\centric.png" />
+    <Content Include="Content\img\shots\01.jpg" />
+    <Content Include="Content\img\shots\02.jpg" />
+    <Content Include="Content\img\shots\03.jpg" />
+    <Content Include="Content\img\shots\04.jpg" />
+    <Content Include="Content\img\versions\angular-material.png" />
+    <Content Include="Content\img\versions\angularjs.png" />
+    <Content Include="Content\img\versions\html5.png" />
+    <Content Include="Content\img\versions\meanjs.png" />
+    <Content Include="Content\img\versions\meteor.png" />
+    <Content Include="Content\img\versions\net.png" />
+    <Content Include="Content\img\versions\ng2.png" />
+    <Content Include="Content\img\versions\react.png" />
+    <Content Include="Content\img\versions\ror.png" />
+    <Content Include="Content\img\versions\sass.png" />
+    <Content Include="Content\img\versions\vs.png" />
+    <Content Include="Content\js\scripts.js" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Content\svg\0l4di-flbyy.svg" />
+    <Content Include="Content\svg\1zt7v-l29v8.svg" />
+    <Content Include="Content\svg\3g4j0-ymgna.svg" />
+    <Content Include="Content\svg\4w3in-8y4lk.svg" />
+    <Content Include="Content\svg\52yu7-jp0qn.svg" />
+    <Content Include="Content\svg\5b4gd-8zsbf.svg" />
+    <Content Include="Content\svg\66z5l-bh4oj.svg" />
+    <Content Include="Content\svg\6eyz7-jd2db.svg" />
+    <Content Include="Content\svg\7li14-9vj3z.svg" />
+    <Content Include="Content\svg\8tlo7-xc7jc.svg" />
+    <Content Include="Content\svg\968mx-6hvf6.svg" />
+    <Content Include="Content\svg\9is52-rgm2k.svg" />
+    <Content Include="Content\svg\ckavl-e1lb3.svg" />
+    <Content Include="Content\svg\clzm0-qyeet.svg" />
+    <Content Include="Content\svg\fdron-2t7py.svg" />
+    <Content Include="Content\svg\fi06r-1xhe5.svg" />
+    <Content Include="Content\svg\hn8f5-p2oxb.svg" />
+    <Content Include="Content\svg\i3erq-q1ju3.svg" />
+    <Content Include="Content\svg\ivmer-9h0zm.svg" />
+    <Content Include="Content\svg\j1089-r6q34.svg" />
+    <Content Include="Content\svg\m24ce-p9tdx.svg" />
+    <Content Include="Content\svg\m8ee5-6y5n8.svg" />
+    <Content Include="Content\svg\m9278-5hn5o.svg" />
+    <Content Include="Content\svg\mu8l4-eholy.svg" />
+    <Content Include="Content\svg\n95sk-47vit.svg" />
+    <Content Include="Content\svg\nanrn-vatai.svg" />
+    <Content Include="Content\svg\od71f-3lwck.svg" />
+    <Content Include="Content\svg\pfoh8-tkzj0.svg" />
+    <Content Include="Content\svg\q2j4f-37cq8.svg" />
+    <Content Include="Content\svg\qa5sm-lnvih.svg" />
+    <Content Include="Content\svg\qiw6m-d4cci.svg" />
+    <Content Include="Content\svg\r44y4-rq8fm.svg" />
+    <Content Include="Content\svg\ttcfm-r5l65.svg" />
+    <Content Include="Content\svg\txds8-pcdhm.svg" />
+    <Content Include="Content\svg\vgpnp-sq3xa.svg" />
+    <Content Include="Content\svg\w1w2z-3bdry.svg" />
+    <Content Include="Content\svg\xrohb-31jyw.svg" />
+    <Content Include="Content\toaster.css" />
+    <Content Include="Content\toaster.min.css" />
+    <Content Include="Content\vendor\animate.css\animate.css" />
+    <Content Include="Content\vendor\background-video\jquery.backgroundvideo.js" />
+    <Content Include="Content\vendor\bootstrap\dist\css\bootstrap.css" />
+    <Content Include="Content\vendor\bootstrap\dist\js\bootstrap.js" />
+    <Content Include="Content\vendor\font-awesome\css\font-awesome.min.css" />
+    <Content Include="Content\vendor\font-awesome\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\vendor\html5shiv\dist\html5shiv.js" />
+    <Content Include="Content\vendor\jQuery-One-Page-Nav\jquery.nav.js" />
+    <Content Include="Content\vendor\jQuery-Storage-API\jquery.storageapi.js" />
+    <Content Include="Content\vendor\jquery.browser\dist\jquery.browser.js" />
+    <Content Include="Content\vendor\jquery.easing\js\jquery.easing.js" />
+    <Content Include="Content\vendor\jquery.scrollTo\jquery.scrollTo.js" />
+    <Content Include="Content\vendor\jquery\dist\jquery.min.js" />
+    <Content Include="Content\vendor\matchMedia\matchMedia.js" />
+    <Content Include="Content\vendor\Nivo-Lightbox\nivo-lightbox.css" />
+    <Content Include="Content\vendor\Nivo-Lightbox\nivo-lightbox.js" />
+    <Content Include="Content\vendor\Nivo-Lightbox\themes\default\close.png" />
+    <Content Include="Content\vendor\Nivo-Lightbox\themes\default\default.css" />
+    <Content Include="Content\vendor\Nivo-Lightbox\themes\default\next.png" />
+    <Content Include="Content\vendor\Nivo-Lightbox\themes\default\prev.png" />
+    <Content Include="Content\vendor\nprogress\nprogress.css" />
+    <Content Include="Content\vendor\nprogress\nprogress.js" />
+    <Content Include="Content\vendor\owl.carousel\dist\assets\ajax-loader.gif" />
+    <Content Include="Content\vendor\owl.carousel\dist\assets\owl.carousel.css" />
+    <Content Include="Content\vendor\owl.carousel\dist\assets\owl.theme.default.css" />
+    <Content Include="Content\vendor\owl.carousel\dist\assets\owl.video.play.png" />
+    <Content Include="Content\vendor\owl.carousel\dist\owl.carousel.js" />
+    <Content Include="Content\vendor\respond\src\respond.js" />
+    <Content Include="Content\vendor\retina.js\dist\retina.js" />
+    <Content Include="Content\vendor\smoothscroll\smoothscroll.js" />
+    <Content Include="Content\vendor\waitForImages\dist\jquery.waitforimages.min.js" />
+    <Content Include="Content\vendor\wow\dist\wow.js" />
+    <Content Include="Content\video\video.jpg" />
+    <Content Include="Content\video\video.mp4" />
+    <Content Include="dashboard_h.html" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="index.html" />
+    <Content Include="ProductContent\css\app-rtl.css" />
+    <Content Include="ProductContent\css\app.css" />
+    <Content Include="ProductContent\css\bootstrap-rtl.css" />
+    <Content Include="ProductContent\css\bootstrap.css" />
+    <Content Include="ProductContent\css\theme-h.css" />
+    <Content Include="ProductContent\img\bg1.jpg" />
+    <Content Include="ProductContent\img\bg10.jpg" />
+    <Content Include="ProductContent\img\bg2.jpg" />
+    <Content Include="ProductContent\img\bg3.jpg" />
+    <Content Include="ProductContent\img\bg4.jpg" />
+    <Content Include="ProductContent\img\bg5.jpg" />
+    <Content Include="ProductContent\img\bg6.jpg" />
+    <Content Include="ProductContent\img\bg7.jpg" />
+    <Content Include="ProductContent\img\bg8.jpg" />
+    <Content Include="ProductContent\img\bg9.jpg" />
+    <Content Include="ProductContent\img\dummy.png" />
+    <Content Include="ProductContent\img\lock-bg.jpg" />
+    <Content Include="ProductContent\img\logo-single.png" />
+    <Content Include="ProductContent\img\logo.png" />
+    <Content Include="ProductContent\img\mb-sample.jpg" />
+    <Content Include="ProductContent\img\mockup.png" />
+    <Content Include="ProductContent\img\profile-bg.jpg" />
+    <Content Include="ProductContent\img\user\01.jpg" />
+    <Content Include="ProductContent\img\user\02.jpg" />
+    <Content Include="ProductContent\img\user\03.jpg" />
+    <Content Include="ProductContent\img\user\04.jpg" />
+    <Content Include="ProductContent\img\user\05.jpg" />
+    <Content Include="ProductContent\img\user\06.jpg" />
+    <Content Include="ProductContent\img\user\07.jpg" />
+    <Content Include="ProductContent\img\user\08.jpg" />
+    <Content Include="ProductContent\img\user\09.jpg" />
+    <Content Include="ProductContent\img\user\10.jpg" />
+    <Content Include="ProductContent\img\user\11.jpg" />
+    <Content Include="ProductContent\img\user\12.jpg" />
+    <Content Include="ProductContent\img\user\13.jpg" />
+    <Content Include="ProductContent\js\app.js" />
+    <Content Include="ProductContent\js\demo\demo-datatable.js" />
+    <Content Include="ProductContent\js\demo\demo-flot.js" />
+    <Content Include="ProductContent\js\demo\demo-forms.js" />
+    <Content Include="ProductContent\js\demo\demo-jqcloud.js" />
+    <Content Include="ProductContent\js\demo\demo-jqgrid.js" />
+    <Content Include="ProductContent\js\demo\demo-nestable.js" />
+    <Content Include="ProductContent\js\demo\demo-panels.js" />
+    <Content Include="ProductContent\js\demo\demo-rtl.js" />
+    <Content Include="ProductContent\js\demo\demo-search.js" />
+    <Content Include="ProductContent\js\demo\demo-sortable.js" />
+    <Content Include="ProductContent\js\demo\demo-upload.js" />
+    <Content Include="ProductContent\js\demo\demo-vector-map.js" />
+    <Content Include="ProductContent\js\demo\demo-wizard.js" />
+    <Content Include="ProductContent\js\demo\demo-xeditable.js" />
+    <Content Include="ProductContent\vendor\animate.css\animate.min.css" />
+    <Content Include="ProductContent\vendor\animo.js\animo.js" />
+    <Content Include="ProductContent\vendor\blueimp-canvas-to-blob\js\canvas-to-blob.js" />
+    <Content Include="ProductContent\vendor\blueimp-file-upload\css\jquery.fileupload.css" />
+    <Content Include="ProductContent\vendor\blueimp-file-upload\img\loading.gif" />
+    <Content Include="ProductContent\vendor\blueimp-file-upload\img\progressbar.gif" />
+    <Content Include="ProductContent\vendor\blueimp-file-upload\js\jquery.fileupload-angular.js" />
+    <Content Include="ProductContent\vendor\blueimp-file-upload\js\jquery.fileupload-audio.js" />
+    <Content Include="ProductContent\vendor\blueimp-file-upload\js\jquery.fileupload-image.js" />
+    <Content Include="ProductContent\vendor\blueimp-file-upload\js\jquery.fileupload-jquery-ui.js" />
+    <Content Include="ProductContent\vendor\blueimp-file-upload\js\jquery.fileupload-process.js" />
+    <Content Include="ProductContent\vendor\blueimp-file-upload\js\jquery.fileupload-ui.js" />
+    <Content Include="ProductContent\vendor\blueimp-file-upload\js\jquery.fileupload-validate.js" />
+    <Content Include="ProductContent\vendor\blueimp-file-upload\js\jquery.fileupload-video.js" />
+    <Content Include="ProductContent\vendor\blueimp-file-upload\js\jquery.fileupload.js" />
+    <Content Include="ProductContent\vendor\blueimp-file-upload\js\jquery.iframe-transport.js" />
+    <Content Include="ProductContent\vendor\blueimp-load-image\js\load-image.all.min.js" />
+    <Content Include="ProductContent\vendor\blueimp-tmpl\js\tmpl.js" />
+    <Content Include="ProductContent\vendor\bootstrap-filestyle\src\bootstrap-filestyle.js" />
+    <Content Include="ProductContent\vendor\bootstrap-tagsinput\dist\bootstrap-tagsinput.css" />
+    <Content Include="ProductContent\vendor\bootstrap-tagsinput\dist\bootstrap-tagsinput.min.js" />
+    <Content Include="ProductContent\vendor\bootstrap-tour\build\css\bootstrap-tour-standalone.css" />
+    <Content Include="ProductContent\vendor\bootstrap-tour\build\js\bootstrap-tour-standalone.js" />
+    <Content Include="ProductContent\vendor\bootstrap-wysiwyg\bootstrap-wysiwyg.js" />
+    <Content Include="ProductContent\vendor\bootstrap-wysiwyg\external\jquery.hotkeys.js" />
+    <Content Include="ProductContent\vendor\bootstrap\dist\css\bootstrap.css" />
+    <Content Include="ProductContent\vendor\bootstrap\dist\js\bootstrap.js" />
+    <Content Include="ProductContent\vendor\Chart.js\dist\Chart.js" />
+    <Content Include="ProductContent\vendor\chartist\dist\chartist.js" />
+    <Content Include="ProductContent\vendor\chartist\dist\chartist.min.css" />
+    <Content Include="ProductContent\vendor\chosen_v1.2.0\chosen-sprite%402x.png" />
+    <Content Include="ProductContent\vendor\chosen_v1.2.0\chosen-sprite.png" />
+    <Content Include="ProductContent\vendor\chosen_v1.2.0\chosen.jquery.min.js" />
+    <Content Include="ProductContent\vendor\chosen_v1.2.0\chosen.min.css" />
+    <Content Include="ProductContent\vendor\cropper\dist\cropper.css" />
+    <Content Include="ProductContent\vendor\cropper\dist\cropper.js" />
+    <Content Include="ProductContent\vendor\d3\d3.min.js" />
+    <Content Include="ProductContent\vendor\datatables-buttons\js\buttons.bootstrap.js" />
+    <Content Include="ProductContent\vendor\datatables-buttons\js\buttons.bootstrap4.js" />
+    <Content Include="ProductContent\vendor\datatables-buttons\js\buttons.colVis.js" />
+    <Content Include="ProductContent\vendor\datatables-buttons\js\buttons.flash.js" />
+    <Content Include="ProductContent\vendor\datatables-buttons\js\buttons.foundation.js" />
+    <Content Include="ProductContent\vendor\datatables-buttons\js\buttons.html5.js" />
+    <Content Include="ProductContent\vendor\datatables-buttons\js\buttons.jqueryui.js" />
+    <Content Include="ProductContent\vendor\datatables-buttons\js\buttons.print.js" />
+    <Content Include="ProductContent\vendor\datatables-buttons\js\buttons.semanticui.js" />
+    <Content Include="ProductContent\vendor\datatables-buttons\js\dataTables.buttons.js" />
+    <Content Include="ProductContent\vendor\datatables-colvis\css\dataTables.colVis.css" />
+    <Content Include="ProductContent\vendor\datatables-colvis\js\dataTables.colVis.js" />
+    <Content Include="ProductContent\vendor\datatables-responsive\js\dataTables.responsive.js" />
+    <Content Include="ProductContent\vendor\datatables-responsive\js\responsive.bootstrap.js" />
+    <Content Include="ProductContent\vendor\dataTables.fontAwesome\index.css" />
+    <Content Include="ProductContent\vendor\datatables\media\css\dataTables.bootstrap.css" />
+    <Content Include="ProductContent\vendor\datatables\media\images\favicon.ico" />
+    <Content Include="ProductContent\vendor\datatables\media\images\sort_asc.png" />
+    <Content Include="ProductContent\vendor\datatables\media\images\sort_asc_disabled.png" />
+    <Content Include="ProductContent\vendor\datatables\media\images\sort_both.png" />
+    <Content Include="ProductContent\vendor\datatables\media\images\sort_desc.png" />
+    <Content Include="ProductContent\vendor\datatables\media\images\sort_desc_disabled.png" />
+    <Content Include="ProductContent\vendor\datatables\media\js\dataTables.bootstrap.js" />
+    <Content Include="ProductContent\vendor\datatables\media\js\jquery.dataTables.min.js" />
+    <Content Include="ProductContent\vendor\eonasdan-bootstrap-datetimepicker\build\css\bootstrap-datetimepicker.min.css" />
+    <Content Include="ProductContent\vendor\eonasdan-bootstrap-datetimepicker\build\js\bootstrap-datetimepicker.min.js" />
+    <Content Include="ProductContent\vendor\fastclick\lib\fastclick.js" />
+    <Content Include="ProductContent\vendor\flatdoc\flatdoc.js" />
+    <Content Include="ProductContent\vendor\flot-spline\js\jquery.flot.spline.min.js" />
+    <Content Include="ProductContent\vendor\flot.tooltip\js\jquery.flot.tooltip.min.js" />
+    <Content Include="ProductContent\vendor\Flot\jquery.flot.categories.js" />
+    <Content Include="ProductContent\vendor\Flot\jquery.flot.js" />
+    <Content Include="ProductContent\vendor\Flot\jquery.flot.pie.js" />
+    <Content Include="ProductContent\vendor\Flot\jquery.flot.resize.js" />
+    <Content Include="ProductContent\vendor\Flot\jquery.flot.time.js" />
+    <Content Include="ProductContent\vendor\fontawesome\css\font-awesome.min.css" />
+    <Content Include="ProductContent\vendor\fontawesome\fonts\fontawesome-webfont.svg" />
+    <Content Include="ProductContent\vendor\fullcalendar\dist\fullcalendar.css" />
+    <Content Include="ProductContent\vendor\fullcalendar\dist\fullcalendar.min.js" />
+    <Content Include="ProductContent\vendor\fullcalendar\dist\gcal.js" />
+    <Content Include="ProductContent\vendor\html.sortable\dist\html.sortable.js" />
+    <Content Include="ProductContent\vendor\ika.jvectormap\jquery-jvectormap-1.2.2.css" />
+    <Content Include="ProductContent\vendor\ika.jvectormap\jquery-jvectormap-1.2.2.min.js" />
+    <Content Include="ProductContent\vendor\ika.jvectormap\jquery-jvectormap-us-mill-en.js" />
+    <Content Include="ProductContent\vendor\ika.jvectormap\jquery-jvectormap-world-mill-en.js" />
+    <Content Include="ProductContent\vendor\jqcloud2\dist\jqcloud.css" />
+    <Content Include="ProductContent\vendor\jqcloud2\dist\jqcloud.js" />
+    <Content Include="ProductContent\vendor\jqgrid\css\ui.jqgrid.css" />
+    <Content Include="ProductContent\vendor\jqgrid\js\i18n\grid.locale-en.js" />
+    <Content Include="ProductContent\vendor\jqgrid\js\jquery.jqGrid.js" />
+    <Content Include="ProductContent\vendor\jQuery-gMap\jquery.gmap.min.js" />
+    <Content Include="ProductContent\vendor\jquery-knob\js\jquery.knob.js" />
+    <Content Include="ProductContent\vendor\jquery-localize-i18n\dist\jquery.localize.js" />
+    <Content Include="ProductContent\vendor\jQuery-Storage-API\jquery.storageapi.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\jquery-ui.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\themes\smoothness\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="ProductContent\vendor\jquery-ui\themes\smoothness\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="ProductContent\vendor\jquery-ui\themes\smoothness\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="ProductContent\vendor\jquery-ui\themes\smoothness\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="ProductContent\vendor\jquery-ui\themes\smoothness\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="ProductContent\vendor\jquery-ui\themes\smoothness\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="ProductContent\vendor\jquery-ui\themes\smoothness\images\ui-icons_222222_256x240.png" />
+    <Content Include="ProductContent\vendor\jquery-ui\themes\smoothness\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="ProductContent\vendor\jquery-ui\themes\smoothness\images\ui-icons_454545_256x240.png" />
+    <Content Include="ProductContent\vendor\jquery-ui\themes\smoothness\images\ui-icons_888888_256x240.png" />
+    <Content Include="ProductContent\vendor\jquery-ui\themes\smoothness\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="ProductContent\vendor\jquery-ui\themes\smoothness\jquery-ui.css" />
+    <Content Include="ProductContent\vendor\jquery-ui\themes\smoothness\jquery-ui.min.css" />
+    <Content Include="ProductContent\vendor\jquery-ui\themes\smoothness\theme.css" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\core.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\data.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\disable-selection.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\effect.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\effects\effect-blind.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\effects\effect-bounce.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\effects\effect-clip.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\effects\effect-drop.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\effects\effect-explode.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\effects\effect-fade.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\effects\effect-fold.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\effects\effect-highlight.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\effects\effect-puff.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\effects\effect-pulsate.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\effects\effect-scale.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\effects\effect-shake.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\effects\effect-size.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\effects\effect-slide.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\effects\effect-transfer.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\escape-selector.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\focusable.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\form-reset-mixin.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\form.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-af.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-ar-DZ.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-ar.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-az.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-be.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-bg.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-bs.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-ca.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-cs.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-cy-GB.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-da.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-de.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-el.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-en-AU.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-en-GB.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-en-NZ.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-eo.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-es.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-et.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-eu.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-fa.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-fi.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-fo.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-fr-CA.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-fr-CH.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-fr.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-gl.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-he.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-hi.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-hr.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-hu.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-hy.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-id.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-is.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-it-CH.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-it.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-ja.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-ka.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-kk.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-km.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-ko.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-ky.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-lb.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-lt.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-lv.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-mk.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-ml.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-ms.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-nb.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-nl-BE.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-nl.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-nn.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-no.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-pl.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-pt-BR.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-pt.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-rm.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-ro.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-ru.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-sk.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-sl.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-sq.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-sr-SR.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-sr.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-sv.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-ta.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-th.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-tj.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-tr.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-uk.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-vi.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-zh-CN.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-zh-HK.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\i18n\datepicker-zh-TW.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\ie.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\jquery-1-7.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\keycode.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\labels.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\core.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\data.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\disable-selection.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\effect.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\escape-selector.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\focusable.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\form-reset-mixin.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\form.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-af.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-ar-DZ.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-ar.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-az.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-be.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-bg.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-bs.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-ca.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-cs.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-cy-GB.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-da.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-de.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-el.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-en-AU.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-en-GB.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-en-NZ.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-eo.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-es.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-et.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-eu.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-fa.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-fi.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-fo.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-fr-CA.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-fr-CH.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-fr.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-gl.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-he.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-hi.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-hr.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-hu.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-hy.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-id.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-is.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-it-CH.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-it.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-ja.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-ka.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-kk.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-km.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-ko.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-ky.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-lb.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-lt.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-lv.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-mk.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-ml.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-ms.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-nb.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-nl-BE.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-nl.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-nn.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-no.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-pl.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-pt-BR.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-pt.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-rm.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-ro.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-ru.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-sk.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-sl.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-sq.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-sr-SR.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-sr.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-sv.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-ta.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-th.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-tj.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-tr.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-uk.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-vi.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-zh-CN.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-zh-HK.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\i18n\datepicker-zh-TW.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\ie.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\jquery-1-7.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\keycode.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\labels.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\plugin.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\position.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\safe-active-element.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\safe-blur.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\scroll-parent.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\tabbable.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\unique-id.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\version.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\minified\widget.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\plugin.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\position.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\safe-active-element.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\safe-blur.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\scroll-parent.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\tabbable.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\unique-id.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\version.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\widget.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\widgets\accordion.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\widgets\autocomplete.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\widgets\button.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\widgets\checkboxradio.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\widgets\controlgroup.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\widgets\datepicker.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\widgets\dialog.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\widgets\draggable.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\widgets\droppable.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\widgets\menu.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\widgets\mouse.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\widgets\progressbar.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\widgets\resizable.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\widgets\selectable.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\widgets\selectmenu.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\widgets\slider.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\widgets\sortable.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\widgets\spinner.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\widgets\tabs.js" />
+    <Content Include="ProductContent\vendor\jquery-ui\ui\widgets\tooltip.js" />
+    <Content Include="ProductContent\vendor\jquery-validation\dist\jquery.validate.js" />
+    <Content Include="ProductContent\vendor\jquery.easing\js\jquery.easing.js" />
+    <Content Include="ProductContent\vendor\jquery.easy-pie-chart\dist\jquery.easypiechart.js" />
+    <Content Include="ProductContent\vendor\jquery.inputmask\dist\jquery.inputmask.bundle.js" />
+    <Content Include="ProductContent\vendor\jquery.steps\build\jquery.steps.js" />
+    <Content Include="ProductContent\vendor\jqueryui-touch-punch\jquery.ui.touch-punch.min.js" />
+    <Content Include="ProductContent\vendor\jquery\dist\jquery.js" />
+    <Content Include="ProductContent\vendor\loaders.css\loaders.css" />
+    <Content Include="ProductContent\vendor\matchMedia\matchMedia.js" />
+    <Content Include="ProductContent\vendor\mjolnic-bootstrap-colorpicker\dist\css\bootstrap-colorpicker.css" />
+    <Content Include="ProductContent\vendor\mjolnic-bootstrap-colorpicker\dist\img\bootstrap-colorpicker\alpha-horizontal.png" />
+    <Content Include="ProductContent\vendor\mjolnic-bootstrap-colorpicker\dist\img\bootstrap-colorpicker\alpha.png" />
+    <Content Include="ProductContent\vendor\mjolnic-bootstrap-colorpicker\dist\img\bootstrap-colorpicker\hue-horizontal.png" />
+    <Content Include="ProductContent\vendor\mjolnic-bootstrap-colorpicker\dist\img\bootstrap-colorpicker\hue.png" />
+    <Content Include="ProductContent\vendor\mjolnic-bootstrap-colorpicker\dist\img\bootstrap-colorpicker\saturation.png" />
+    <Content Include="ProductContent\vendor\mjolnic-bootstrap-colorpicker\dist\js\bootstrap-colorpicker.js" />
+    <Content Include="ProductContent\vendor\modernizr\modernizr.custom.js" />
+    <Content Include="ProductContent\vendor\moment\min\moment-with-locales.min.js" />
+    <Content Include="ProductContent\vendor\morris.js\morris.css" />
+    <Content Include="ProductContent\vendor\morris.js\morris.js" />
+    <Content Include="ProductContent\vendor\nestable\jquery.nestable.js" />
+    <Content Include="ProductContent\vendor\parsleyjs\dist\parsley.min.js" />
+    <Content Include="ProductContent\vendor\raphael\raphael.js" />
+    <Content Include="ProductContent\vendor\rickshaw\rickshaw.js" />
+    <Content Include="ProductContent\vendor\rickshaw\rickshaw.min.css" />
+    <Content Include="ProductContent\vendor\screenfull\dist\screenfull.js" />
+    <Content Include="ProductContent\vendor\seiyria-bootstrap-slider\dist\bootstrap-slider.min.js" />
+    <Content Include="ProductContent\vendor\seiyria-bootstrap-slider\dist\css\bootstrap-slider.min.css" />
+    <Content Include="ProductContent\vendor\select2-bootstrap-theme\dist\select2-bootstrap.css" />
+    <Content Include="ProductContent\vendor\select2\dist\css\select2.css" />
+    <Content Include="ProductContent\vendor\select2\dist\js\select2.js" />
+    <Content Include="ProductContent\vendor\simple-line-icons\css\simple-line-icons.css" />
+    <Content Include="ProductContent\vendor\simple-line-icons\fonts\Simple-Line-Icons.svg" />
+    <Content Include="ProductContent\vendor\skycons\skycons.js" />
+    <Content Include="ProductContent\vendor\slimScroll\jquery.slimscroll.min.js" />
+    <Content Include="ProductContent\vendor\sparkline\index.js" />
+    <Content Include="ProductContent\vendor\spinkit\css\spinkit.css" />
+    <Content Include="ProductContent\vendor\sweetalert\dist\sweetalert.css" />
+    <Content Include="ProductContent\vendor\sweetalert\dist\sweetalert.min.js" />
+    <Content Include="ProductContent\vendor\weather-icons\css\weather-icons-wind.min.css" />
+    <Content Include="ProductContent\vendor\weather-icons\css\weather-icons.min.css" />
+    <Content Include="ProductContent\vendor\weather-icons\font\weathericons-regular-webfont.svg" />
+    <Content Include="ProductContent\vendor\whirl\dist\whirl.css" />
+    <Content Include="ProductContent\vendor\x-editable\dist\bootstrap3-editable\css\bootstrap-editable.css" />
+    <Content Include="ProductContent\vendor\x-editable\dist\bootstrap3-editable\img\clear.png" />
+    <Content Include="ProductContent\vendor\x-editable\dist\bootstrap3-editable\img\loading.gif" />
+    <Content Include="ProductContent\vendor\x-editable\dist\bootstrap3-editable\js\bootstrap-editable.js" />
+    <Content Include="ProductContent\vendor\x-editable\dist\bootstrap3-editable\js\bootstrap-editable.min.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Content\vendor\font-awesome\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\vendor\font-awesome\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\vendor\font-awesome\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\vendor\font-awesome\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\vendor\font-awesome\fonts\FontAwesome.otf" />
+    <Content Include="Content\video\video.webm" />
+    <Content Include="ProductContent\vendor\datatables-buttons\css\buttons.bootstrap.scss" />
+    <Content Include="ProductContent\vendor\datatables-buttons\css\buttons.bootstrap4.scss" />
+    <Content Include="ProductContent\vendor\datatables-buttons\css\buttons.dataTables.scss" />
+    <Content Include="ProductContent\vendor\datatables-buttons\css\buttons.foundation.scss" />
+    <Content Include="ProductContent\vendor\datatables-buttons\css\buttons.jqueryui.scss" />
+    <Content Include="ProductContent\vendor\datatables-buttons\css\buttons.semanticui.scss" />
+    <Content Include="ProductContent\vendor\datatables-buttons\css\common.scss" />
+    <Content Include="ProductContent\vendor\datatables-buttons\css\mixins.scss" />
+    <Content Include="ProductContent\vendor\datatables\media\images\Sorting icons.psd" />
+    <Content Include="ProductContent\vendor\fontawesome\fonts\fontawesome-webfont.eot" />
+    <Content Include="ProductContent\vendor\fontawesome\fonts\fontawesome-webfont.ttf" />
+    <Content Include="ProductContent\vendor\fontawesome\fonts\fontawesome-webfont.woff" />
+    <Content Include="ProductContent\vendor\fontawesome\fonts\fontawesome-webfont.woff2" />
+    <Content Include="ProductContent\vendor\fontawesome\fonts\FontAwesome.otf" />
+    <Content Include="ProductContent\vendor\simple-line-icons\fonts\Simple-Line-Icons.eot" />
+    <Content Include="ProductContent\vendor\simple-line-icons\fonts\Simple-Line-Icons.ttf" />
+    <Content Include="ProductContent\vendor\simple-line-icons\fonts\Simple-Line-Icons.woff" />
+    <Content Include="ProductContent\vendor\simple-line-icons\fonts\Simple-Line-Icons.woff2" />
+    <Content Include="ProductContent\vendor\weather-icons\font\weathericons-regular-webfont.eot" />
+    <Content Include="ProductContent\vendor\weather-icons\font\weathericons-regular-webfont.ttf" />
+    <Content Include="ProductContent\vendor\weather-icons\font\weathericons-regular-webfont.woff" />
+    <Content Include="ProductContent\vendor\weather-icons\font\weathericons-regular-webfont.woff2" />
+    <Content Include="Content\toaster.scss" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\toaster.js" />
+    <Content Include="Scripts\toaster.min.js" />
+    <Content Include="Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\RazorGeneratorMvcStart.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\Home\Index.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Index.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Product\Detail.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Detail.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Product\Index.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Index.cshtml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\web.config" />
+    <Content Include="packages.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\Index.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Index.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Views\Shared\_ProductLayout.cshtml" />
+    <Content Include="Views\Product\Index.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Index.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Views\Product\Detail.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Detail.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Views\Shared\AccountViews.cshtml" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Models\" />
+    <Folder Include="Views\Account\" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Content\js\app.ts" />
+    <TypeScriptCompile Include="Content\js\baseCtrl.ts" />
+    <TypeScriptCompile Include="Content\js\productDetailService.ts" />
+    <TypeScriptCompile Include="Content\js\productSearchService.ts" />
+    <TypeScriptCompile Include="Content\js\accountService.ts" />
+    <TypeScriptCompile Include="Content\js\productservice.ts" />
+    <TypeScriptCompile Include="Scripts\typings\angularjs\angular-animate.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\angularjs\angular-component-router.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\angularjs\angular-cookies.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\angularjs\angular-mocks.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\angularjs\angular-resource.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\angularjs\angular-route.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\angularjs\angular-sanitize.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\angularjs\angular.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>63862</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost/Drop.Landing</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

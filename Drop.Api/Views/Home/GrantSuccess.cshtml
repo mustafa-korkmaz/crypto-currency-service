@@ -1,0 +1,25 @@
+﻿
+@model bool
+@{
+    ViewBag.Title = "GrantSuccess";
+}
+
+<h2>Uygulama izin isteği</h2>
+
+<hr />
+
+@if (Model)
+{
+    <div id="success" class="alert alert-success">
+        <button class="close" data-close="alert"></button>
+        <span> Uygulamaya başarıyla izin verildi.</span>
+    </div>
+}
+else
+{
+    <div id="danger" class="alert alert-danger">
+        <button class="close" data-close="alert"></button>
+        <span>Uygulamada beklenmedik bir hata meydana geldi, lütfen daha sonra tekrar deneyiniz.</span>
+        <span>(@ViewBag.Error)</span>
+        </div>
+}
