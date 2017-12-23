@@ -88,10 +88,12 @@ namespace MoneyMarket.Api.Controllers
                 }
 
                 //say hello to new team!
-                await slackIntegrationBusiness.PostMessage(GetWelcomeMessage(oAuthResp.bot.bot_access_token));
+                var resp = await slackIntegrationBusiness.PostMessage(GetWelcomeMessage(oAuthResp.bot.bot_access_token));
+                ViewBag.SlackMessage = resp.error ?? resp.message.text;
             }
 
             ViewBag.Error = oAuthResp.error ?? "";
+           
             return View(isGranted);
         }
 

@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Threading.Tasks;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MoneyMarket.Business.Slack.Integration;
 using MoneyMarket.Common;
 
@@ -8,7 +9,7 @@ namespace MoneyMarket.UnitTests
     public class SlackIntegrationTest
     {
         [TestMethod]
-        public async void PostMessageViaBot()
+        public async Task PostMessageViaBot()
         {
             var payload = new SlackMessage
             {
