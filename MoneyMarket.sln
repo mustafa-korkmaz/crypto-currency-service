@@ -3,19 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26430.6
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoneyMarket.Api", "Drop.Api\MoneyMarket.Api.csproj", "{3A2840C0-48D4-4D66-86BF-B59412CB0278}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoneyMarket.Api", "MoneyMarket.Api\MoneyMarket.Api.csproj", "{3A2840C0-48D4-4D66-86BF-B59412CB0278}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoneyMarket.DataAccess", "Drop.DataAccess\MoneyMarket.DataAccess.csproj", "{2FC5F363-D1E2-4AFD-B54C-52C825730A07}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoneyMarket.DataAccess", "MoneyMarket.DataAccess\MoneyMarket.DataAccess.csproj", "{2FC5F363-D1E2-4AFD-B54C-52C825730A07}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoneyMarket.Business", "Drop.Business\MoneyMarket.Business.csproj", "{D7527D50-C5EC-4174-BCD5-FD85D8EF75BF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoneyMarket.Business", "MoneyMarket.Business\MoneyMarket.Business.csproj", "{D7527D50-C5EC-4174-BCD5-FD85D8EF75BF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoneyMarket.Common", "Drop.Common\MoneyMarket.Common.csproj", "{0EEC48B8-AA11-40D6-876A-D18FC95D1D2A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoneyMarket.Common", "MoneyMarket.Common\MoneyMarket.Common.csproj", "{0EEC48B8-AA11-40D6-876A-D18FC95D1D2A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoneyMarket.Dto", "Drop.Dto\MoneyMarket.Dto.csproj", "{25EE1727-06BE-4E4D-9CF4-AE673A1DDF20}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoneyMarket.Dto", "MoneyMarket.Dto\MoneyMarket.Dto.csproj", "{25EE1727-06BE-4E4D-9CF4-AE673A1DDF20}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoneyMarket.OAuth", "Drop.OAuth\MoneyMarket.OAuth.csproj", "{73D04358-58A1-47C9-9AD8-CABD8968F07A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoneyMarket.OAuth", "MoneyMarket.OAuth\MoneyMarket.OAuth.csproj", "{73D04358-58A1-47C9-9AD8-CABD8968F07A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoneyMarket.UnitTests", "Drop.UnitTests\MoneyMarket.UnitTests.csproj", "{05C48476-E6B8-4481-9730-ABD5C53D5FA7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoneyMarket.UnitTests", "MoneyMarket.UnitTests\MoneyMarket.UnitTests.csproj", "{05C48476-E6B8-4481-9730-ABD5C53D5FA7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

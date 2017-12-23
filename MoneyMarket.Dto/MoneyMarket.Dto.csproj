@@ -55,7 +55,7 @@
     <Compile Include="Setting.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Drop.Common\MoneyMarket.Common.csproj">
+    <ProjectReference Include="..\MoneyMarket.Common\MoneyMarket.Common.csproj">
       <Project>{0EEC48B8-AA11-40D6-876A-D18FC95D1D2A}</Project>
       <Name>MoneyMarket.Common</Name>
     </ProjectReference>

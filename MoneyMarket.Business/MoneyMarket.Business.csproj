@@ -123,15 +123,15 @@
     <Compile Include="Slack\TeamBusiness.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Drop.Common\MoneyMarket.Common.csproj">
+    <ProjectReference Include="..\MoneyMarket.Common\MoneyMarket.Common.csproj">
       <Project>{0eec48b8-aa11-40d6-876a-d18fc95d1d2a}</Project>
       <Name>MoneyMarket.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Drop.DataAccess\MoneyMarket.DataAccess.csproj">
+    <ProjectReference Include="..\MoneyMarket.DataAccess\MoneyMarket.DataAccess.csproj">
       <Project>{2fc5f363-d1e2-4afd-b54c-52c825730a07}</Project>
       <Name>MoneyMarket.DataAccess</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Drop.Dto\MoneyMarket.Dto.csproj">
+    <ProjectReference Include="..\MoneyMarket.Dto\MoneyMarket.Dto.csproj">
       <Project>{25ee1727-06be-4e4d-9cf4-ae673a1ddf20}</Project>
       <Name>MoneyMarket.Dto</Name>
     </ProjectReference>

@@ -309,19 +309,19 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Drop.Business\MoneyMarket.Business.csproj">
+    <ProjectReference Include="..\MoneyMarket.Business\MoneyMarket.Business.csproj">
       <Project>{d7527d50-c5ec-4174-bcd5-fd85d8ef75bf}</Project>
       <Name>MoneyMarket.Business</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Drop.Common\MoneyMarket.Common.csproj">
+    <ProjectReference Include="..\MoneyMarket.Common\MoneyMarket.Common.csproj">
       <Project>{0eec48b8-aa11-40d6-876a-d18fc95d1d2a}</Project>
       <Name>MoneyMarket.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Drop.Dto\MoneyMarket.Dto.csproj">
+    <ProjectReference Include="..\MoneyMarket.Dto\MoneyMarket.Dto.csproj">
       <Project>{25ee1727-06be-4e4d-9cf4-ae673a1ddf20}</Project>
       <Name>MoneyMarket.Dto</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Drop.OAuth\MoneyMarket.OAuth.csproj">
+    <ProjectReference Include="..\MoneyMarket.OAuth\MoneyMarket.OAuth.csproj">
       <Project>{73d04358-58a1-47c9-9ad8-cabd8968f07a}</Project>
       <Name>MoneyMarket.OAuth</Name>
     </ProjectReference>
