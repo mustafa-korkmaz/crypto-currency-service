@@ -1,14 +1,18 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Mvc;
+using MoneyMarket.Business.Common;
 using MoneyMarket.Business.HttpClient;
+using MoneyMarket.Business.Slack;
 using MoneyMarket.Common;
 using MoneyMarket.Common.ApiObjects.Request;
 using MoneyMarket.Common.Helper;
 using MoneyMarket.Common.ApiObjects.Request.SlackApp;
 using MoneyMarket.Common.ApiObjects.Response;
 using MoneyMarket.Common.ApiObjects.Response.SlackApp;
+using MoneyMarket.Dto;
 
 namespace MoneyMarket.Api.Controllers
 {
@@ -65,8 +69,41 @@ namespace MoneyMarket.Api.Controllers
             var apiInvoker = SlackApiClient.Instance;
             var resp = await apiInvoker.InvokeApi<OAuthRequest, OAuthResponse>(ApiUrl.SlackOAuth, request);
 
+            var isGranted = resp.ResponseData.ok;
+
+            if (isGranted)
+            {
+                SaveSlackTeam(resp.ResponseData);
+            }
+
             ViewBag.Error = resp.ResponseData.error ?? "";
-            return View(resp.ResponseData.ok);
+            return View(isGranted);
+        }
+
+
+        /// <summary>
+        /// saves new slack team after successfully granted
+        /// </summary>
+        private void SaveSlackTeam(OAuthResponse oAuthResp)
+        {
+            var team = new Team
+            {
+                Name = oAuthResp.team_name,
+                SlackId = oAuthResp.team_id,
+                IsActive = true,
+                AccountType = AccountType.Trial,
+                BotId = oAuthResp.bot.bot_user_id,
+                BotAccessToken = oAuthResp.bot.bot_access_token,
+                MemberCount = 1,
+                Language = Language.Turkish,
+                ExpiresIn = CommonBusiness.GetSlackTeamExpirationDate(AccountType.Trial),
+                CreatedAt = DateTime.UtcNow
+            };
+
+
+            var teamBusiness = new TeamBusiness();
+
+            teamBusiness.Add(team);
         }
 
     }

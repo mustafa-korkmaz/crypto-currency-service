@@ -171,6 +171,11 @@
             <param name="code"></param>
             <returns></returns>
         </member>
+        <member name="M:MoneyMarket.Api.Controllers.HomeController.SaveSlackTeam(MoneyMarket.Common.ApiObjects.Response.SlackApp.OAuthResponse)">
+            <summary>
+            saves new slack team after successfully granted
+            </summary>
+        </member>
         <member name="T:MoneyMarket.Api.Filters.DropJobsHeaderAuthorizationAttribute">
             <summary>
             Authorizes the header values. returns 400 if request lacks required header values

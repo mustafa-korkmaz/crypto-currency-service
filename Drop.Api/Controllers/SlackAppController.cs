@@ -1,5 +1,4 @@
-﻿using System;
-using System.Web.Http;
+﻿using System.Web.Http;
 using MoneyMarket.Common.ApiObjects.Request.SlackApp;
 using MoneyMarket.Common.ApiObjects.Response.ViewModels;
 
@@ -24,7 +23,7 @@ namespace MoneyMarket.Api.Controllers
                 Challenge = request.Challenge
             };
 
-            return Ok(model); //sasy slack that we are good.
+            return Ok(model); //responses to slack that we are good.
         }
     }
 }

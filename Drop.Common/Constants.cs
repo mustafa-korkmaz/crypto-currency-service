@@ -365,6 +365,9 @@
             public const int TrialAccountMaxUserLimit = 2;
             public const int StandartAccountMaxUserLimit = 3;
             public const int PremiumAccountMaxUserLimit = 4;
+            public const int TrialAccountExpirationDays = 5;
+            public const int StandartAccountExpirationDays = 6;
+            public const int PremiumAccountExpirationDays = 7;
         }
 
         public static class CryptoCurrency

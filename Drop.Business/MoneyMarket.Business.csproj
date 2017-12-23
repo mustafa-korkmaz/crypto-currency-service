@@ -98,6 +98,7 @@
     <Compile Include="Caching\Provider\ICacheProvider.cs" />
     <Compile Include="Caching\Provider\LocalMemory\LocalMemoryCacheProvider.cs" />
     <Compile Include="Caching\Provider\Redis\RedisCacheProvider.cs" />
+    <Compile Include="Common\CommonBusiness.cs" />
     <Compile Include="CryptoCurrency\Tickers\BitStamp\Ripple.cs" />
     <Compile Include="Notification\NotificationBusiness.cs" />
     <Compile Include="CryptoCurrency\JsonCurrency.cs" />
@@ -118,6 +119,8 @@
     <Compile Include="CryptoCurrency\Tickers\ITicker.cs" />
     <Compile Include="CryptoCurrency\Tickers\JsonTicker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Setting\SettingBusiness.cs" />
+    <Compile Include="Slack\TeamBusiness.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Drop.Common\MoneyMarket.Common.csproj">

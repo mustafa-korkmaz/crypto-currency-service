@@ -30,6 +30,11 @@ namespace MoneyMarket.Dto
         public string BotAccessToken { get; set; }
 
         /// <summary>
+        /// slack team member count
+        /// </summary>
+        public int MemberCount { get; set; }
+
+        /// <summary>
         /// bot language
         /// </summary>
         public Language Language { get; set; }

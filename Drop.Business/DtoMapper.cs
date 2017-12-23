@@ -14,8 +14,8 @@ namespace MoneyMarket.Business
             cfg.CreateMap<DataAccess.Models.RequestLog, RequestLog>();
             cfg.CreateMap<RequestLog, DataAccess.Models.RequestLog>();
 
-            cfg.CreateMap<Setting, Dto.Setting>();
-            cfg.CreateMap<Dto.Setting, Setting>();
+            cfg.CreateMap<DataAccess.Models.Setting, Dto.Setting>();
+            cfg.CreateMap<Dto.Setting, DataAccess.Models.Setting>();
 
         });
 

@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using MoneyMarket.Business.CryptoCurrency.Tickers.BitStamp;
-using MoneyMarket.Business.CryptoCurrency.Tickers.BtcTurk;
 using MoneyMarket.Common;
 using MoneyMarket.Common.Response;
 using MoneyMarket.DataAccess;
 using MoneyMarket.Dto;
 using System.Linq;
-using System.Threading.Tasks;
 using MoneyMarket.Business.CryptoCurrency.Tickers;
 using MoneyMarket.Business.HttpClient;
 using MoneyMarket.Common.Helper;

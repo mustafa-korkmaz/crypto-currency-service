@@ -37,6 +37,12 @@ namespace MoneyMarket.DataAccess.Models
         [MaxLength(255)]
         public string BotAccessToken { get; set; }
 
+        /// <summary>
+        /// slack team member count
+        /// </summary>
+        [Required]
+        public int MemberCount { get; set; }
+
         [Required]
         public Language Language { get; set; }
 
