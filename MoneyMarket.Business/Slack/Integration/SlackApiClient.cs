@@ -1,5 +1,4 @@
-﻿using MoneyMarket.Common.Response;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Net;
@@ -9,9 +8,10 @@ using System.Reflection;
 using System.Threading.Tasks;
 using MoneyMarket.Common;
 using MoneyMarket.Common.Helper;
+using MoneyMarket.Common.Response;
 using Newtonsoft.Json;
 
-namespace MoneyMarket.Business.HttpClient
+namespace MoneyMarket.Business.Slack.Integration
 {
     /// <summary>
     /// invokes api for client requests
@@ -52,7 +52,7 @@ namespace MoneyMarket.Business.HttpClient
                 var reqParams = GetRequestParameters(requestObject);
 
                 var content = new FormUrlEncodedContent(reqParams);
-             
+
                 var apiResponse = new HttpClientResponse<TRes>();
 
                 using (var response = await client.PostAsync(url, content))
@@ -119,6 +119,55 @@ namespace MoneyMarket.Business.HttpClient
                             var json = GetParsedData<TRes>(data); //JObject.Parse(data);
 
                             return new HttpClientResponse<TRes> { HttpStatusCode = response.StatusCode, ResponseData = json };
+                        }
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(methodType), methodType, null);
+                }
+            }
+        }
+
+        /// <summary>
+        /// returns response as string.
+        /// </summary>
+        /// <param name="actionUrl">action url except base api url</param>
+        /// <param name="requestObject">Generic request object</param>
+        /// <param name="methodType">request method type</param>
+        /// <returns></returns>
+        public async Task<HttpClientResponse<string>> InvokeApi<TReq>(string actionUrl, TReq requestObject, WebMethodType methodType = WebMethodType.Post)
+        {
+            Uri url = new Uri(new Uri(_apiBaseUrl), actionUrl);
+
+            using (System.Net.Http.HttpClient client = new System.Net.Http.HttpClient())
+            {
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+
+                switch (methodType)
+                {
+                    case WebMethodType.Get:
+                        using (var response = await client.GetAsync(url))
+                        {
+                            if (response.StatusCode != HttpStatusCode.OK)
+                            {
+                                return new HttpClientResponse<string> { HttpStatusCode = response.StatusCode };
+                            }
+
+                            var data = await response.Content.ReadAsStringAsync();
+
+                            return new HttpClientResponse<string> { HttpStatusCode = response.StatusCode, ResponseData = data };
+                        }
+                    case WebMethodType.Post:
+                        using (var response = await client.PostAsync(url, null))
+                        {
+                            if (response.StatusCode != HttpStatusCode.OK)
+                            {
+                                return new HttpClientResponse<string> { HttpStatusCode = response.StatusCode };
+                            }
+
+                            var data = await response.Content.ReadAsStringAsync();
+
+                            return new HttpClientResponse<string> { HttpStatusCode = response.StatusCode, ResponseData = data };
                         }
                     default:
                         throw new ArgumentOutOfRangeException(nameof(methodType), methodType, null);
@@ -248,12 +297,5 @@ namespace MoneyMarket.Business.HttpClient
 
             return validatedText;
         }
-    }
-
-    public class SlackMessage
-    {
-        public string token { get; set; }
-        public string channel { get; set; }
-        public string text { get; set; }
     }
 }

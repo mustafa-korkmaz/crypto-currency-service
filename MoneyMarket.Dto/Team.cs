@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Collections.Generic;
 using MoneyMarket.Common;
 
 namespace MoneyMarket.Dto
@@ -60,5 +61,11 @@ namespace MoneyMarket.Dto
         /// if date.now >= ExpiresIn then change account type to suspended
         /// </summary>
         public DateTime ExpiresIn { get; set; }
+
+        /// <summary>
+        /// scope claims of team
+        /// </summary>
+        public virtual ICollection<TeamScope> TeamScopes { get; set; } // 1=>n relation with dbo.events
+
     }
 }

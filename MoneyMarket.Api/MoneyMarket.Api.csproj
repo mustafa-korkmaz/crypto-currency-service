@@ -294,6 +294,7 @@
     <Content Include="Views\User\Verify.cshtml" />
     <Content Include="Views\Home\PrivacyPolicy.cshtml" />
     <Content Include="Views\Home\GrantSuccess.cshtml" />
+    <Content Include="Views\Home\Support.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

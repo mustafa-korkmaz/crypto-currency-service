@@ -22,6 +22,12 @@ namespace MoneyMarket.Api
             );
 
             routes.MapRoute(
+                "Support",                                           // Route name
+                "Support",                            // URL with parameters
+                new { controller = "Home", action = "Support" }  // Parameter defaults
+            );
+
+            routes.MapRoute(
                 "GrantSuccess",                                           // Route name
                 "GrantSuccess",                            // URL with parameters
                 new { controller = "Home", action = "GrantSuccess" }  // Parameter defaults

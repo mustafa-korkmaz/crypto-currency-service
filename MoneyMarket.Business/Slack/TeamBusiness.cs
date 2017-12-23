@@ -64,21 +64,46 @@ namespace MoneyMarket.Business.Slack
                 ResponseCode = ResponseCode.Fail
             };
 
-            var webSite = GetTeam(id);
+            var team = GetTeam(id);
 
-            if (webSite == null)
+            if (team == null)
             {
                 businessResp.ResponseMessage = ErrorMessage.RecordNotFound;
                 return businessResp;
             }
 
             businessResp.ResponseCode = ResponseCode.Success;
-            businessResp.ResponseData = webSite as T;
+            businessResp.ResponseData = team as T;
 
             return businessResp;
         }
 
         #endregion CRUD operations
+
+        /// <summary>
+        /// returns team if exists by slackTeamId search filter
+        /// </summary>
+        /// <param name="slackTeamId"></param>
+        /// <returns></returns>
+        public Dto.Team GetTeamBySlackId(string slackTeamId)
+        {
+            var teamDto = _repository.GetAsQueryable(p => p.SlackId == slackTeamId)
+                .Select(p => new Dto.Team
+                {
+                    Id = p.Id,
+                    AccountType = p.AccountType,
+                    BotAccessToken = p.BotAccessToken,
+                    Name = p.Name,
+                    BotId = p.BotId,
+                    ExpiresIn = p.ExpiresIn,
+                    Language = p.Language,
+                    IsActive = p.IsActive,
+                    SlackId = p.SlackId
+                    //todo: also fetch scopes 
+                }).FirstOrDefault();
+
+            return teamDto;
+        }
 
         //public IEnumerable<Dto.WebSite> All()
         //{
@@ -111,7 +136,7 @@ namespace MoneyMarket.Business.Slack
                     Language = p.Language,
                     IsActive = p.IsActive,
                     SlackId = p.SlackId
-
+                    //todo: also fetch scopes 
                 }).FirstOrDefault();
 
             return teamDto;

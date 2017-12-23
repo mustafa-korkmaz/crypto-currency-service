@@ -111,6 +111,14 @@
         public const string ExportTypeNotFound = "Export type not found";
     }
 
+    public static class SlackBotMessage
+    {
+        public const string Welcome =
+            "Selam!\nLütfen beni #general kanalınıza davet edin ya da _direct message_ yazarak hemen kullanmaya başlayın."
+            + "Hi there!\nPlease invite me your_ #general_ channel or send a _direct message_ to start using.\nType `l set en` for English";
+        public const string ExportTypeNotFound = "Export type not found";
+    }
+
 
     public static class BusinessResponseMessage
     {
@@ -368,6 +376,14 @@
             public const int TrialAccountExpirationDays = 5;
             public const int StandartAccountExpirationDays = 6;
             public const int PremiumAccountExpirationDays = 7;
+        }
+
+        public static class Scope
+        {
+            public const int SetAlarm = 1;
+            public const int SetSettings = 2;
+            public const int ListCurrency = 3;
+            public const int ListArbitrage = 4;
         }
 
         public static class CryptoCurrency

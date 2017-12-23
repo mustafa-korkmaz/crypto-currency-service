@@ -8,6 +8,7 @@ using MoneyMarket.Dto;
 using System.Linq;
 using MoneyMarket.Business.CryptoCurrency.Tickers;
 using MoneyMarket.Business.HttpClient;
+using MoneyMarket.Business.Slack.Integration;
 using MoneyMarket.Common.Helper;
 using Newtonsoft.Json;
 

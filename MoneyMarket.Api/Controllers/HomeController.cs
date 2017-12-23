@@ -1,16 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Mvc;
 using MoneyMarket.Business.Common;
-using MoneyMarket.Business.HttpClient;
 using MoneyMarket.Business.Slack;
+using MoneyMarket.Business.Slack.Integration;
 using MoneyMarket.Common;
-using MoneyMarket.Common.ApiObjects.Request;
-using MoneyMarket.Common.Helper;
-using MoneyMarket.Common.ApiObjects.Request.SlackApp;
-using MoneyMarket.Common.ApiObjects.Response;
 using MoneyMarket.Common.ApiObjects.Response.SlackApp;
 using MoneyMarket.Dto;
 
@@ -21,11 +18,21 @@ namespace MoneyMarket.Api.Controllers
     /// </summary>
     public class HomeController : Controller
     {
+        private readonly TeamBusiness _teamBusiness = new TeamBusiness();
+
+        /// <summary>
+        /// home page
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Index()
         {
             return View();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Grant()
         {
             AppSettingsReader configurationAppSettings = new AppSettingsReader();
@@ -39,7 +46,20 @@ namespace MoneyMarket.Api.Controllers
             return new RedirectResult(grantUrl);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public ActionResult PrivacyPolicy()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Support()
         {
             return View();
         }
@@ -51,40 +71,34 @@ namespace MoneyMarket.Api.Controllers
         /// <returns></returns>
         public async Task<ActionResult> GrantSuccess([FromUri]string code)
         {
-            AppSettingsReader configurationAppSettings = new AppSettingsReader();
+            var slackIntegrationBusiness = new SlackIntegrationBusiness();
 
-            var clientId = (string)configurationAppSettings.GetValue(ConfigKeys.SlackClientId, typeof(string));
+            var oAuthResp = await slackIntegrationBusiness.OAuthAccess(code);
 
-            var clientSecret = (string)configurationAppSettings.GetValue(ConfigKeys.SlackClientSecret, typeof(string));
-
-            var request = new OAuthRequest
-            {
-                client_secret = clientSecret,
-                client_id = clientId,
-                code = code,
-                redirect_uri = ApiUrl.SlackRedirectUri
-            };
-
-            // login via web api 
-            var apiInvoker = SlackApiClient.Instance;
-            var resp = await apiInvoker.InvokeApi<OAuthRequest, OAuthResponse>(ApiUrl.SlackOAuth, request);
-
-            var isGranted = resp.ResponseData.ok;
+            var isGranted = oAuthResp.ok;
 
             if (isGranted)
             {
-                SaveSlackTeam(resp.ResponseData);
+                var isSlackTeamExists = IsSlackTeamExists(oAuthResp.team_id);
+
+                //if team already exists, do nothing.
+                if (!isSlackTeamExists)
+                {
+                    SaveSlackTeam(oAuthResp);
+                }
+
+                //say hello to new team!
+                await slackIntegrationBusiness.PostMessage(GetWelcomeMessage(oAuthResp.bot.bot_access_token));
             }
 
-            ViewBag.Error = resp.ResponseData.error ?? "";
+            ViewBag.Error = oAuthResp.error ?? "";
             return View(isGranted);
         }
-
 
         /// <summary>
         /// saves new slack team after successfully granted
         /// </summary>
-        private void SaveSlackTeam(OAuthResponse oAuthResp)
+        private Dto.Team SaveSlackTeam(OAuthResponse oAuthResp)
         {
             var team = new Team
             {
@@ -97,14 +111,55 @@ namespace MoneyMarket.Api.Controllers
                 MemberCount = 1,
                 Language = Language.Turkish,
                 ExpiresIn = CommonBusiness.GetSlackTeamExpirationDate(AccountType.Trial),
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow,
+                TeamScopes = GetTeamScopes()
             };
 
+            _teamBusiness.Add(team);
 
-            var teamBusiness = new TeamBusiness();
-
-            teamBusiness.Add(team);
+            return team;
         }
 
+        private ICollection<Dto.TeamScope> GetTeamScopes()
+        {
+            var scopes = CommonBusiness.GetSlackScopes();
+
+            var teamScopes = new List<Dto.TeamScope>();
+
+            foreach (var scope in scopes)
+            {
+                teamScopes.Add(new TeamScope
+                {
+                    ScopeId = scope.Id
+                });
+            }
+
+            return teamScopes;
+        }
+
+        /// <summary>
+        /// returns null or a valid slack team.
+        /// </summary>
+        /// <param name="slackTeamId"></param>
+        /// <returns></returns>
+        private Dto.Team GetTeamBySlackId(string slackTeamId)
+        {
+            return _teamBusiness.GetTeamBySlackId(slackTeamId);
+        }
+
+        private bool IsSlackTeamExists(string slackTeamId)
+        {
+            return GetTeamBySlackId(slackTeamId) != null;
+        }
+
+        private SlackMessage GetWelcomeMessage(string token)
+        {
+            return new SlackMessage
+            {
+                channel = "#general",
+                token = token,
+                text = SlackBotMessage.Welcome
+            };
+        }
     }
 }

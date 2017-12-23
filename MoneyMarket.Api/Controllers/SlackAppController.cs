@@ -16,7 +16,7 @@ namespace MoneyMarket.Api.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("event/subscribe")]
-        public IHttpActionResult Subscribe([FromBody]SlackAppRequest request)
+        public IHttpActionResult Subscribe([FromBody]SlackEventSubscriptionRequest request)
         {
             var model = new SlackAppViewModel
             {

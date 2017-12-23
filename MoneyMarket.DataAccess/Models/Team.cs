@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using MoneyMarket.Common;
 
 namespace MoneyMarket.DataAccess.Models
@@ -12,6 +14,7 @@ namespace MoneyMarket.DataAccess.Models
         /// <summary>
         /// Slack Team Id
         /// </summary>
+        [Index(IsUnique = true)]
         [Required]
         [MaxLength(50)]
         public string SlackId { get; set; }
@@ -60,5 +63,7 @@ namespace MoneyMarket.DataAccess.Models
 
         [Required]
         public DateTime ExpiresIn { get; set; }
+
+        public virtual ICollection<TeamScope> TeamScopes { get; set; } // 1=>n relation with dbo.events
     }
 }

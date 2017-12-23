@@ -93,7 +93,7 @@
             SlackApp controller
             </summary>
         </member>
-        <member name="M:MoneyMarket.Api.Controllers.SlackAppController.Subscribe(MoneyMarket.Common.ApiObjects.Request.SlackApp.SlackAppRequest)">
+        <member name="M:MoneyMarket.Api.Controllers.SlackAppController.Subscribe(MoneyMarket.Common.ApiObjects.Request.SlackApp.SlackEventSubscriptionRequest)">
             <summary>
             gets slack event subscriptions
             </summary>
@@ -164,6 +164,30 @@
             HomeController
             </summary>
         </member>
+        <member name="M:MoneyMarket.Api.Controllers.HomeController.Index">
+            <summary>
+            home page
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MoneyMarket.Api.Controllers.HomeController.Grant">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MoneyMarket.Api.Controllers.HomeController.PrivacyPolicy">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MoneyMarket.Api.Controllers.HomeController.Support">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:MoneyMarket.Api.Controllers.HomeController.GrantSuccess(System.String)">
             <summary>
             Slack integration redirect url
@@ -175,6 +199,13 @@
             <summary>
             saves new slack team after successfully granted
             </summary>
+        </member>
+        <member name="M:MoneyMarket.Api.Controllers.HomeController.GetTeamBySlackId(System.String)">
+            <summary>
+            returns null or a valid slack team.
+            </summary>
+            <param name="slackTeamId"></param>
+            <returns></returns>
         </member>
         <member name="T:MoneyMarket.Api.Filters.DropJobsHeaderAuthorizationAttribute">
             <summary>

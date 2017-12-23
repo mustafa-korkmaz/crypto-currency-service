@@ -104,7 +104,8 @@
     <Compile Include="CryptoCurrency\JsonCurrency.cs" />
     <Compile Include="CryptoCurrency\Tickers\CoinMarketCap\All.cs" />
     <Compile Include="DtoMapper.cs" />
-    <Compile Include="HttpClient\SlackApiClient.cs" />
+    <Compile Include="Slack\Integration\ISlackIntegration.cs" />
+    <Compile Include="Slack\Integration\SlackApiClient.cs" />
     <Compile Include="IdorAttackBusiness.cs" />
     <Compile Include="Exception\ExceptionBusiness.cs" />
     <Compile Include="HttpClient\ApiClient.cs" />
@@ -119,6 +120,11 @@
     <Compile Include="CryptoCurrency\Tickers\ITicker.cs" />
     <Compile Include="CryptoCurrency\Tickers\JsonTicker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Slack\Integration\SlackIntegrationBusiness.cs" />
+    <Compile Include="Slack\Integration\SlackResponse.cs" />
+    <Compile Include="Slack\Integration\SlackUser.cs" />
+    <Compile Include="Slack\Integration\SlackMessage.cs" />
+    <Compile Include="Slack\ScopeBusiness.cs" />
     <Compile Include="Setting\SettingBusiness.cs" />
     <Compile Include="Slack\TeamBusiness.cs" />
   </ItemGroup>

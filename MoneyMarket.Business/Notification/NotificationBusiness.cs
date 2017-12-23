@@ -1,4 +1,5 @@
 ﻿using MoneyMarket.Business.HttpClient;
+using MoneyMarket.Business.Slack.Integration;
 using MoneyMarket.Common;
 using MoneyMarket.Common.Helper;
 using MoneyMarket.DataAccess;

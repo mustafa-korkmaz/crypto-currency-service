@@ -84,6 +84,10 @@
     <Compile Include="Migrations\201712222123062_Version6.Designer.cs">
       <DependentUpon>201712222123062_Version6.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201712231138121_Version7.cs" />
+    <Compile Include="Migrations\201712231138121_Version7.Designer.cs">
+      <DependentUpon>201712231138121_Version7.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\CryptoCurrency.cs" />
     <Compile Include="Models\CryptoCurrencyException.cs" />
     <Compile Include="Models\RequestLog.cs" />
@@ -132,6 +136,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201712222123062_Version6.resx">
       <DependentUpon>201712222123062_Version6.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712231138121_Version7.resx">
+      <DependentUpon>201712231138121_Version7.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

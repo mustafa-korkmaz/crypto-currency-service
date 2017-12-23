@@ -56,7 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiObjects\Request\SlackApp\OAuthRequest.cs" />
-    <Compile Include="ApiObjects\Request\SlackApp\SlackAppRequest.cs" />
+    <Compile Include="ApiObjects\Request\SlackApp\SlackeventSubscriptionRequest.cs" />
     <Compile Include="ApiObjects\Request\Alarm\ListAlarmRequest.cs" />
     <Compile Include="ApiObjects\Request\Product\SearchProductRequest.cs" />
     <Compile Include="ApiObjects\Request\Product\EditUserProductRequest.cs" />

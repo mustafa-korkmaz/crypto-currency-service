@@ -22,7 +22,7 @@ namespace MoneyMarket.Api.Filters
             {
                 var slackActionRequestStr = slackActionRequest.Value.ToString();
 
-                var slackRequest = "MoneyMarket.Common.ApiObjects.Request.SlackApp.SlackAppRequest";
+                var slackRequest = "MoneyMarket.Common.ApiObjects.Request.SlackApp.SlackEventSubscriptionRequest";
 
                 if (slackActionRequestStr == slackRequest)
                 {
