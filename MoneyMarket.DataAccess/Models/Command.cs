@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace MoneyMarket.DataAccess.Models
 {
@@ -23,7 +24,6 @@ namespace MoneyMarket.DataAccess.Models
         [Required]
         public string Text { get; set; }
 
-        public string ResponseText { get; set; }
-
+        public virtual ICollection<Response> Responses { get; set; } // 1=>n relation with dbo.Responses
     }
 }

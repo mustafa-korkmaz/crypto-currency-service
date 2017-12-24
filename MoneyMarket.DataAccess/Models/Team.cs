@@ -64,6 +64,6 @@ namespace MoneyMarket.DataAccess.Models
         [Required]
         public DateTime ExpiresIn { get; set; }
 
-        public virtual ICollection<TeamScope> TeamScopes { get; set; } // 1=>n relation with dbo.events
+        public virtual ICollection<TeamScope> TeamScopes { get; set; } // 1=>n relation with dbo.TeamScopes
     }
 }

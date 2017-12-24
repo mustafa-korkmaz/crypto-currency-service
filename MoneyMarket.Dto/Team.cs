@@ -65,7 +65,7 @@ namespace MoneyMarket.Dto
         /// <summary>
         /// scope claims of team
         /// </summary>
-        public virtual ICollection<TeamScope> TeamScopes { get; set; } // 1=>n relation with dbo.events
+        public virtual IEnumerable<TeamScope> TeamScopes { get; set; } // 1=>n relation with dbo.TeamScopes
 
     }
 }

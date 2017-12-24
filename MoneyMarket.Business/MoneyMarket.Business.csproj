@@ -104,6 +104,7 @@
     <Compile Include="CryptoCurrency\JsonCurrency.cs" />
     <Compile Include="CryptoCurrency\Tickers\CoinMarketCap\All.cs" />
     <Compile Include="DtoMapper.cs" />
+    <Compile Include="Command\CommandBusiness.cs" />
     <Compile Include="Slack\Integration\ISlackIntegration.cs" />
     <Compile Include="Slack\Integration\SlackApiClient.cs" />
     <Compile Include="IdorAttackBusiness.cs" />

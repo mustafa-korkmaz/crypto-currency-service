@@ -46,6 +46,7 @@
     <Compile Include="CryptoCurrencyException.cs" />
     <Compile Include="DtoBase.cs" />
     <Compile Include="CryptoCurrency.cs" />
+    <Compile Include="Response.cs" />
     <Compile Include="Scope.cs" />
     <Compile Include="Team.cs" />
     <Compile Include="TeamScope.cs" />

@@ -44,25 +44,30 @@ namespace MoneyMarket.Business.Slack.Integration
 
             if (isEventSubscriptionValid)
             {
-                // now we know that this event includes a command.
+                // now we know that this event includes a command. 
+                // first set team
+                SetTeam(eventSubscriptionRequest.TeamId);
+
+                // set all commands using cahce
+                SetCommands();
+
+                // set channel
+                SetChannel(eventSubscriptionRequest.Event.Channel);
+
+                // set command properties
+                var cmd = GetCommand(eventSubscriptionRequest);
 
                 //check if it is a valid command or not.
-                var cmdValidationResp = IsCommandValid(GetCommand(eventSubscriptionRequest.Event.Text));
+                var cmdValidationResp = IsCommandValid(ref cmd);
 
                 if (cmdValidationResp.ResponseCode != ResponseCode.Success)
                 {
-                    if (cmdValidationResp.ResponseCode == ResponseCode.Unauthorized)
-                    {
-                        //this command is not valid
-                        Help();
-                    }
-                    else
-                    {
-                        //command is valid but there is command will not be executed due to another error 
-                        //this case usually happens when user not have the rights to execute this command.
-                        await PostMessage(cmdValidationResp.ResponseData);
-                    }
+                    // this command is not valid or may be command is valid but the it won't be executed due to another error. 
+                    //this case usually happens when user not have the rights to execute this command.
+                    await PostMessage(cmdValidationResp.ResponseData);
                 }
+
+                //todo: process subscription
             }
         }
 
@@ -118,6 +123,12 @@ namespace MoneyMarket.Business.Slack.Integration
                 return false;
             }
 
+            if (string.IsNullOrEmpty(eventSubscriptionRequest.TeamId))
+            {
+                //we can do nothing without team id
+                return false;
+            }
+
             if (eventSubscriptionRequest.Event == null)
             {
                 return false;
@@ -139,11 +150,11 @@ namespace MoneyMarket.Business.Slack.Integration
             return false;
         }
 
-        private Dto.Command GetCommand(string commandText)
+        private Dto.Command GetCommand(SlackEventSubscriptionRequest eventSubscriptionRequest)
         {
             return new Dto.Command
             {
-                Text = commandText
+                Text = eventSubscriptionRequest.Event.Text
             };
         }
     }

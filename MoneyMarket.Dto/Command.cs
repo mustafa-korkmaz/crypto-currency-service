@@ -1,4 +1,6 @@
 ﻿
+using System.Collections.Generic;
+
 namespace MoneyMarket.Dto
 {
     public class Command : DtoBase
@@ -18,6 +20,7 @@ namespace MoneyMarket.Dto
         /// </summary>
         public string Text { get; set; }
 
-        public string ResponseText { get; set; }
+        public virtual IEnumerable<Response> Responses { get; set; } // 1=>n relation with dbo.Responses
+
     }
 }

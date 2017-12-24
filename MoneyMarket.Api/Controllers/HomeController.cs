@@ -93,14 +93,14 @@ namespace MoneyMarket.Api.Controllers
             }
 
             ViewBag.Error = oAuthResp.error ?? "";
-           
+
             return View(isGranted);
         }
 
         /// <summary>
         /// saves new slack team after successfully granted
         /// </summary>
-        private Dto.Team SaveSlackTeam(OAuthResponse oAuthResp)
+        private void SaveSlackTeam(OAuthResponse oAuthResp)
         {
             var team = new Team
             {
@@ -118,8 +118,6 @@ namespace MoneyMarket.Api.Controllers
             };
 
             _teamBusiness.Add(team);
-
-            return team;
         }
 
         private ICollection<Dto.TeamScope> GetTeamScopes()

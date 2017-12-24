@@ -87,22 +87,44 @@ namespace MoneyMarket.Business.Slack
         /// <returns></returns>
         public Dto.Team GetTeamBySlackId(string slackTeamId)
         {
-            var teamDto = _repository.GetAsQueryable(p => p.SlackId == slackTeamId)
-                .Select(p => new Dto.Team
-                {
-                    Id = p.Id,
-                    AccountType = p.AccountType,
-                    BotAccessToken = p.BotAccessToken,
-                    Name = p.Name,
-                    BotId = p.BotId,
-                    ExpiresIn = p.ExpiresIn,
-                    Language = p.Language,
-                    IsActive = p.IsActive,
-                    SlackId = p.SlackId
-                    //todo: also fetch scopes 
-                }).FirstOrDefault();
+            var teamScopeRepository = _uow.Repository<DataAccess.Models.TeamScope>();
 
-            return teamDto;
+            var query = from t in _repository.AsQueryable()
+                        join ts in teamScopeRepository.AsQueryable()
+                        on t.Id equals ts.TeamId
+                        into leftJoin
+                        from p in leftJoin.DefaultIfEmpty()
+                        where t.SlackId == slackTeamId
+                        select new Dto.TeamScope
+                        {
+                            Team = new Team
+                            {
+                                Id = t.Id,
+                                AccountType = t.AccountType,
+                                BotAccessToken = t.BotAccessToken,
+                                Name = t.Name,
+                                BotId = t.BotId,
+                                ExpiresIn = t.ExpiresIn,
+                                Language = t.Language,
+                                IsActive = t.IsActive,
+                                SlackId = t.SlackId,
+                            },
+                            Id = p.Id,
+                            ScopeId = p.ScopeId
+                        };
+
+            var teamScopes = query.ToList();
+
+            var teamDto = teamScopes.Select(p => p.Team).FirstOrDefault();
+
+            if (teamDto != null)
+            {
+                teamDto.TeamScopes = teamScopes;
+
+                return teamDto;
+            }
+
+            return null;
         }
 
         //public IEnumerable<Dto.WebSite> All()

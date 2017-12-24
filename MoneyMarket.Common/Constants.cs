@@ -386,6 +386,12 @@
             public const int ListArbitrage = 4;
         }
 
+        public static class Command
+        {
+            public const int CheckCommandExistance = 1;
+            public const int Authorize = 2;
+        }
+
         public static class CryptoCurrency
         {
             public const int Xlm = 6;

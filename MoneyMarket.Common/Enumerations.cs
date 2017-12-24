@@ -102,6 +102,7 @@
         Info = 2,
         NoEffect = 3,
         DuplicateRecord = 4,
+        NoContent,
         Unauthorized
     }
 
