@@ -101,7 +101,8 @@
         Warning = 1,
         Info = 2,
         NoEffect = 3,
-        DuplicateRecord = 4
+        DuplicateRecord = 4,
+        Unauthorized
     }
 
     public enum WebMethodType

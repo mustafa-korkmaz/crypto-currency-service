@@ -5,13 +5,16 @@ using System.Threading.Tasks;
 using MoneyMarket.Common;
 using MoneyMarket.Common.ApiObjects.Request.SlackApp;
 using MoneyMarket.Common.ApiObjects.Response.SlackApp;
+using MoneyMarket.Common.Response;
 using MoneyMarket.Dto;
 
 namespace MoneyMarket.Business.Slack.Integration
 {
-    public class SlackIntegrationBusiness : ISlackIntegration
+    public class SlackIntegrationBusiness : SlackCommandExecuter, ISlackIntegration
     {
-        private SlackApiClient _client = SlackApiClient.Instance;
+        private readonly SlackApiClient _client = SlackApiClient.Instance;
+
+        #region ISlackIntegration implementation
 
         public async Task<OAuthResponse> OAuthAccess(string accessCode)
         {
@@ -34,9 +37,33 @@ namespace MoneyMarket.Business.Slack.Integration
             return resp.ResponseData;
         }
 
-        public void SubscribeEvent(SlackEventSubscriptionRequest eventSubscriptionRequest)
+        public async Task SubscribeEvent(SlackEventSubscriptionRequest eventSubscriptionRequest)
         {
-            throw new NotImplementedException();
+            // first check this event will be executed or not.
+            var isEventSubscriptionValid = IsEventSubscriptionValid(eventSubscriptionRequest);
+
+            if (isEventSubscriptionValid)
+            {
+                // now we know that this event includes a command.
+
+                //check if it is a valid command or not.
+                var cmdValidationResp = IsCommandValid(GetCommand(eventSubscriptionRequest.Event.Text));
+
+                if (cmdValidationResp.ResponseCode != ResponseCode.Success)
+                {
+                    if (cmdValidationResp.ResponseCode == ResponseCode.Unauthorized)
+                    {
+                        //this command is not valid
+                        Help();
+                    }
+                    else
+                    {
+                        //command is valid but there is command will not be executed due to another error 
+                        //this case usually happens when user not have the rights to execute this command.
+                        await PostMessage(cmdValidationResp.ResponseData);
+                    }
+                }
+            }
         }
 
         public async Task<SlackResponse> PostMessage(SlackMessage message)
@@ -49,6 +76,75 @@ namespace MoneyMarket.Business.Slack.Integration
         public IEnumerable<SlackUser> GetUserList(Team team)
         {
             throw new NotImplementedException();
+        }
+
+        #endregion ISlackIntegration implementation
+
+        #region SlackCommandExecuter implementations
+
+        protected override BusinessResponse<SlackResponse> SayHello()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// posts command list to channel.
+        /// scope= chat:general
+        /// cmd= 'help'
+        /// </summary>
+        /// <returns></returns>
+        protected override BusinessResponse<SlackResponse> Help()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override BusinessResponse<SlackResponse> SetLanguage(string culture)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion SlackCommandExecuter implementations
+
+        /// <summary>
+        /// filters unacceptable event subscriptions
+        /// </summary>
+        /// <param name="eventSubscriptionRequest"></param>
+        /// <returns></returns>
+        private bool IsEventSubscriptionValid(SlackEventSubscriptionRequest eventSubscriptionRequest)
+        {
+            if (eventSubscriptionRequest.Type == "url_verification")
+            {
+                //this is a slack challange request for url verification. no need to execute anything
+                return false;
+            }
+
+            if (eventSubscriptionRequest.Event == null)
+            {
+                return false;
+            }
+
+            if (eventSubscriptionRequest.Event.SubType == "bot_message"
+                || eventSubscriptionRequest.Event.SubType == "channel_join")
+            {
+                return false;
+            }
+
+            if (eventSubscriptionRequest.Event.Type == "message"
+                && !string.IsNullOrEmpty(eventSubscriptionRequest.Event.Text))
+            {
+                return true;
+            }
+
+            //for other scenarios
+            return false;
+        }
+
+        private Dto.Command GetCommand(string commandText)
+        {
+            return new Dto.Command
+            {
+                Text = commandText
+            };
         }
     }
 }

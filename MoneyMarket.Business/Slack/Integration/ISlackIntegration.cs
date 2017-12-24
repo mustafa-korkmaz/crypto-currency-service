@@ -16,7 +16,7 @@ namespace MoneyMarket.Business.Slack.Integration
         /// events api subscription handler
         /// </summary>
         /// <param name="eventSubscriptionRequest"></param>
-        void SubscribeEvent(SlackEventSubscriptionRequest eventSubscriptionRequest);
+        Task SubscribeEvent(SlackEventSubscriptionRequest eventSubscriptionRequest);
 
         /// <summary>
         /// bot message writer

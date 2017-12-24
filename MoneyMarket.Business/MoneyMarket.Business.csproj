@@ -120,6 +120,7 @@
     <Compile Include="CryptoCurrency\Tickers\ITicker.cs" />
     <Compile Include="CryptoCurrency\Tickers\JsonTicker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Slack\Integration\SlackCommandExecuter.cs" />
     <Compile Include="Slack\Integration\SlackIntegrationBusiness.cs" />
     <Compile Include="Slack\Integration\SlackResponse.cs" />
     <Compile Include="Slack\Integration\SlackUser.cs" />

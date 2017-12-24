@@ -1,4 +1,6 @@
-﻿using System.Web.Http;
+﻿using System.Threading.Tasks;
+using System.Web.Http;
+using MoneyMarket.Business.Slack.Integration;
 using MoneyMarket.Common.ApiObjects.Request.SlackApp;
 using MoneyMarket.Common.ApiObjects.Response.ViewModels;
 
@@ -10,6 +12,8 @@ namespace MoneyMarket.Api.Controllers
     [RoutePrefix("slackapp")]
     public class SlackAppController : ApiBaseController
     {
+        private readonly SlackIntegrationBusiness _slackIntegration = new SlackIntegrationBusiness();
+
         /// <summary>
         /// gets slack event subscriptions
         /// </summary>
@@ -22,6 +26,12 @@ namespace MoneyMarket.Api.Controllers
             {
                 Challenge = request.Challenge
             };
+
+            // async run business, return OK to slack immediately
+            Task.Run(async () =>
+            {
+               await _slackIntegration.SubscribeEvent(request);
+            });
 
             return Ok(model); //responses to slack that we are good.
         }
