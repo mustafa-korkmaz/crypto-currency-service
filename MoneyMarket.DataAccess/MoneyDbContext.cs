@@ -21,7 +21,7 @@ namespace MoneyMarket.DataAccess
             : base("MoneyDbConnection")
         {
 #if DEBUG
-            this.Database.Log = LogQuery; // print sql in debug mode
+           // this.Database.Log = LogQuery; // print sql in debug mode
 #endif
 
             this.Configuration.UseDatabaseNullSemantics = true; // to avoid unneccessary null checks
@@ -35,6 +35,8 @@ namespace MoneyMarket.DataAccess
         public DbSet<Command> Commands { get; set; }
         public DbSet<Scope> Scopes { get; set; }
         public DbSet<TeamScope> TeamRole { get; set; }
+        public DbSet<Response> Responses { get; set; }
+        public DbSet<TeamCryptoCurrencyBalance> TeamCryptoCurrencyBalances { get; set; }
 
         public static MoneyDbContext Create()
         {
@@ -63,6 +65,7 @@ namespace MoneyMarket.DataAccess
             modelBuilder.Properties<string>().Configure(x => x.HasColumnType("VARCHAR")); // dont use unicode for string columns
             modelBuilder.Properties<DateTime>().Configure(x => x.HasColumnType("datetime2").HasPrecision(0)); // dont need miliseconds for datetime columns
             modelBuilder.Entity<CryptoCurrency>().Property(x => x.UsdValue).HasPrecision(18, 4);
+            modelBuilder.Entity<TeamCryptoCurrencyBalance>().Property(x => x.Balance).HasPrecision(18, 4);
 
             base.OnModelCreating(modelBuilder);
         }

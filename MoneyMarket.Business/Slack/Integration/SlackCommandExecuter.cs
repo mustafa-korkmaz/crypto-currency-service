@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using MoneyMarket.Business.Command;
 using MoneyMarket.Common;
 using MoneyMarket.Common.Response;
@@ -20,19 +21,29 @@ namespace MoneyMarket.Business.Slack.Integration
         private string _channel;
 
         /// <summary>
+        /// cmd which we want to execute at the moment.
+        /// </summary>
+        protected Dto.Command ExecutingCommand { get; set; }
+
+        /// <summary>
+        /// executing cmd parameters
+        /// </summary>
+        protected string[] Parameters { get; set; }
+
+        /// <summary>
         /// scope= chat:general
-        /// cmd= 'hi'
+        /// cmd text= 'hi'
         /// </summary>
         /// <returns></returns>
-        protected abstract BusinessResponse<SlackResponse> SayHello();
+        public abstract Task SayHello();
 
         /// <summary>
         /// posts command list to channel.
         /// scope= chat:general
-        /// cmd= 'help'
+        /// cmd text= 'help'
         /// </summary>
         /// <returns></returns>
-        protected abstract BusinessResponse<SlackResponse> Help();
+        public abstract Task Help();
 
         /// <summary>
         /// scope= set:settings
@@ -112,7 +123,21 @@ namespace MoneyMarket.Business.Slack.Integration
                 ResponseCode = ResponseCode.NoContent
             };
 
-            var commandText = command.Text;
+            string commandText;
+
+            var array = command.Text
+                .ToLower()
+                .Replace("  ", " ") // more than one space char is unaccaptable
+                .Split(' '); //split by space char
+
+            if (array.Length == 1)
+            {
+                commandText = array[0]; //one word cmd (like 'help')
+            }
+            else
+            {
+                commandText = $"{array[0]} {array[1]}"; //cmd has only two words max
+            }
 
             command = _commands.FirstOrDefault(p => p.Text == commandText);
 
@@ -158,6 +183,26 @@ namespace MoneyMarket.Business.Slack.Integration
             return new SlackMessage
             {
                 text = text,
+                token = _team.BotAccessToken,
+                channel = _channel
+            };
+        }
+
+        protected SlackMessage GetSlackSuccessMessage()
+        {
+            return new SlackMessage
+            {
+                text = ExecutingCommand.Responses.First(p => p.Language == _team.Language).SuccessText,
+                token = _team.BotAccessToken,
+                channel = _channel
+            };
+        }
+
+        protected SlackMessage GetSlackErrorMessage(int depth)
+        {
+            return new SlackMessage
+            {
+                text = ExecutingCommand.Responses.First(p => p.Language == _team.Language && p.Depth == depth).ErrorText,
                 token = _team.BotAccessToken,
                 channel = _channel
             };

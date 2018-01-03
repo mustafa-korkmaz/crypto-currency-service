@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Linq;
+using System.Reflection;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using MoneyMarket.Common;
 using MoneyMarket.Common.ApiObjects.Request.SlackApp;
@@ -65,9 +68,19 @@ namespace MoneyMarket.Business.Slack.Integration
                     // this command is not valid or may be command is valid but the it won't be executed due to another error. 
                     //this case usually happens when user not have the rights to execute this command.
                     await PostMessage(cmdValidationResp.ResponseData);
+                    return;
                 }
 
-                //todo: process subscription
+                //process subscription
+
+                //set executing cmd 
+                this.ExecutingCommand = cmd;
+
+                //set cmd parameters
+                this.Parameters = GetExecutionCommandParameters(cmd.Text);
+
+                //invoke related method
+                InvokeExecutingCommandAction(cmd.Action);
             }
         }
 
@@ -87,9 +100,9 @@ namespace MoneyMarket.Business.Slack.Integration
 
         #region SlackCommandExecuter implementations
 
-        protected override BusinessResponse<SlackResponse> SayHello()
+        public override async Task SayHello()
         {
-            throw new NotImplementedException();
+            await PostMessage(GetSlackSuccessMessage());
         }
 
         /// <summary>
@@ -98,9 +111,9 @@ namespace MoneyMarket.Business.Slack.Integration
         /// cmd= 'help'
         /// </summary>
         /// <returns></returns>
-        protected override BusinessResponse<SlackResponse> Help()
+        public override async Task Help()
         {
-            throw new NotImplementedException();
+            await PostMessage(GetSlackSuccessMessage());
         }
 
         protected override BusinessResponse<SlackResponse> SetLanguage(string culture)
@@ -134,8 +147,8 @@ namespace MoneyMarket.Business.Slack.Integration
                 return false;
             }
 
-            if (eventSubscriptionRequest.Event.SubType == "bot_message"
-                || eventSubscriptionRequest.Event.SubType == "channel_join")
+            if (eventSubscriptionRequest.Event.Subtype == "bot_message"
+                || eventSubscriptionRequest.Event.Subtype == "channel_join")
             {
                 return false;
             }
@@ -156,6 +169,51 @@ namespace MoneyMarket.Business.Slack.Integration
             {
                 Text = eventSubscriptionRequest.Event.Text
             };
+        }
+
+        /// <summary>
+        /// calls command's action method by name
+        /// </summary>
+        /// <param name="methodName"></param>
+        private void InvokeExecutingCommandAction(string methodName)
+        {
+            try
+            {
+                Type thisType = this.GetType();
+                MethodInfo method = thisType.GetMethod(methodName);
+
+                if (this.Parameters == null)
+                {
+                    method.Invoke(this, null);
+                }
+            }
+            catch (System.Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
+        private string[] GetExecutionCommandParameters(string cmdText)
+        {
+            var array = cmdText
+                //.ToLower()
+                .Replace("  ", " ") // more than one space char is unaccaptable
+                .Split(' '); //split by space char
+
+            if (array.Length == 1)
+            {
+                //parameterless command
+                return null;
+            }
+
+            var list = array.ToList();
+
+            // remove first 2 word which are command texts, not parameter.
+            list.RemoveAt(0);
+            list.RemoveAt(0);
+
+            return list.ToArray();
         }
     }
 }

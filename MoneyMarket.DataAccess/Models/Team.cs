@@ -49,6 +49,15 @@ namespace MoneyMarket.DataAccess.Models
         [Required]
         public Language Language { get; set; }
 
+        /// <summary>
+        /// real currency choice (try, usd..)
+        /// </summary>
+        [Required]
+        public MainCurrency MainCurrency { get; set; }
+
+        [Required]
+        public Provider Provider { get; set; }
+
         [Required]
         public AccountType AccountType { get; set; }
 
@@ -65,5 +74,7 @@ namespace MoneyMarket.DataAccess.Models
         public DateTime ExpiresIn { get; set; }
 
         public virtual ICollection<TeamScope> TeamScopes { get; set; } // 1=>n relation with dbo.TeamScopes
+
+        public virtual ICollection<TeamCryptoCurrencyBalance> TeamCryptoCurrencyBalances { get; set; } // 1=>n relation with dbo.TeamCryptoCurrencyBalances
     }
 }

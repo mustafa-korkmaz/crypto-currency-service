@@ -24,5 +24,11 @@ namespace MoneyMarket.DataAccess.Models
         /// </summary>
         public string ErrorText { get; set; }
 
+        /// <summary>
+        /// Attemp count for command
+        /// </summary>
+        [Required]
+        public byte Depth { get; set; }
+
     }
 }

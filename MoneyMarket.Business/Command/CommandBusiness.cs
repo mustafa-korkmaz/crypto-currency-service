@@ -35,7 +35,8 @@ namespace MoneyMarket.Business.Command
                         Id = r.Id,
                         Language = r.Language,
                         ErrorText = r.ErrorText,
-                        SuccessText = r.SuccessText
+                        SuccessText = r.SuccessText,
+                        Depth = r.Depth
                     }).DefaultIfEmpty()
                 })
                 .ToList();

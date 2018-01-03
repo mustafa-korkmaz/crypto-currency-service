@@ -31,7 +31,7 @@ namespace MoneyMarket.Common.ApiObjects.Request.SlackApp
 
         public string Type { get; set; }
 
-        public string SubType { get; set; }
+        public string Subtype { get; set; }
 
         public string Ts { get; set; }
 

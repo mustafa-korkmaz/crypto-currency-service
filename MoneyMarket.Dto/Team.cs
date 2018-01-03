@@ -41,6 +41,13 @@ namespace MoneyMarket.Dto
         public Language Language { get; set; }
 
         /// <summary>
+        /// real currency choice (try, usd..)
+        /// </summary>
+        public MainCurrency MainCurrency { get; set; }
+
+        public Provider Provider { get; set; }
+
+        /// <summary>
         /// team's account type (standart, premium, trial)
         /// default value is Trial
         /// </summary>

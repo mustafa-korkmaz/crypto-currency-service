@@ -28,7 +28,6 @@ namespace MoneyMarket.Business.Slack
                 {
                     Id = p.Id,
                     Name = p.Name
-
                 })
                 .ToList();
 

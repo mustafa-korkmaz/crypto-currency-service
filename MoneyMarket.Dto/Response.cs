@@ -4,6 +4,9 @@ namespace MoneyMarket.Dto
 {
     public class Response : DtoBase
     {
+        public int CommandId { get; set; } // foreign key 
+        public virtual Command Command { get; set; } // navigation
+
         /// <summary>
         /// response text language
         /// </summary>
@@ -18,5 +21,10 @@ namespace MoneyMarket.Dto
         /// response text content on command execution error
         /// </summary>
         public string ErrorText { get; set; }
+
+        /// <summary>
+        /// Attemp count for command
+        /// </summary>
+        public byte Depth { get; set; }
     }
 }

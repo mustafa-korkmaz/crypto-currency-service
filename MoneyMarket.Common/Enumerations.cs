@@ -203,6 +203,13 @@
         //etc..
     }
 
+    public enum MainCurrency : byte
+    {
+        Unknown = 0,
+        Try,
+        Usd
+    }
+
     public enum Provider : byte
     {
         Unknown = 0,
