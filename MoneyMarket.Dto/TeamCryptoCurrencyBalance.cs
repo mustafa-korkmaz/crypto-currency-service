@@ -1,24 +1,17 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using MoneyMarket.Common;
+﻿using MoneyMarket.Common;
 
-namespace MoneyMarket.DataAccess.Models
+namespace MoneyMarket.Dto
 {
-    public class TeamCryptoCurrencyBalance : EntityBase
+    public class TeamCryptoCurrencyBalance : DtoBase
     {
-        [Required]
         public int TeamId { get; set; } // foreign key 
         public virtual Team Team { get; set; } // navigation 
 
-        [Required]
         public Currency Currency { get; set; } // foreign key 
 
         /// <summary>
         /// Unique balance name
         /// </summary>
-        [Index(IsUnique = true)]
-        [MaxLength(50)]
-        [Required]
         public string Name { get; set; }
 
         public decimal Balance { get; set; }

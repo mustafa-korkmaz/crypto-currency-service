@@ -220,6 +220,7 @@
 
     public enum Language : byte
     {
+        Unknown = 0,
         Turkish = 1,
         English = 2
     }

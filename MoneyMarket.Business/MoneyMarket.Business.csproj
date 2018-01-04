@@ -99,12 +99,14 @@
     <Compile Include="Caching\Provider\LocalMemory\LocalMemoryCacheProvider.cs" />
     <Compile Include="Caching\Provider\Redis\RedisCacheProvider.cs" />
     <Compile Include="Common\CommonBusiness.cs" />
+    <Compile Include="CryptoCurrency\TeamCryptoCurrencyBalanceBusiness.cs" />
     <Compile Include="CryptoCurrency\Tickers\BitStamp\Ripple.cs" />
     <Compile Include="Notification\NotificationBusiness.cs" />
     <Compile Include="CryptoCurrency\JsonCurrency.cs" />
     <Compile Include="CryptoCurrency\Tickers\CoinMarketCap\All.cs" />
     <Compile Include="DtoMapper.cs" />
     <Compile Include="Command\CommandBusiness.cs" />
+    <Compile Include="Slack\Integration\CommandParameter.cs" />
     <Compile Include="Slack\Integration\ISlackIntegration.cs" />
     <Compile Include="Slack\Integration\SlackApiClient.cs" />
     <Compile Include="IdorAttackBusiness.cs" />

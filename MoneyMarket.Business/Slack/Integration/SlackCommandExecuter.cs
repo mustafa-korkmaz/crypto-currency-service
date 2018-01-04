@@ -19,7 +19,7 @@ namespace MoneyMarket.Business.Slack.Integration
         /// slack team fulfilled by event subscription request
         /// </summary>
         private Dto.Team _team;
-        protected Dto.Team Team { get { return _team; } }
+        protected Dto.Team Team => _team;
 
         /// <summary>
         /// cmd which we want to execute at the moment.
@@ -48,11 +48,30 @@ namespace MoneyMarket.Business.Slack.Integration
 
         /// <summary>
         /// scope= set:settings
-        /// cmd= 'l set @p0'
+        /// cmd= 'set lang @p0'
         /// @p0 parameter for desired language
         /// </summary>
         /// <returns></returns>
-        protected abstract Task SetLanguage();
+        public abstract Task SetLanguage();
+
+        /// <summary>
+        /// scope= set:settings
+        /// cmd= 'set currency @p0'
+        /// @p0 parameter for desired currency
+        /// </summary>
+        /// <returns></returns>
+        public abstract Task SetCurrency();
+
+        /// <summary>
+        /// scope= set:balance
+        /// cmd= 'set balance @p0 @p1 @p2'
+        /// @p0 parameter for desired currency
+        /// @p1 parameter for balance name
+        /// @p2 parameter for balance amount
+        /// </summary>
+        /// <returns></returns>
+        public abstract Task SetBalance();
+
 
         /// <summary>
         /// checks existance and authorizes command.
@@ -102,6 +121,11 @@ namespace MoneyMarket.Business.Slack.Integration
             _team = _teamBusiness.GetTeamBySlackId(slackTeamId);
         }
 
+        protected void SetTeamLanguage(Language l)
+        {
+            _team.Language = l;
+        }
+
         protected void SetCommands()
         {
             _commands = _cmdBusiness.All();
@@ -110,6 +134,71 @@ namespace MoneyMarket.Business.Slack.Integration
         protected void SetChannel(string channel)
         {
             _channel = channel;
+        }
+
+        /// <summary>
+        /// returns first success message with desired language
+        /// </summary>
+        /// <returns></returns>
+        protected SlackMessage GetSlackSuccessMessage()
+        {
+            return new SlackMessage
+            {
+                text = ExecutingCommand.Responses.First(p => p.Language == _team.Language && p.Depth == 0).SuccessText,
+                token = _team.BotAccessToken,
+                channel = _channel
+            };
+        }
+
+        /// <summary>
+        /// returns error text with desired language and depth
+        /// </summary>
+        /// <param name="depth"></param>
+        /// <returns></returns>
+        protected SlackMessage GetSlackErrorMessage(int depth)
+        {
+            return new SlackMessage
+            {
+                text = ExecutingCommand.Responses.First(p => p.Language == _team.Language && p.Depth == depth).ErrorText,
+                token = _team.BotAccessToken,
+                channel = _channel
+            };
+        }
+
+        protected BusinessResponse<int> ValidateParameters(IEnumerable<CommandParameter> commandParameters, int parameterCount)
+        {
+            var resp = new BusinessResponse<int>
+            {
+                ResponseCode = ResponseCode.Fail
+            };
+
+            if (!Parameters.Any())
+            {
+                resp.ResponseData = 0; // parameter not found.
+                return resp;
+            }
+
+            if (Parameters.Length != parameterCount)
+            {
+                resp.ResponseData = 1; // parameter length mismatch.
+                return resp;
+            }
+
+            if (commandParameters != null)
+            {
+                foreach (var item in commandParameters)
+                {
+                    if (!item.ParameterSet.Contains(item.ParameterValue))
+                    {
+                        // parameter not found in parameter set
+                        resp.ResponseData = item.Depth;
+                        return resp;
+                    }
+                }
+            }
+
+            resp.ResponseCode = ResponseCode.Success;
+            return resp;
         }
 
         /// <summary>
@@ -184,35 +273,6 @@ namespace MoneyMarket.Business.Slack.Integration
             return new SlackMessage
             {
                 text = text,
-                token = _team.BotAccessToken,
-                channel = _channel
-            };
-        }
-
-        /// <summary>
-        /// returns first success message with desired language
-        /// </summary>
-        /// <returns></returns>
-        protected SlackMessage GetSlackSuccessMessage()
-        {
-            return new SlackMessage
-            {
-                text = ExecutingCommand.Responses.First(p => p.Language == _team.Language).SuccessText,
-                token = _team.BotAccessToken,
-                channel = _channel
-            };
-        }
-
-        /// <summary>
-        /// returns error text with desired language and depth
-        /// </summary>
-        /// <param name="depth"></param>
-        /// <returns></returns>
-        protected SlackMessage GetSlackErrorMessage(int depth)
-        {
-            return new SlackMessage
-            {
-                text = ExecutingCommand.Responses.First(p => p.Language == _team.Language && p.Depth == depth).ErrorText,
                 token = _team.BotAccessToken,
                 channel = _channel
             };

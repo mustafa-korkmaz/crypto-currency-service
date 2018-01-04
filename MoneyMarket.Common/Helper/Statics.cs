@@ -77,6 +77,83 @@ namespace MoneyMarket.Common.Helper
             }
         }
 
+        public static Language GetLanguage(string langText)
+        {
+            switch (langText.ToLower())
+            {
+                case "en":
+                    return Language.English;
+                case "tr":
+                    return Language.Turkish;
+
+            }
+
+            return Language.Unknown;
+        }
+
+        public static MainCurrency GetMainCurrency(string currencyText)
+        {
+            switch (currencyText.ToLower())
+            {
+                case "tl":
+                    return MainCurrency.Try;
+                case "usd":
+                    return MainCurrency.Usd;
+
+            }
+
+            return MainCurrency.Unknown;
+        }
+
+        public static Currency GetCurrency(string currencyText)
+        {
+            /*
+              Unknown = 0,
+                Btc,
+                Eth,
+                Etc,
+                Stellar,
+                Ripple,
+                Nxt,
+                Lisk,
+                Nem,
+                Eos
+             */
+
+            switch (currencyText.ToLower())
+            {
+                case "eth":
+                    return Currency.Eth;
+                case "btc":
+                    return Currency.Btc;
+                case "etc":
+                    return Currency.Etc;
+                case "stellar":
+                    return Currency.Stellar;
+                case "xlm":
+                    return Currency.Stellar;
+                case "ripple":
+                    return Currency.Ripple;
+                case "xrp":
+                    return Currency.Ripple;
+                case "nxt":
+                    return Currency.Nxt;
+                case "lisk":
+                    return Currency.Lisk;
+                case "nem":
+                    return Currency.Nem;
+                case "xem":
+                    return Currency.Nem;
+                case "eos":
+                    return Currency.Eos;
+
+            }
+
+            return Currency.Unknown;
+        }
+
+
+
         public static string GetModificationTypeText(ModificationType modificationType)
         {
             switch (modificationType)

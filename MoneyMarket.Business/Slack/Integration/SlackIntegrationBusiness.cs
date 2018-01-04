@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using MoneyMarket.Common;
 using MoneyMarket.Common.ApiObjects.Request.SlackApp;
 using MoneyMarket.Common.ApiObjects.Response.SlackApp;
+using MoneyMarket.Common.Helper;
 using MoneyMarket.Common.Response;
 using MoneyMarket.Dto;
 
@@ -77,7 +78,7 @@ namespace MoneyMarket.Business.Slack.Integration
                 this.ExecutingCommand = cmd;
 
                 //set cmd parameters
-                this.Parameters = GetExecutionCommandParameters(cmd.Text);
+                this.Parameters = GetExecutionCommandParameters(eventSubscriptionRequest.Event.Text);
 
                 //invoke related method
                 InvokeExecutingCommandAction(cmd.Action);
@@ -116,14 +117,138 @@ namespace MoneyMarket.Business.Slack.Integration
             await PostMessage(GetSlackSuccessMessage());
         }
 
-        protected override async Task SetLanguage()
+        /// <summary>
+        /// scope= set:settings
+        /// cmd= 'set lang @p0'
+        /// </summary>
+        /// <returns></returns>
+        public override async Task SetLanguage()
         {
-            //todo: get language from parameters.
+            int parameterCount = 1;
+            var parameterSet = new List<CommandParameter>
+            {
+                new CommandParameter
+                {
+                    Depth = 2,
+                    ParameterValue = Parameters[0].ToLower(),
+                    ParameterSet = new List<string>
+                    {
+                        "en",
+                        "tr"
+                    }
+                }
+            };
+
+            var validateResp = ValidateParameters(parameterSet, parameterCount);
+
+            if (validateResp.ResponseCode != ResponseCode.Success)
+            {
+                await PostMessage(GetSlackErrorMessage(validateResp.ResponseData));
+                return;
+            }
+
             var teamBusiness = new TeamBusiness();
 
-            Team.Language = Language.English;
+            var lang = Statics.GetLanguage(Parameters[0]);
+
+            if (lang == Language.Unknown)
+            {
+                await PostMessage(GetSlackErrorMessage(3));
+                return;
+            }
+
+
+            SetTeamLanguage(lang);
 
             teamBusiness.Edit(Team);
+            await PostMessage(GetSlackSuccessMessage());
+        }
+
+        /// <summary>
+        /// scope= set:settings
+        /// cmd= 'set currency @p0'
+        /// @p0 parameter for desired currency
+        /// </summary>
+        /// <returns></returns>
+        public override async Task SetCurrency()
+        {
+            int parameterCount = 1;
+            var parameterSet = new List<CommandParameter>
+            {
+                new CommandParameter
+                {
+                    Depth = 2,
+                    ParameterValue = Parameters[0].ToLower(),
+                    ParameterSet = new List<string>
+                    {
+                        "tl",
+                        "usd"
+                    }
+                }
+            };
+
+            var validateResp = ValidateParameters(parameterSet, parameterCount);
+
+            if (validateResp.ResponseCode != ResponseCode.Success)
+            {
+                await PostMessage(GetSlackErrorMessage(validateResp.ResponseData));
+                return;
+            }
+
+            var teamBusiness = new TeamBusiness();
+
+            var currency = Statics.GetMainCurrency(Parameters[0]);
+
+            if (currency == MainCurrency.Unknown)
+            {
+                await PostMessage(GetSlackErrorMessage(3));
+                return;
+            }
+
+            Team.MainCurrency = currency;
+
+            teamBusiness.Edit(Team);
+            await PostMessage(GetSlackSuccessMessage());
+        }
+
+        /// <summary>
+        /// scope= set:balance
+        /// cmd= 'set balance @p0 @p1 @p2'
+        /// @p0 parameter for desired currency
+        /// @p1 parameter for balance name
+        /// @p2 parameter for balance amount
+        /// </summary>
+        /// <returns></returns>
+        public override async Task SetBalance()
+        {
+            int parameterCount = 3;
+
+            var validateResp = ValidateParameters(null, parameterCount);
+
+            if (validateResp.ResponseCode != ResponseCode.Success)
+            {
+                await PostMessage(GetSlackErrorMessage(validateResp.ResponseData));
+                return;
+            }
+
+            var currency = Statics.GetCurrency(Parameters[0]);
+
+            if (currency == Currency.Unknown)
+            {
+                //post depth=2 message => Given crypto currency either not found or not supported.
+                await PostMessage(GetSlackErrorMessage(2));
+                return;
+            }
+
+            decimal balance = 0;
+
+            if (!decimal.TryParse(Parameters[2], out balance))
+            {
+                //post depth=3 message => Balance amount is invalid. Use only . (dot) and numbers for balances.
+                await PostMessage(GetSlackErrorMessage(3));
+                return;
+            }
+
             throw new NotImplementedException();
         }
 
@@ -188,10 +313,7 @@ namespace MoneyMarket.Business.Slack.Integration
                 Type thisType = this.GetType();
                 MethodInfo method = thisType.GetMethod(methodName);
 
-                if (this.Parameters == null)
-                {
-                    method.Invoke(this, null);
-                }
+                method.Invoke(this, null);
             }
             catch (System.Exception e)
             {
