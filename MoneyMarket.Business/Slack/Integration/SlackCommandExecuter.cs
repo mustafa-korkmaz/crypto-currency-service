@@ -188,6 +188,10 @@ namespace MoneyMarket.Business.Slack.Integration
             };
         }
 
+        /// <summary>
+        /// returns first success message with desired language
+        /// </summary>
+        /// <returns></returns>
         protected SlackMessage GetSlackSuccessMessage()
         {
             return new SlackMessage
@@ -198,6 +202,11 @@ namespace MoneyMarket.Business.Slack.Integration
             };
         }
 
+        /// <summary>
+        /// returns error text with desired language and depth
+        /// </summary>
+        /// <param name="depth"></param>
+        /// <returns></returns>
         protected SlackMessage GetSlackErrorMessage(int depth)
         {
             return new SlackMessage
