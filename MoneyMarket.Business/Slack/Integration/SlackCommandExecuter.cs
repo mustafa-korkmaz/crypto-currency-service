@@ -13,12 +13,13 @@ namespace MoneyMarket.Business.Slack.Integration
         private readonly TeamBusiness _teamBusiness = new TeamBusiness();
         private IEnumerable<Dto.Command> _commands;
 
+        private string _channel;
+
         /// <summary>
         /// slack team fulfilled by event subscription request
         /// </summary>
         private Dto.Team _team;
-
-        private string _channel;
+        protected Dto.Team Team { get { return _team; } }
 
         /// <summary>
         /// cmd which we want to execute at the moment.
@@ -48,10 +49,10 @@ namespace MoneyMarket.Business.Slack.Integration
         /// <summary>
         /// scope= set:settings
         /// cmd= 'l set @p0'
+        /// @p0 parameter for desired language
         /// </summary>
-        /// <param name="culture">@p0 parameter for desired language</param>
         /// <returns></returns>
-        protected abstract BusinessResponse<SlackResponse> SetLanguage(string culture);
+        protected abstract Task SetLanguage();
 
         /// <summary>
         /// checks existance and authorizes command.

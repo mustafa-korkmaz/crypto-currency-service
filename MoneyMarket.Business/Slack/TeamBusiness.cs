@@ -46,6 +46,8 @@ namespace MoneyMarket.Business.Slack
             entity.IsActive = teamDto.IsActive;
             entity.SlackId = teamDto.SlackId;
             entity.MemberCount = teamDto.MemberCount;
+            entity.MainCurrency = teamDto.MainCurrency;
+            entity.Provider = teamDto.Provider;
 
             _repository.Update(entity);
 
@@ -108,6 +110,10 @@ namespace MoneyMarket.Business.Slack
                                 Language = t.Language,
                                 IsActive = t.IsActive,
                                 SlackId = t.SlackId,
+                                MainCurrency = t.MainCurrency,
+                                MemberCount = t.MemberCount,
+                                Provider = t.Provider,
+                                CreatedAt = t.CreatedAt
                             },
                             Id = p.Id,
                             ScopeId = p.ScopeId
@@ -157,7 +163,11 @@ namespace MoneyMarket.Business.Slack
                     ExpiresIn = p.ExpiresIn,
                     Language = p.Language,
                     IsActive = p.IsActive,
-                    SlackId = p.SlackId
+                    SlackId = p.SlackId,
+                    MainCurrency = p.MainCurrency,
+                    MemberCount = p.MemberCount,
+                    Provider = p.Provider,
+                    CreatedAt = p.CreatedAt
                     //todo: also fetch scopes 
                 }).FirstOrDefault();
 

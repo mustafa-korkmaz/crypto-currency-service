@@ -87,31 +87,3 @@ namespace MoneyMarket.DataAccess
     }
 }
 
-/*
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            //modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
-            modelBuilder.Properties<string>().Configure(x => x.HasColumnType("VARCHAR")); // dont use unicode for string columns
-            modelBuilder.Properties<DateTime>().Configure(x => x.HasColumnType("datetime2").HasPrecision(0)); // dont need miliseconds for datetime columns
-
-            modelBuilder.Entity<Event>()
-                .HasRequired(c => c.AwayTeam)
-                .WithMany()
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<Event>()
-             .HasRequired(c => c.HomeTeam)
-             .WithMany()
-             .WillCascadeOnDelete(false);
-
-            base.OnModelCreating(modelBuilder);
-
-            modelBuilder.Entity<IdentityUserClaim>().Property(x => x.ClaimType).HasMaxLength(10);
-            modelBuilder.Entity<IdentityUserClaim>().Property(x => x.ClaimValue).HasMaxLength(20);
-
-            modelBuilder.Entity<IdentityRole>().Property(x => x.Name).HasMaxLength(10);
-        }
-
-    }
-     */
-

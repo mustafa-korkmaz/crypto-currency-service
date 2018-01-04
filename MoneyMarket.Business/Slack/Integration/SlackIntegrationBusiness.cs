@@ -116,8 +116,14 @@ namespace MoneyMarket.Business.Slack.Integration
             await PostMessage(GetSlackSuccessMessage());
         }
 
-        protected override BusinessResponse<SlackResponse> SetLanguage(string culture)
+        protected override async Task SetLanguage()
         {
+            //todo: get language from parameters.
+            var teamBusiness = new TeamBusiness();
+
+            Team.Language = Language.English;
+
+            teamBusiness.Edit(Team);
             throw new NotImplementedException();
         }
 
