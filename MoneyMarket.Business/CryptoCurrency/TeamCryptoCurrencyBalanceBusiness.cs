@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using MoneyMarket.Common;
 using MoneyMarket.Common.Response;
 using MoneyMarket.DataAccess;
@@ -24,7 +25,7 @@ namespace MoneyMarket.Business.CryptoCurrency
         {
             var balanceDto = (Dto.TeamCryptoCurrencyBalance)dto;
 
-            var entity = GetBalanceByNameAndCurrency(balanceDto);
+            var entity = GetTeamBalanceByNameAndCurrency(balanceDto);
 
             if (entity == null)
             {
@@ -104,6 +105,29 @@ namespace MoneyMarket.Business.CryptoCurrency
         }
 
         #endregion CRUD operations
+
+        public IEnumerable<Dto.TeamCryptoCurrencyBalance> GetTeamCryptoCurrencyBalances(int teamId, Currency currency)
+        {
+            var query = _repository.GetAsQueryable(p => p.TeamId == teamId);
+
+            if (currency != Currency.Unknown)
+            {
+                query = query.Where(p => p.Currency == currency);
+            }
+
+            var balances = query
+                 .Select(p => new Dto.TeamCryptoCurrencyBalance
+                 {
+                     Id = p.Id,
+                     Balance = p.Balance,
+                     Currency = p.Currency,
+                     Name = p.Name,
+                     TeamId = teamId
+                 })
+                .ToList();
+
+            return balances;
+        }
 
         /// <summary>
         /// returns balance if exists by teamId, currency and name search filter

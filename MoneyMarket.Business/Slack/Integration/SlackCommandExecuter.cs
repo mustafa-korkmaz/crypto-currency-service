@@ -72,6 +72,14 @@ namespace MoneyMarket.Business.Slack.Integration
         /// <returns></returns>
         public abstract Task SetBalance();
 
+        /// <summary>
+        /// scope= get:balance
+        /// cmd= 'get balance @p0'
+        /// @p0 parameter for desired currency (all for all balances)
+        /// </summary>
+        /// <returns></returns>
+        public abstract Task GetBalance();
+
 
         /// <summary>
         /// checks existance and authorizes command.
@@ -145,6 +153,20 @@ namespace MoneyMarket.Business.Slack.Integration
             return new SlackMessage
             {
                 text = ExecutingCommand.Responses.First(p => p.Language == _team.Language && p.Depth == 0).SuccessText,
+                token = _team.BotAccessToken,
+                channel = _channel
+            };
+        }
+
+        /// <summary>
+        /// returns success message with given text
+        /// </summary>
+        /// <returns></returns>
+        protected SlackMessage GetSlackExecutionSuccessMessage(string text)
+        {
+            return new SlackMessage
+            {
+                text = text,
                 token = _team.BotAccessToken,
                 channel = _channel
             };

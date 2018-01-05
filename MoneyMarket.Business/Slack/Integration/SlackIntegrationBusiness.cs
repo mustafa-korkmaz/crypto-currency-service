@@ -266,6 +266,45 @@ namespace MoneyMarket.Business.Slack.Integration
             await PostMessage(GetSlackExecutionSuccessMessage());
         }
 
+        /// <summary>
+        /// scope= get:balance
+        /// cmd= 'get balance @p0'
+        /// @p0 parameter for desired currency (all for all balances)
+        /// </summary>
+        /// <returns></returns>
+        public override async Task GetBalance()
+        {
+            int parameterCount = 1;
+
+            var validateResp = ValidateParameters(null, parameterCount);
+
+            if (validateResp.ResponseCode != ResponseCode.Success)
+            {
+                await PostMessage(GetSlackExecutionErrorMessage(validateResp.ResponseData));
+                return;
+            }
+
+            var currency = Currency.Unknown;
+            var parameter = Parameters[0];
+
+            if (parameter.ToLower() != "all")
+            {
+                currency = Statics.GetCurrency(Parameters[0]);
+
+                if (currency == Currency.Unknown)
+                {
+                    //post depth=2 message => Given crypto currency either not found or not supported.
+                    await PostMessage(GetSlackExecutionErrorMessage(2));
+                    return;
+                }
+            }
+
+            var balances = GetTeamCryptoCurrencyBalances(currency);
+
+            var successMessage = SlackMessageGenerator.GetCryptoCurrencyBalanceMessage(balances);
+            await PostMessage(GetSlackExecutionSuccessMessage(successMessage));
+        }
+
         #endregion SlackCommandExecuter implementations
 
         /// <summary>
@@ -357,5 +396,14 @@ namespace MoneyMarket.Business.Slack.Integration
 
             return list.ToArray();
         }
+
+
+        private IEnumerable<Dto.TeamCryptoCurrencyBalance> GetTeamCryptoCurrencyBalances(Currency currency)
+        {
+            var teamCryptoCurrencyBalanceBusiness = new TeamCryptoCurrencyBalanceBusiness();
+
+            return teamCryptoCurrencyBalanceBusiness.GetTeamCryptoCurrencyBalances(Team.Id, currency);
+        }
+
     }
 }
