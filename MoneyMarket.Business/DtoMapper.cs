@@ -23,9 +23,11 @@ namespace MoneyMarket.Business
             cfg.CreateMap<DataAccess.Models.Scope, Dto.Scope>();
             cfg.CreateMap<Dto.Scope, DataAccess.Models.Scope>();
 
-
             cfg.CreateMap<DataAccess.Models.TeamScope, Dto.TeamScope>();
             cfg.CreateMap<Dto.TeamScope, DataAccess.Models.TeamScope>();
+
+            cfg.CreateMap<DataAccess.Models.TeamCryptoCurrencyBalance, Dto.TeamCryptoCurrencyBalance>();
+            cfg.CreateMap<Dto.TeamCryptoCurrencyBalance, DataAccess.Models.TeamCryptoCurrencyBalance>();
 
         });
 

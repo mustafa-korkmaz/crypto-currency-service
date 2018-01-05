@@ -11,6 +11,7 @@ using MoneyMarket.Common.ApiObjects.Response.SlackApp;
 using MoneyMarket.Common.Helper;
 using MoneyMarket.Common.Response;
 using MoneyMarket.Dto;
+using MoneyMarket.Business.CryptoCurrency;
 
 namespace MoneyMarket.Business.Slack.Integration
 {
@@ -103,7 +104,7 @@ namespace MoneyMarket.Business.Slack.Integration
 
         public override async Task SayHello()
         {
-            await PostMessage(GetSlackSuccessMessage());
+            await PostMessage(GetSlackExecutionSuccessMessage());
         }
 
         /// <summary>
@@ -114,7 +115,7 @@ namespace MoneyMarket.Business.Slack.Integration
         /// <returns></returns>
         public override async Task Help()
         {
-            await PostMessage(GetSlackSuccessMessage());
+            await PostMessage(GetSlackExecutionSuccessMessage());
         }
 
         /// <summary>
@@ -143,7 +144,7 @@ namespace MoneyMarket.Business.Slack.Integration
 
             if (validateResp.ResponseCode != ResponseCode.Success)
             {
-                await PostMessage(GetSlackErrorMessage(validateResp.ResponseData));
+                await PostMessage(GetSlackExecutionErrorMessage(validateResp.ResponseData));
                 return;
             }
 
@@ -153,7 +154,7 @@ namespace MoneyMarket.Business.Slack.Integration
 
             if (lang == Language.Unknown)
             {
-                await PostMessage(GetSlackErrorMessage(3));
+                await PostMessage(GetSlackExecutionErrorMessage(3));
                 return;
             }
 
@@ -161,7 +162,7 @@ namespace MoneyMarket.Business.Slack.Integration
             SetTeamLanguage(lang);
 
             teamBusiness.Edit(Team);
-            await PostMessage(GetSlackSuccessMessage());
+            await PostMessage(GetSlackExecutionSuccessMessage());
         }
 
         /// <summary>
@@ -191,7 +192,7 @@ namespace MoneyMarket.Business.Slack.Integration
 
             if (validateResp.ResponseCode != ResponseCode.Success)
             {
-                await PostMessage(GetSlackErrorMessage(validateResp.ResponseData));
+                await PostMessage(GetSlackExecutionErrorMessage(validateResp.ResponseData));
                 return;
             }
 
@@ -201,14 +202,14 @@ namespace MoneyMarket.Business.Slack.Integration
 
             if (currency == MainCurrency.Unknown)
             {
-                await PostMessage(GetSlackErrorMessage(3));
+                await PostMessage(GetSlackExecutionErrorMessage(3));
                 return;
             }
 
             Team.MainCurrency = currency;
 
             teamBusiness.Edit(Team);
-            await PostMessage(GetSlackSuccessMessage());
+            await PostMessage(GetSlackExecutionSuccessMessage());
         }
 
         /// <summary>
@@ -227,7 +228,7 @@ namespace MoneyMarket.Business.Slack.Integration
 
             if (validateResp.ResponseCode != ResponseCode.Success)
             {
-                await PostMessage(GetSlackErrorMessage(validateResp.ResponseData));
+                await PostMessage(GetSlackExecutionErrorMessage(validateResp.ResponseData));
                 return;
             }
 
@@ -236,20 +237,33 @@ namespace MoneyMarket.Business.Slack.Integration
             if (currency == Currency.Unknown)
             {
                 //post depth=2 message => Given crypto currency either not found or not supported.
-                await PostMessage(GetSlackErrorMessage(2));
+                await PostMessage(GetSlackExecutionErrorMessage(2));
                 return;
             }
 
-            decimal balance = 0;
+            decimal balanceAmount = 0;
 
-            if (!decimal.TryParse(Parameters[2], out balance))
+            if (!decimal.TryParse(Parameters[2], out balanceAmount))
             {
                 //post depth=3 message => Balance amount is invalid. Use only . (dot) and numbers for balances.
-                await PostMessage(GetSlackErrorMessage(3));
+                await PostMessage(GetSlackExecutionErrorMessage(3));
                 return;
             }
 
-            throw new NotImplementedException();
+            //everytihng is fine. add or update balance.
+            var teamCryptoCurrencyBalanceBusiness = new TeamCryptoCurrencyBalanceBusiness();
+
+            var balance = new TeamCryptoCurrencyBalance
+            {
+                TeamId = Team.Id,
+                Currency = currency,
+                Name = Parameters[1].ToLower(),
+                Balance = decimal.Parse(Parameters[2])
+            };
+
+            teamCryptoCurrencyBalanceBusiness.Add(balance);
+
+            await PostMessage(GetSlackExecutionSuccessMessage());
         }
 
         #endregion SlackCommandExecuter implementations

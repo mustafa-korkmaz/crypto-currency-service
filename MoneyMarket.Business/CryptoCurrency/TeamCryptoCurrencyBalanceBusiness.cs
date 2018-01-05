@@ -72,7 +72,7 @@ namespace MoneyMarket.Business.CryptoCurrency
         {
             var balanceDto = (Dto.TeamCryptoCurrencyBalance)dto;
 
-            var entity = GetBalanceByNameAndCurrency(balanceDto);
+            var entity = GetTeamBalanceByNameAndCurrency(balanceDto);
 
             if (entity != null)
             {
@@ -109,7 +109,7 @@ namespace MoneyMarket.Business.CryptoCurrency
         /// returns balance if exists by teamId, currency and name search filter
         /// </summary>
         /// <returns></returns>
-        private DataAccess.Models.TeamCryptoCurrencyBalance GetBalanceByNameAndCurrency(Dto.TeamCryptoCurrencyBalance teamBalance)
+        private DataAccess.Models.TeamCryptoCurrencyBalance GetTeamBalanceByNameAndCurrency(Dto.TeamCryptoCurrencyBalance teamBalance)
         {
             return _repository.AsQueryable()
                 .FirstOrDefault(p => p.Currency == teamBalance.Currency

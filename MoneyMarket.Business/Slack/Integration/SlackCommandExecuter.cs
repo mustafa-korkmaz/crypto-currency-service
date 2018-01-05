@@ -140,7 +140,7 @@ namespace MoneyMarket.Business.Slack.Integration
         /// returns first success message with desired language
         /// </summary>
         /// <returns></returns>
-        protected SlackMessage GetSlackSuccessMessage()
+        protected SlackMessage GetSlackExecutionSuccessMessage()
         {
             return new SlackMessage
             {
@@ -155,7 +155,7 @@ namespace MoneyMarket.Business.Slack.Integration
         /// </summary>
         /// <param name="depth"></param>
         /// <returns></returns>
-        protected SlackMessage GetSlackErrorMessage(int depth)
+        protected SlackMessage GetSlackExecutionErrorMessage(int depth)
         {
             return new SlackMessage
             {
