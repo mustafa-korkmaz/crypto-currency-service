@@ -107,6 +107,23 @@ namespace MoneyMarket.Business.CryptoCurrency
             return webSites;
         }
 
+        public IEnumerable<Dto.CryptoCurrency> GetCryptoCurrenciesByProvider(Provider provider)
+        {
+            var webSites = _repository.GetAsQueryable(p => p.Provider == provider)
+                .Select(p => new Dto.CryptoCurrency
+                {
+                    Id = p.Id,
+                    Provider = p.Provider,
+                    Currency = p.Currency,
+                    ClassName = p.ClassName,
+                    UsdValue = p.UsdValue,
+                    ModifiedAt = p.ModifiedAt
+                })
+                .ToList();
+
+            return webSites;
+        }
+
         private void UpdateCryptoCurrencies(IEnumerable<Dto.CryptoCurrency> cryptoCurrencies)
         {
             var allCurrencies = All(); //get latest records from db.
@@ -179,10 +196,10 @@ namespace MoneyMarket.Business.CryptoCurrency
             {
                 var slackToken = Statics.GetConfigKey(ConfigKeys.SlackToken);
 
-                var ethText = $"BtcTurk/Bitstamp\nETH Diff\n{btcTurkEth.UsdValue.ToDropMoneyFormat()} - {bitStampEth.UsdValue.ToDropMoneyFormat()} = {diffEth.ToDropMoneyFormat()} USD";
-                var btcText = $"BTC Diff\n{btcTurkBtc.UsdValue.ToDropMoneyFormat()} - {bitStampBtc.UsdValue.ToDropMoneyFormat()} = {diffBtc.ToDropMoneyFormat()} USD";
-                var ethProfitText = $"ETH profit = {ethProfitPercentage.ToDropMoneyFormat()}";
-                var btcProfitText = $"BTC profit = {btcProfitPercentage.ToDropMoneyFormat()}";
+                var ethText = $"BtcTurk/Bitstamp\nETH Diff\n{btcTurkEth.UsdValue.ToMoneyMarketMoneyFormat()} - {bitStampEth.UsdValue.ToMoneyMarketMoneyFormat()} = {diffEth.ToMoneyMarketMoneyFormat()} USD";
+                var btcText = $"BTC Diff\n{btcTurkBtc.UsdValue.ToMoneyMarketMoneyFormat()} - {bitStampBtc.UsdValue.ToMoneyMarketMoneyFormat()} = {diffBtc.ToMoneyMarketMoneyFormat()} USD";
+                var ethProfitText = $"ETH profit = {ethProfitPercentage.ToMoneyMarketMoneyFormat()}";
+                var btcProfitText = $"BTC profit = {btcProfitPercentage.ToMoneyMarketMoneyFormat()}";
                 var payload = new SlackMessage
                 {
                     token = slackToken,

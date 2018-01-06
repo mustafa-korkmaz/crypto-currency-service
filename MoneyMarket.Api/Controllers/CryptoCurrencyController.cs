@@ -68,7 +68,7 @@ namespace MoneyMarket.Api.Controllers
 
             var tickerViewModel = new ArbitrageViewModel
             {
-                UsdSellRate = ticker.UsdSellRate.ToDropMoneyFormat()
+                UsdSellRate = ticker.UsdSellRate.ToMoneyMarketMoneyFormat()
             };
 
             tickerViewModel.Arbitrages = new List<Arbitrage>
@@ -77,13 +77,13 @@ namespace MoneyMarket.Api.Controllers
                 {
                     Name = "BTCTurk-BitStamp",
                     Currency = "ETH",
-                    Diff = (ticker.BtcTurkEth.UsdValue - ticker.BitStampEth.UsdValue).ToDropMoneyFormat(),
+                    Diff = (ticker.BtcTurkEth.UsdValue - ticker.BitStampEth.UsdValue).ToMoneyMarketMoneyFormat(),
                 },
                 new Arbitrage
                 {
                     Name = "BTCTurk-BitStamp",
                     Currency = "BTC",
-                    Diff = (ticker.BtcTurkBtc.UsdValue - ticker.BitStampBtc.UsdValue).ToDropMoneyFormat(),
+                    Diff = (ticker.BtcTurkBtc.UsdValue - ticker.BitStampBtc.UsdValue).ToMoneyMarketMoneyFormat(),
                 }
             };
 
@@ -104,7 +104,7 @@ namespace MoneyMarket.Api.Controllers
                 Id = p.Id,
                 Provider = p.Provider.ToString("G"),
                 Currency = p.Currency.ToString("G"),
-                UsdValue = p.UsdValue.ToDropMoneyFormat(),
+                UsdValue = p.UsdValue.ToMoneyMarketMoneyFormat(),
                 ModifiedAt = p.ModifiedAt.ToDropDateTimeInSecondsFormat()
             })
             .OrderBy(p => p.Currency)

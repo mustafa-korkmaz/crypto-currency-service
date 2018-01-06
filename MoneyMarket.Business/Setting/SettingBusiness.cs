@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using MoneyMarket.Business.Caching.Provider;
+using MoneyMarket.Common;
 using MoneyMarket.DataAccess;
+using MoneyMarket.Dto;
 
 namespace MoneyMarket.Business.Setting
 {
@@ -34,6 +37,28 @@ namespace MoneyMarket.Business.Setting
 
             return settings;
         }
+
+        public decimal GetUsdValue()
+        {
+            return Convert.ToDecimal(GetUsdValueSetting().Value);
+        }
+
+        /// <summary>
+        /// cachable result for usd value setting.
+        /// </summary>
+        /// <returns>tl value of usd</returns>
+        [CacheableResult(ExpireInMinutes = 30)]
+        private Dto.Setting GetUsdValueSetting()
+        {
+            var usdSetting = _repository.GetById(DatabaseKey.Setting.UsdSellRate);
+
+            return new Dto.Setting
+            {
+                Value = usdSetting.Value,
+                Key = usdSetting.Key
+            };
+        }
+
     }
 }
 

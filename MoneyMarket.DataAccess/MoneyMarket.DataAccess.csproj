@@ -104,6 +104,15 @@
     <Compile Include="Migrations\201801042039534_Version11.Designer.cs">
       <DependentUpon>201801042039534_Version11.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201801061933140_Version12.cs" />
+    <Compile Include="Migrations\201801061933140_Version12.Designer.cs">
+      <DependentUpon>201801061933140_Version12.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801062226393_Version13.cs" />
+    <Compile Include="Migrations\201801062226393_Version13.Designer.cs">
+      <DependentUpon>201801062226393_Version13.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TeamNotification.cs" />
     <Compile Include="Models\TeamCryptoCurrencyBalance.cs" />
     <Compile Include="Models\CryptoCurrency.cs" />
     <Compile Include="Models\CryptoCurrencyException.cs" />
@@ -169,6 +178,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201801042039534_Version11.resx">
       <DependentUpon>201801042039534_Version11.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801061933140_Version12.resx">
+      <DependentUpon>201801061933140_Version12.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801062226393_Version13.resx">
+      <DependentUpon>201801062226393_Version13.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

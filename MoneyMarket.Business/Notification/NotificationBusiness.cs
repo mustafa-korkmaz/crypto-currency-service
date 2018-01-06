@@ -1,5 +1,4 @@
-﻿using MoneyMarket.Business.HttpClient;
-using MoneyMarket.Business.Slack.Integration;
+﻿using MoneyMarket.Business.Slack.Integration;
 using MoneyMarket.Common;
 using MoneyMarket.Common.Helper;
 using MoneyMarket.DataAccess;
@@ -34,7 +33,7 @@ namespace MoneyMarket.Business.Notification
             {
                 token = slackToken,
                 channel = "#xlm",
-                text = $"Bakiye= {xlmBalance} XLM ({usdTotal.ToDropMoneyFormat()} USD)"
+                text = $"Bakiye= {xlmBalance} XLM ({usdTotal.ToMoneyMarketMoneyFormat()} USD)"
             };
 
             var slackClient = SlackApiClient.Instance;

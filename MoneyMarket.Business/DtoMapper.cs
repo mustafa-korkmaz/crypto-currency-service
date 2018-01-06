@@ -29,6 +29,9 @@ namespace MoneyMarket.Business
             cfg.CreateMap<DataAccess.Models.TeamCryptoCurrencyBalance, Dto.TeamCryptoCurrencyBalance>();
             cfg.CreateMap<Dto.TeamCryptoCurrencyBalance, DataAccess.Models.TeamCryptoCurrencyBalance>();
 
+            cfg.CreateMap<DataAccess.Models.TeamNotification, Dto.TeamNotification>();
+            cfg.CreateMap<Dto.TeamNotification, DataAccess.Models.TeamNotification>();
+
         });
 
         public static IMapper Mapper = Config.CreateMapper();

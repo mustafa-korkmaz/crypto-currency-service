@@ -86,7 +86,7 @@ namespace MoneyMarket.Common.Helper
             return d.ToString("yyyyMMdd");
         }
 
-        public static string ToDropMoneyFormat(this decimal val)
+        public static string ToMoneyMarketMoneyFormat(this decimal val)
         {
             //return $"{val:#,0.00}"; // "1.234.256,58"
             return val.ToString("n2");
@@ -97,9 +97,10 @@ namespace MoneyMarket.Common.Helper
             return $"{val:#,0}"; // "1.234.256"
         }
 
-        public static string ToDropHandicapFormat(this decimal val)
+        public static string ToMoneyMarketCryptoCurrencyFormat(this decimal val)
         {
-            return $"{val:#,0.0}"; // "1.234.256,5"
+            var specifier = "#,#.00####;(#,#.00####)";
+            return val.ToString(specifier);
         }
 
         public static decimal ToDropDecimalFormat(this string val)
@@ -148,7 +149,7 @@ namespace MoneyMarket.Common.Helper
                         break;
                     case ColumnDataFormat.Money:
                         value = string.IsNullOrEmpty(value) ? "0" : value;
-                        retValue = Decimal.Parse(value).ToDropMoneyFormat();
+                        retValue = Decimal.Parse(value).ToMoneyMarketMoneyFormat();
                         break;
                     default:
                         break;

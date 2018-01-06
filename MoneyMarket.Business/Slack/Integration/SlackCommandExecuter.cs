@@ -48,7 +48,7 @@ namespace MoneyMarket.Business.Slack.Integration
 
         /// <summary>
         /// scope= set:settings
-        /// cmd= 'set lang @p0'
+        /// cmd= 'set lang @p0'.
         /// @p0 parameter for desired language
         /// </summary>
         /// <returns></returns>
@@ -56,7 +56,7 @@ namespace MoneyMarket.Business.Slack.Integration
 
         /// <summary>
         /// scope= set:settings
-        /// cmd= 'set currency @p0'
+        /// cmd= 'set currency @p0'.
         /// @p0 parameter for desired currency
         /// </summary>
         /// <returns></returns>
@@ -64,7 +64,7 @@ namespace MoneyMarket.Business.Slack.Integration
 
         /// <summary>
         /// scope= set:balance
-        /// cmd= 'set balance @p0 @p1 @p2'
+        /// cmd= 'set balance @p0 @p1 @p2'.
         /// @p0 parameter for desired currency
         /// @p1 parameter for balance name
         /// @p2 parameter for balance amount
@@ -74,12 +74,29 @@ namespace MoneyMarket.Business.Slack.Integration
 
         /// <summary>
         /// scope= get:balance
-        /// cmd= 'get balance @p0'
+        /// cmd= 'get balance @p0'.
         /// @p0 parameter for desired currency (all for all balances)
         /// </summary>
         /// <returns></returns>
         public abstract Task GetBalance();
 
+        /// <summary>
+        /// scope= set:alarm
+        /// cmd= 'set balance @p0 @p1 @p2'.
+        /// @p0 parameter for desired currency
+        /// @p1 parameter for notification time interval in minutes
+        /// </summary>
+        /// <returns></returns>
+        public abstract Task SetNotification();
+
+
+        /// <summary>
+        /// scope= list:currency
+        /// cmd= 'get @p0.
+        /// @p0 parameter for desired currency
+        /// </summary>
+        /// <returns></returns>
+        public abstract Task GetCryptoCurrency();
 
         /// <summary>
         /// checks existance and authorizes command.
@@ -242,9 +259,9 @@ namespace MoneyMarket.Business.Slack.Integration
                 .Replace("  ", " ") // more than one space char is unaccaptable
                 .Split(' '); //split by space char
 
-            if (array.Length == 1)
+            if (array.Length <= 2)
             {
-                commandText = array[0]; //one word cmd (like 'help')
+                commandText = array[0]; //one word cmd (like 'help') or 2 words cmd with 1 parameter
             }
             else
             {

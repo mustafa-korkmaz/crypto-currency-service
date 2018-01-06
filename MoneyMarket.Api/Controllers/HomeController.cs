@@ -114,7 +114,9 @@ namespace MoneyMarket.Api.Controllers
                 Language = Language.Turkish,
                 ExpiresIn = CommonBusiness.GetSlackTeamExpirationDate(AccountType.Trial),
                 CreatedAt = DateTime.UtcNow,
-                TeamScopes = GetTeamScopes()
+                TeamScopes = GetTeamScopes(),
+                MainCurrency = MainCurrency.Try,
+                Provider = Provider.CoinMarketCap
             };
 
             _teamBusiness.Add(team);

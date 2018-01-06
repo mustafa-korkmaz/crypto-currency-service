@@ -29,11 +29,6 @@ namespace MoneyMarket.Common.ApiObjects.Response.ViewModels
         public NotificationType NotificationType { get; set; }
 
         /// <summary>
-        /// NotificationType text value
-        /// </summary>
-        public string NotificationTypeText => Statics.GetNotificationTypeText(NotificationType);
-
-        /// <summary>
         /// NotificationStatus enum value
         /// </summary>
         public NotificationStatus NotificationStatus { get; set; }

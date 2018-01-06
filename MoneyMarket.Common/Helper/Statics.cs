@@ -177,19 +177,6 @@ namespace MoneyMarket.Common.Helper
             }
         }
 
-        public static string GetNotificationTypeText(NotificationType notificationType)
-        {
-            switch (notificationType)
-            {
-                case NotificationType.Product:
-                    return "Ürünlerim";
-                case NotificationType.General:
-                    return "Genel";
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(notificationType), notificationType, null);
-            }
-        }
-
         public static string GetNotificationStatusText(NotificationStatus notificationStatus)
         {
             switch (notificationStatus)

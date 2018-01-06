@@ -108,7 +108,7 @@ namespace MoneyMarket.Business.CryptoCurrency
 
         public IEnumerable<Dto.TeamCryptoCurrencyBalance> GetTeamCryptoCurrencyBalances(int teamId, Currency currency)
         {
-            var query = _repository.GetAsQueryable(p => p.TeamId == teamId);
+            var query = _repository.GetAsQueryable(p => p.TeamId == teamId && p.Balance > 0);
 
             if (currency != Currency.Unknown)
             {

@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using AngleSharp.Dom.Html;
-using AngleSharp.Parser.Html;
 using MoneyMarket.Business.HttpClient;
 using MoneyMarket.Common;
 using MoneyMarket.Common.Helper;
