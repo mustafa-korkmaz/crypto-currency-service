@@ -56,6 +56,14 @@ namespace MoneyMarket.Business.Slack.Integration
 
         /// <summary>
         /// scope= set:settings
+        /// cmd= 'set channel @p0'.
+        /// @p0 parameter for channel info
+        /// </summary>
+        /// <returns></returns>
+        public abstract Task SetChannel();
+
+        /// <summary>
+        /// scope= set:settings
         /// cmd= 'set currency @p0'.
         /// @p0 parameter for desired currency
         /// </summary>
@@ -89,6 +97,14 @@ namespace MoneyMarket.Business.Slack.Integration
         /// <returns></returns>
         public abstract Task SetNotification();
 
+        /// <summary>
+        /// scope= set:alarms
+        /// cmd= 'set balance @p0 @p1'.
+        /// @p0 parameter for desired currency
+        /// @p1 parameter for balance amount
+        /// </summary>
+        /// <returns></returns>
+        public abstract Task SetAlarm();
 
         /// <summary>
         /// scope= list:currency
@@ -151,6 +167,11 @@ namespace MoneyMarket.Business.Slack.Integration
             _team.Language = l;
         }
 
+        protected void SetTeamChannel()
+        {
+            _team.Channel = _channel;
+        }
+
         protected void SetCommands()
         {
             _commands = _cmdBusiness.All();
@@ -170,6 +191,20 @@ namespace MoneyMarket.Business.Slack.Integration
             return new SlackMessage
             {
                 text = ExecutingCommand.Responses.First(p => p.Language == _team.Language && p.Depth == 0).SuccessText,
+                token = _team.BotAccessToken,
+                channel = _channel
+            };
+        }
+
+        /// <summary>
+        /// returns first success message with desired language and depth
+        /// </summary>
+        /// <returns></returns>
+        protected SlackMessage GetSlackExecutionSuccessMessage(int depth)
+        {
+            return new SlackMessage
+            {
+                text = ExecutingCommand.Responses.First(p => p.Language == _team.Language && p.Depth == depth).SuccessText,
                 token = _team.BotAccessToken,
                 channel = _channel
             };
@@ -261,7 +296,12 @@ namespace MoneyMarket.Business.Slack.Integration
 
             if (array.Length <= 2)
             {
-                commandText = array[0]; //one word cmd (like 'help') or 2 words cmd with 1 parameter
+                if (array[0] == "set" && array[1] == "channel")
+                {
+                    commandText = "set channel";  //special case for set channel cmd
+                }
+                else
+                    commandText = array[0]; //one word cmd (like 'help') or 2 words cmd with 1 parameter
             }
             else
             {

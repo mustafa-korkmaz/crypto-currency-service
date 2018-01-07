@@ -21,6 +21,11 @@ namespace MoneyMarket.Dto
         public string BotId { get; set; }
 
         /// <summary>
+        /// Slack channel info to send push notifications
+        /// </summary>
+        public string Channel { get; set; }
+
+        /// <summary>
         /// Slack Team Name
         /// </summary>
         public string Name { get; set; }

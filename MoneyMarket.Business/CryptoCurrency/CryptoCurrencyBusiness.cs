@@ -92,7 +92,7 @@ namespace MoneyMarket.Business.CryptoCurrency
 
         public IEnumerable<Dto.CryptoCurrency> All()
         {
-            var webSites = _repository.AsQueryable()
+            var cryptoCurrencies = _repository.AsQueryable()
                 .Select(p => new Dto.CryptoCurrency
                 {
                     Id = p.Id,
@@ -104,12 +104,12 @@ namespace MoneyMarket.Business.CryptoCurrency
                 })
                 .ToList();
 
-            return webSites;
+            return cryptoCurrencies;
         }
 
         public IEnumerable<Dto.CryptoCurrency> GetCryptoCurrenciesByProvider(Provider provider)
         {
-            var webSites = _repository.GetAsQueryable(p => p.Provider == provider)
+            var cryptoCurrencies = _repository.GetAsQueryable(p => p.Provider == provider)
                 .Select(p => new Dto.CryptoCurrency
                 {
                     Id = p.Id,
@@ -121,7 +121,24 @@ namespace MoneyMarket.Business.CryptoCurrency
                 })
                 .ToList();
 
-            return webSites;
+            return cryptoCurrencies;
+        }
+
+        public IEnumerable<Dto.CryptoCurrency> GetCryptoCurrenciesByCurrency(Currency currency)
+        {
+            var cryptoCurrencies = _repository.GetAsQueryable(p => p.Currency == currency)
+                .Select(p => new Dto.CryptoCurrency
+                {
+                    Id = p.Id,
+                    Provider = p.Provider,
+                    Currency = p.Currency,
+                    ClassName = p.ClassName,
+                    UsdValue = p.UsdValue,
+                    ModifiedAt = p.ModifiedAt
+                })
+                .ToList();
+
+            return cryptoCurrencies;
         }
 
         private void UpdateCryptoCurrencies(IEnumerable<Dto.CryptoCurrency> cryptoCurrencies)

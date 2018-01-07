@@ -166,6 +166,16 @@ namespace MoneyMarket.Business.Slack.Integration
             await PostMessage(GetSlackExecutionSuccessMessage());
         }
 
+        public override async Task SetChannel()
+        {
+            var teamBusiness = new TeamBusiness();
+
+            SetTeamChannel();
+
+            teamBusiness.Edit(Team);
+            await PostMessage(GetSlackExecutionSuccessMessage());
+        }
+
         /// <summary>
         /// scope= set:settings
         /// cmd= 'set currency @p0'.
@@ -360,9 +370,70 @@ namespace MoneyMarket.Business.Slack.Integration
                 return;
             }
 
-            SavePriceTrackerNotification(currency, timeIntervalInMinutes);
+            SaveAssetReminderTrackerNotification(currency, timeIntervalInMinutes);
+
+            if (timeIntervalInMinutes == 0)
+            {
+                //notification has been deleted.
+                await PostMessage(GetSlackExecutionSuccessMessage(1));
+                return;
+            }
 
             await PostMessage(GetSlackExecutionSuccessMessage());
+        }
+
+        /// <summary>
+        /// scope= set:alarms
+        /// cmd= 'set balance @p0 @p1'.
+        /// @p0 parameter for desired currency
+        /// @p1 parameter for balance amount
+        /// </summary>
+        /// <returns></returns>
+        public override async Task SetAlarm()
+        {
+            int parameterCount = 2;
+
+            var validateResp = ValidateParameters(null, parameterCount);
+
+            if (validateResp.ResponseCode != ResponseCode.Success)
+            {
+                await PostMessage(GetSlackExecutionErrorMessage(validateResp.ResponseData));
+                return;
+            }
+
+            var currency = Statics.GetCurrency(Parameters[0]);
+
+            if (currency == Currency.Unknown)
+            {
+                //post depth=2 message => Given crypto currency either not found or not supported.
+                await PostMessage(GetSlackExecutionErrorMessage(2));
+                return;
+            }
+
+            decimal limitAmount;
+
+            if (!decimal.TryParse(Parameters[1], out limitAmount))
+            {
+                //post depth=3 message => Balance amount is invalid. Use only . (dot) and numbers for balances.
+                await PostMessage(GetSlackExecutionErrorMessage(3));
+                return;
+            }
+
+            SavePriceTrackerNotification(currency, limitAmount);
+
+
+            if (limitAmount == 0)
+            {
+                //Alarm has been unset.
+                await PostMessage(GetSlackExecutionSuccessMessage(1));
+                return;
+            }
+
+            var successText = ExecutingCommand.Responses.First(p => p.Language == Team.Language && p.Depth == 0).SuccessText;
+
+            var successMessage = SlackMessageGenerator.GetAlarmMessage(successText, currency, limitAmount, Team.MainCurrency);
+
+            await PostMessage(GetSlackExecutionSuccessMessage(successMessage));
         }
 
         /// <summary>
@@ -373,7 +444,43 @@ namespace MoneyMarket.Business.Slack.Integration
         /// <returns></returns>
         public override async Task GetCryptoCurrency()
         {
-            throw new NotImplementedException();
+            int parameterCount = 1;
+
+            var validateResp = ValidateParameters(null, parameterCount);
+
+            if (validateResp.ResponseCode != ResponseCode.Success)
+            {
+                await PostMessage(GetSlackExecutionErrorMessage(validateResp.ResponseData));
+                return;
+            }
+
+            var currency = Currency.Unknown;
+            var parameter = Parameters[0];
+
+            if (parameter.ToLower() != "all")
+            {
+                currency = Statics.GetCurrency(Parameters[0]);
+
+                if (currency == Currency.Unknown)
+                {
+                    //post depth=2 message => Given crypto currency either not found or not supported.
+                    await PostMessage(GetSlackExecutionErrorMessage(2));
+                    return;
+                }
+            }
+
+            var cryptoCurrencies = GetCryptoCurrencies(currency);
+
+            if (!cryptoCurrencies.Any())
+            {
+                // you have no balance with this crypto currency.
+                await PostMessage(GetSlackExecutionErrorMessage(3));
+                return;
+            }
+
+            var successMessage = SlackMessageGenerator.GetCryptoCurrencyMessage(cryptoCurrencies, Team.MainCurrency);
+
+            await PostMessage(GetSlackExecutionSuccessMessage(successMessage));
         }
 
         #endregion SlackCommandExecuter implementations
@@ -461,13 +568,16 @@ namespace MoneyMarket.Business.Slack.Integration
 
             var list = array.ToList();
 
-            // remove first 2 word which are command texts, not parameter.
-            list.RemoveAt(0);
+            if (array.Length > 2)
+            {
+                // remove first 2 word which are command texts, not parameter.
+                list.RemoveAt(0);
+            }
+
             list.RemoveAt(0);
 
             return list.ToArray();
         }
-
 
         private IEnumerable<Dto.TeamCryptoCurrencyBalance> GetTeamCryptoCurrencyBalances(Currency currency)
         {
@@ -476,6 +586,17 @@ namespace MoneyMarket.Business.Slack.Integration
             return teamCryptoCurrencyBalanceBusiness.GetTeamCryptoCurrencyBalances(Team.Id, currency);
         }
 
+        private IEnumerable<Dto.CryptoCurrency> GetCryptoCurrencies(Currency currency)
+        {
+            var cryptoCurrencyBusiness = new CryptoCurrencyBusiness();
+
+            if (currency == Currency.Unknown) //unknown = all
+            {
+                return cryptoCurrencyBusiness.All().OrderBy(p => p.Currency);
+            }
+
+            return cryptoCurrencyBusiness.GetCryptoCurrenciesByCurrency(currency).OrderBy(p => p.Currency);
+        }
 
         private IEnumerable<Dto.CryptoCurrency> GetCryptoCurrencies()
         {
@@ -484,12 +605,12 @@ namespace MoneyMarket.Business.Slack.Integration
             return crpytoCurrencyBusiness.GetCryptoCurrenciesByProvider(Team.Provider);
         }
 
-        private void SavePriceTrackerNotification(Currency currency, int timeInterval)
+        private void SaveAssetReminderTrackerNotification(Currency currency, int timeInterval)
         {
             var teamNotification = new Dto.TeamNotification
             {
                 TeamId = Team.Id,
-                NotificationType = NotificationType.PriceTracker,
+                NotificationType = NotificationType.AssetReminder,
                 Key = ((int)currency).ToString(),
                 LastExecutedAt = DateTime.UtcNow,
                 TimeInterval = timeInterval
@@ -498,6 +619,32 @@ namespace MoneyMarket.Business.Slack.Integration
             var teamNotificationBusiness = new TeamNotificationBusiness();
 
             if (timeInterval == 0)
+            {
+                //user wants to snooze notification
+                teamNotificationBusiness.Delete(teamNotification);
+                return;
+            }
+
+            // add or update notification
+            teamNotificationBusiness.Add(teamNotification);
+        }
+
+        private void SavePriceTrackerNotification(Currency currency, decimal limitAmount)
+        {
+            var key = ((int)currency) + ":" + limitAmount.ToMoneyMarketCryptoCurrencyFormat();
+
+            var teamNotification = new Dto.TeamNotification
+            {
+                TeamId = Team.Id,
+                NotificationType = NotificationType.PriceTracker,
+                Key = key,
+                LastExecutedAt = DateTime.UtcNow,
+                TimeInterval = 0 // 0 for alarms
+            };
+
+            var teamNotificationBusiness = new TeamNotificationBusiness();
+
+            if (limitAmount == 0)
             {
                 //user wants to snooze notification
                 teamNotificationBusiness.Delete(teamNotification);

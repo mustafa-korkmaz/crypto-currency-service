@@ -99,11 +99,11 @@ namespace MoneyMarket.Common.Helper
 
         public static string ToMoneyMarketCryptoCurrencyFormat(this decimal val)
         {
-            var specifier = "#,#.00####;(#,#.00####)";
+            var specifier = "#,0.00####;(#,0.00####)";
             return val.ToString(specifier);
         }
 
-        public static decimal ToDropDecimalFormat(this string val)
+        public static decimal ToMoneyMarketDecimalFormat(this string val)
         {
             var style = NumberStyles.Number | NumberStyles.AllowCurrencySymbol;
             //"6,032.51";

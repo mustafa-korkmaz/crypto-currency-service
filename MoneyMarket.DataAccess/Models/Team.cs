@@ -27,6 +27,13 @@ namespace MoneyMarket.DataAccess.Models
         public string BotId { get; set; }
 
         /// <summary>
+        /// Slack channel info to send push notifications
+        /// </summary>
+        [Required]
+        [MaxLength(50)]
+        public string Channel { get; set; }
+
+        /// <summary>
         /// Slack Team Name
         /// </summary>
         [Required]

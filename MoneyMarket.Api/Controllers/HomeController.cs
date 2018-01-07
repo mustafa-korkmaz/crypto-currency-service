@@ -116,6 +116,7 @@ namespace MoneyMarket.Api.Controllers
                 CreatedAt = DateTime.UtcNow,
                 TeamScopes = GetTeamScopes(),
                 MainCurrency = MainCurrency.Try,
+                Channel = "#general", // default channel
                 Provider = Provider.CoinMarketCap
             };
 

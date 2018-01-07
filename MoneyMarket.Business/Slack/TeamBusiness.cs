@@ -48,6 +48,7 @@ namespace MoneyMarket.Business.Slack
             entity.MemberCount = teamDto.MemberCount;
             entity.MainCurrency = teamDto.MainCurrency;
             entity.Provider = teamDto.Provider;
+            entity.Channel = teamDto.Channel;
 
             _repository.Update(entity);
 
@@ -113,6 +114,7 @@ namespace MoneyMarket.Business.Slack
                                 MainCurrency = t.MainCurrency,
                                 MemberCount = t.MemberCount,
                                 Provider = t.Provider,
+                                Channel = t.Channel,
                                 CreatedAt = t.CreatedAt
                             },
                             Id = p.Id,
