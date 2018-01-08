@@ -43,5 +43,10 @@ namespace MoneyMarket.Business.Command
 
             return commands;
         }
+
+        public Dto.Command Get(int id)
+        {
+            return All().First(p => p.Id == id);
+        }
     }
 }

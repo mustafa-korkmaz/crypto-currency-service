@@ -63,6 +63,25 @@ namespace MoneyMarket.Business.Slack.Integration
             return retMessage.ToString();
         }
 
+        public static string GetCryptoCurrencyAlarmMessage(IEnumerable<Dto.CryptoCurrency> cryptoCurrencies, MainCurrency teamMainCurrency, decimal usdSellRate)
+        {
+            var retMessage = new StringBuilder();
+
+            foreach (var cryptoCurrency in cryptoCurrencies)
+            {
+                var valueStr = teamMainCurrency == MainCurrency.Usd ? cryptoCurrency.UsdValue.ToMoneyMarketCryptoCurrencyFormat() : (cryptoCurrency.UsdValue * usdSellRate).ToMoneyMarketMoneyFormat();
+
+                var alarmEmoji = ":bell: ";
+
+                var cryptoCurrencyLine = string.Format("{0}{1:G} {2:G}: {3} {4:G}{5}", alarmEmoji, cryptoCurrency.Provider, cryptoCurrency.Currency, valueStr, teamMainCurrency, "{lf}");
+
+                retMessage.Append(cryptoCurrencyLine);
+            }
+
+            return retMessage.ToString();
+        }
+
+
         public static string GetAlarmMessage(string message, Currency currency, decimal limitAmount, MainCurrency teamMainCurrency)
         {
             var valStr = limitAmount.ToMoneyMarketCryptoCurrencyFormat();

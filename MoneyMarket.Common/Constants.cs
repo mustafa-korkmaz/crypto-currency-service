@@ -390,6 +390,7 @@
         {
             public const int CheckCommandExistance = 1;
             public const int Authorize = 2;
+            public const int GetBalance = 8;
         }
 
         public static class CryptoCurrency

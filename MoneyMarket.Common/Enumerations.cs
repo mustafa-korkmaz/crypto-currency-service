@@ -215,7 +215,11 @@
         Unknown = 0,
         BtcTurk,
         BitStamp,
-        CoinMarketCap
+        CoinMarketCap,
+        Binance,
+        Poloniex,
+        HitBtc,
+        Bittrex
     }
 
     public enum Language : byte

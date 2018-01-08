@@ -152,6 +152,37 @@ namespace MoneyMarket.Common.Helper
             return Currency.Unknown;
         }
 
+        public static Currency GetCurrency(int currency)
+        {
+            return (Currency)currency;
+        }
+
+        public static Provider GetProvider(string providerText)
+        {
+            switch (providerText.ToLower())
+            {
+
+                case "bitstamp":
+                    return Provider.BitStamp;
+                case "btcturk":
+                    return Provider.BtcTurk;
+                case "coinmarketcap":
+                    return Provider.CoinMarketCap;
+                case "bittrex":
+                    return Provider.Bittrex;
+                case "hitbtc":
+                    return Provider.HitBtc;
+                case "binance":
+                    return Provider.Binance;
+            }
+
+            return Provider.Unknown;
+        }
+
+        public static Provider GetProvider(int provider)
+        {
+            return (Provider)provider;
+        }
 
 
         public static string GetModificationTypeText(ModificationType modificationType)

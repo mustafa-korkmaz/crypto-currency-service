@@ -1,7 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using MoneyMarket.Business.Command;
+using MoneyMarket.Business.CryptoCurrency;
+using MoneyMarket.Business.Setting;
+using MoneyMarket.Business.Slack.Integration;
 using MoneyMarket.Common;
+using MoneyMarket.Common.Helper;
 using MoneyMarket.Common.Response;
 using MoneyMarket.DataAccess;
 using MoneyMarket.Dto;
@@ -12,6 +18,7 @@ namespace MoneyMarket.Business.Notification
     {
         private readonly UnitOfWork _uow = new UnitOfWork();
         private readonly IRepository<DataAccess.Models.TeamNotification> _repository;
+        private readonly SlackApiClient _client = SlackApiClient.Instance;
 
         public TeamNotificationBusiness()
         {
@@ -52,7 +59,15 @@ namespace MoneyMarket.Business.Notification
 
         public void Edit(DtoBase dto)
         {
-            throw new System.NotImplementedException();
+            var teamNotificationDto = (Dto.TeamNotification)dto;
+
+            var entity = _repository.GetById(teamNotificationDto.Id);
+
+            entity.LastExecutedAt = teamNotificationDto.LastExecutedAt;
+
+            _repository.Update(entity);
+
+            _uow.Save();
         }
 
         public void Delete(int id)
@@ -90,6 +105,8 @@ namespace MoneyMarket.Business.Notification
 
             var assetReminderNotifications = teamNotifications.Where(p => p.NotificationType == NotificationType.AssetReminder);
 
+            SendPriceTrackerAlarmNotifications(priceTrackerAlarmNotifications);
+
             SendAssetReminderNotifications(assetReminderNotifications);
         }
 
@@ -104,7 +121,9 @@ namespace MoneyMarket.Business.Notification
             if (teamNotification.NotificationType == NotificationType.PriceTracker)
             {
                 //for alarms we need to check existance for splitted value of key
-                key = teamNotification.Key.Split(':')[0] + ":";
+                var keyArray = teamNotification.Key.Split(':');
+
+                key = keyArray[0] + ":" + keyArray[1] + ":";
 
                 return _repository.AsQueryable()
                     .FirstOrDefault(p => p.Key.Contains(key)
@@ -145,23 +164,144 @@ namespace MoneyMarket.Business.Notification
             return teamNotifications;
         }
 
-        private void SendPriceTrackerAlarmNotifications(IEnumerable<Dto.TeamNotification> priceTrackerAlarmNotifications)
+        private async void SendPriceTrackerAlarmNotifications(IEnumerable<Dto.TeamNotification> priceTrackerAlarmNotifications)
         {
             //:bell: slack alarm emoji
             //BtcTurk Btc: 17,022.33323 Usd
+
+            var usdSellRate = new SettingBusiness().GetUsdValue();
+
+            //get all crypto currencies
+            var cryptoCurrencies = GetCryptoCurrencies();
+
+            foreach (var teamNotification in priceTrackerAlarmNotifications)
+            {
+                var keyArray = teamNotification.Key.Split(':');
+                var provider = Statics.GetProvider(int.Parse(keyArray[0]));
+                var currency = Statics.GetCurrency(int.Parse(keyArray[1]));
+                var limitAmount = decimal.Parse(keyArray[2]);
+
+                IEnumerable<Dto.CryptoCurrency> alarms;
+
+                if (teamNotification.Team.MainCurrency == MainCurrency.Try)
+                {
+                    alarms = cryptoCurrencies.Where(p => (p.UsdValue / usdSellRate) >= limitAmount &&
+                                                         p.Currency == currency);
+                }
+                else
+                {
+                    alarms = cryptoCurrencies.Where(p => p.UsdValue >= limitAmount && p.Currency == currency);
+                }
+
+                if (provider != Provider.Unknown)
+                {
+                    alarms = alarms.Where(p => p.Provider == provider);
+                }
+
+                if (!alarms.Any())
+                {
+                    //do nothing
+                    continue;
+                }
+
+                var successMessage = SlackMessageGenerator.GetCryptoCurrencyAlarmMessage(alarms, teamNotification.Team.MainCurrency, usdSellRate);
+
+                await PostMessage(GetSlackExecutionSuccessMessage(successMessage, teamNotification.Team));
+
+                Delete(teamNotification.Id);
+            }
         }
 
-        private void SendAssetReminderNotifications(IEnumerable<Dto.TeamNotification> assetReminderNotifications)
+        private async void SendAssetReminderNotifications(IEnumerable<Dto.TeamNotification> assetReminderNotifications)
         {
             //:pushpin: slack pin emoji
             //mute: 100.00 Btc
             //Assets total: 1,718,393.08 Usd
+
+            var command = new CommandBusiness().Get(DatabaseKey.Command.GetBalance);
 
             var utcNow = DateTime.UtcNow;
 
             //get notifications needs to be pushed by time interval in minutes.
             var filteredNotifications = assetReminderNotifications
                 .Where(p => p.LastExecutedAt.AddMinutes(p.TimeInterval) < utcNow);
+
+            foreach (var teamNotification in filteredNotifications)
+            {
+                var currency = Statics.GetCurrency(int.Parse(teamNotification.Key));
+
+                var balances = GetTeamCryptoCurrencyBalances(currency, teamNotification.TeamId);
+
+                if (!balances.Any())
+                {
+                    //do nothing
+                    continue;
+                }
+
+                //get crypto currencies by team.provider
+                var cryptoCurrencies = GetCryptoCurrencies(teamNotification.Team.Provider);
+
+                var successText = command.Responses.First(p => p.Language == teamNotification.Team.Language && p.Depth == 0).SuccessText;
+
+                var successMessage = SlackMessageGenerator.GetCryptoCurrencyBalanceMessage(balances, teamNotification.Team.MainCurrency, cryptoCurrencies, successText);
+
+                var pushpinEmoji = ":pushpin:{lf}";
+
+                successMessage = pushpinEmoji + successMessage;
+
+                await PostMessage(GetSlackExecutionSuccessMessage(successMessage, teamNotification.Team));
+
+                teamNotification.LastExecutedAt = DateTime.UtcNow;
+
+                Edit(teamNotification);
+            }
         }
+
+        private IEnumerable<Dto.TeamCryptoCurrencyBalance> GetTeamCryptoCurrencyBalances(Currency currency, int teamId)
+        {
+            var teamCryptoCurrencyBalanceBusiness = new TeamCryptoCurrencyBalanceBusiness();
+
+            return teamCryptoCurrencyBalanceBusiness.GetTeamCryptoCurrencyBalances(teamId, currency);
+        }
+
+        private IEnumerable<Dto.CryptoCurrency> GetCryptoCurrencies(Provider provider)
+        {
+            var crpytoCurrencyBusiness = new CryptoCurrencyBusiness();
+
+            return crpytoCurrencyBusiness.GetCryptoCurrenciesByProvider(provider);
+        }
+
+        /// <summary>
+        /// returns all crypto currencies
+        /// </summary>
+        /// <returns></returns>
+        private IEnumerable<Dto.CryptoCurrency> GetCryptoCurrencies()
+        {
+            var crpytoCurrencyBusiness = new CryptoCurrencyBusiness();
+
+            return crpytoCurrencyBusiness.All();
+        }
+
+        private async Task<SlackResponse> PostMessage(SlackMessage message)
+        {
+            var resp = await _client.InvokeApi<SlackMessage, SlackResponse>("chat.postMessage", message);
+
+            return resp.ResponseData;
+        }
+
+        /// <summary>
+        /// returns success message with given text and team
+        /// </summary>
+        /// <returns></returns>
+        private SlackMessage GetSlackExecutionSuccessMessage(string text, Dto.Team team)
+        {
+            return new SlackMessage
+            {
+                text = text,
+                token = team.BotAccessToken,
+                channel = team.Channel
+            };
+        }
+
     }
 }
