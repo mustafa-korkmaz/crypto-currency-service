@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using MoneyMarket.Business.Caching.Provider;
 using MoneyMarket.Common;
+using MoneyMarket.Common.Helper;
 using MoneyMarket.DataAccess;
 using MoneyMarket.Dto;
 
@@ -40,7 +42,8 @@ namespace MoneyMarket.Business.Setting
 
         public decimal GetUsdValue()
         {
-            return Convert.ToDecimal(GetUsdValueSetting().Value);
+            return GetUsdValueSetting().Value
+                .ToMoneyMarketDecimalFormat(); //decimal.Parse(GetUsdValueSetting().Value, CultureInfo.InvariantCulture);
         }
 
         /// <summary>

@@ -14,9 +14,8 @@ namespace MoneyMarket.DataAccess.Models
         public Currency Currency { get; set; } // foreign key 
 
         /// <summary>
-        /// Unique balance name
+        /// balance name
         /// </summary>
-        [Index(IsUnique = true)]
         [MaxLength(50)]
         [Required]
         public string Name { get; set; }

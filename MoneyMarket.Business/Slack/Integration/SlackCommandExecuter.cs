@@ -246,7 +246,7 @@ namespace MoneyMarket.Business.Slack.Integration
                 ResponseCode = ResponseCode.Fail
             };
 
-            if (!Parameters.Any())
+            if (Parameters == null || !Parameters.Any())
             {
                 resp.ResponseData = 0; // parameter not found.
                 return resp;
