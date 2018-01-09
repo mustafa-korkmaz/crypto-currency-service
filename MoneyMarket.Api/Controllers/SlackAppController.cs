@@ -28,10 +28,7 @@ namespace MoneyMarket.Api.Controllers
             };
 
             // async run business, return OK to slack immediately
-            Task.Run(async () =>
-            {
-                await _slackIntegration.SubscribeEvent(request);
-            });
+            _slackIntegration.SubscribeEvent(request);
 
             return Ok(model); //responses to slack that we are good.
         }

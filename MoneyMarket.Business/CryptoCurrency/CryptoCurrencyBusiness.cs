@@ -81,10 +81,10 @@ namespace MoneyMarket.Business.CryptoCurrency
                 cryptoCurrencies.AddRange(ticker.GetCurrentCryptoCurrency());
             }
 
-            SendSlackNotification(cryptoCurrencies);
-
             UpdateCryptoCurrencies(cryptoCurrencies);
             UpdateUsdSellRate(usdSellRate);
+
+            SendSlackNotification(cryptoCurrencies);
 
             resp.ResponseCode = ResponseCode.Success;
             return resp;

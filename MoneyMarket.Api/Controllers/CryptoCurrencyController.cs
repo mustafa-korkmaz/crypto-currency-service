@@ -6,6 +6,7 @@ using MoneyMarket.Common;
 using MoneyMarket.Common.ApiObjects.Response.ViewModels;
 using MoneyMarket.Common.Helper;
 using MoneyMarket.Common.Response;
+using System.Threading.Tasks;
 
 namespace MoneyMarket.Api.Controllers
 {
@@ -39,12 +40,10 @@ namespace MoneyMarket.Api.Controllers
         [Route("refresh")]
         public IHttpActionResult Refresh()
         {
-            var resp = RefreshTickers();
-
-            if (resp.ResponseCode != ResponseCode.Success)
+            Task.Run(() =>
             {
-                return BadRequest(resp.ResponseMessage);
-            }
+                RefreshTickers();
+            });
 
             return Ok();
         }
