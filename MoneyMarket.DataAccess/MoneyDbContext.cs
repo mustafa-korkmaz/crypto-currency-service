@@ -21,7 +21,7 @@ namespace MoneyMarket.DataAccess
             : base("MoneyDbConnection")
         {
 #if DEBUG
-            this.Database.Log = LogQuery; // print sql in debug mode
+            //this.Database.Log = LogQuery; // print sql in debug mode
 #endif
 
             this.Configuration.UseDatabaseNullSemantics = true; // to avoid unneccessary null checks

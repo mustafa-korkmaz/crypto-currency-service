@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using System.Web.Http;
+﻿using System.Web.Http;
 using MoneyMarket.Business.Slack.Integration;
 using MoneyMarket.Common.ApiObjects.Request.SlackApp;
 using MoneyMarket.Common.ApiObjects.Response.ViewModels;

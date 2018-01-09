@@ -10,26 +10,6 @@ namespace MoneyMarket.Api.Controllers
     [RoutePrefix("Notification")]
     public class NotificationController : ApiBaseController
     {
-        private readonly NotificationBusiness _notificationBusiness = new NotificationBusiness();
-
-        // Get/xlm
-        /// <summary>
-        /// refreshes all moneys
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        [Route("xlm")]
-        public IHttpActionResult Xlm()
-        {
-            SendXlmNotification();
-            return Ok();
-        }
-
-        private void SendXlmNotification()
-        {
-           _notificationBusiness.SendXlmNotification();
-        }
-
         /// <summary>
         /// sends slack team notifications
         /// </summary>

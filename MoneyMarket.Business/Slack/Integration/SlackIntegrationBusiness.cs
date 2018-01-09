@@ -10,6 +10,7 @@ using MoneyMarket.Common.ApiObjects.Response.SlackApp;
 using MoneyMarket.Common.Helper;
 using MoneyMarket.Dto;
 using MoneyMarket.Business.CryptoCurrency;
+using MoneyMarket.Business.Notification;
 
 namespace MoneyMarket.Business.Slack.Integration
 {
@@ -244,8 +245,11 @@ namespace MoneyMarket.Business.Slack.Integration
 
             if (currency == Currency.Unknown)
             {
+                var errorMesssage = GetSlackExecutionErrorMessage(2);
+
                 //post depth=2 message => Given crypto currency either not found or not supported.
-                await PostMessage(GetSlackExecutionErrorMessage(2));
+                errorMesssage.text = string.Format(errorMesssage.text, Parameters[0]);
+                await PostMessage(errorMesssage);
                 return;
             }
 
@@ -301,8 +305,11 @@ namespace MoneyMarket.Business.Slack.Integration
 
                 if (currency == Currency.Unknown)
                 {
+                    var errorMesssage = GetSlackExecutionErrorMessage(2);
+
                     //post depth=2 message => Given crypto currency either not found or not supported.
-                    await PostMessage(GetSlackExecutionErrorMessage(2));
+                    errorMesssage.text = string.Format(errorMesssage.text, Parameters[0]);
+                    await PostMessage(errorMesssage);
                     return;
                 }
             }
@@ -349,8 +356,11 @@ namespace MoneyMarket.Business.Slack.Integration
 
             if (currency == Currency.Unknown && Parameters[0].ToLower() != "all")
             {
+                var errorMesssage = GetSlackExecutionErrorMessage(2);
+
                 //post depth=2 message => Given crypto currency either not found or not supported.
-                await PostMessage(GetSlackExecutionErrorMessage(2));
+                errorMesssage.text = string.Format(errorMesssage.text, Parameters[0]);
+                await PostMessage(errorMesssage);
                 return;
             }
 
@@ -399,7 +409,7 @@ namespace MoneyMarket.Business.Slack.Integration
 
             if (provider == Provider.Unknown && Parameters[0].ToLower() != "all")
             {
-                //post depth=2 message => Given crypto currency either not found or not supported.
+                //post depth=2 message => Given web site either not found or not supported.
                 await PostMessage(GetSlackExecutionErrorMessage(4));
                 return;
             }
@@ -408,8 +418,11 @@ namespace MoneyMarket.Business.Slack.Integration
 
             if (currency == Currency.Unknown)
             {
+                var errorMesssage = GetSlackExecutionErrorMessage(2);
+
                 //post depth=2 message => Given crypto currency either not found or not supported.
-                await PostMessage(GetSlackExecutionErrorMessage(2));
+                errorMesssage.text = string.Format(errorMesssage.text, Parameters[0]);
+                await PostMessage(errorMesssage);
                 return;
             }
 
@@ -465,8 +478,11 @@ namespace MoneyMarket.Business.Slack.Integration
 
                 if (currency == Currency.Unknown)
                 {
+                    var errorMesssage = GetSlackExecutionErrorMessage(2);
+
                     //post depth=2 message => Given crypto currency either not found or not supported.
-                    await PostMessage(GetSlackExecutionErrorMessage(2));
+                    errorMesssage.text = string.Format(errorMesssage.text, Parameters[0]);
+                    await PostMessage(errorMesssage);
                     return;
                 }
             }

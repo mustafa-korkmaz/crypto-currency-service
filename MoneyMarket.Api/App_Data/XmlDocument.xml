@@ -104,12 +104,6 @@
             Notification controller
             </summary>
         </member>
-        <member name="M:MoneyMarket.Api.Controllers.NotificationController.Xlm">
-            <summary>
-            refreshes all moneys
-            </summary>
-            <returns></returns>
-        </member>
         <member name="M:MoneyMarket.Api.Controllers.NotificationController.SendSlackTeamNotifications">
             <summary>
             sends slack team notifications
