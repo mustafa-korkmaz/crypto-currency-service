@@ -3,16 +3,13 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using MoneyMarket.Common;
 using MoneyMarket.Common.ApiObjects.Request.SlackApp;
 using MoneyMarket.Common.ApiObjects.Response.SlackApp;
 using MoneyMarket.Common.Helper;
-using MoneyMarket.Common.Response;
 using MoneyMarket.Dto;
 using MoneyMarket.Business.CryptoCurrency;
-using MoneyMarket.Business.Notification;
 
 namespace MoneyMarket.Business.Slack.Integration
 {
@@ -254,7 +251,7 @@ namespace MoneyMarket.Business.Slack.Integration
 
             decimal balanceAmount;
 
-            if (!decimal.TryParse(Parameters[2], out balanceAmount))
+            if (!Parameters[2].ToMoneyMarketDecimalTryParseFormat(out balanceAmount))
             {
                 //post depth=3 message => Balance amount is invalid. Use only . (dot) and numbers for balances.
                 await PostMessage(GetSlackExecutionErrorMessage(3));

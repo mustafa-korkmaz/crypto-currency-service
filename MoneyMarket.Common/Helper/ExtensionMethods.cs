@@ -111,6 +111,14 @@ namespace MoneyMarket.Common.Helper
             return decimal.Parse(val, style, provider);
         }
 
+        public static bool ToMoneyMarketDecimalTryParseFormat(this string val, out decimal d)
+        {
+            var style = NumberStyles.Number | NumberStyles.AllowCurrencySymbol;
+            //"6,032.51";
+            CultureInfo provider = new CultureInfo("en-GB");
+            return decimal.TryParse(val, style, provider, out d);
+        }
+
         public static string ToDocumentName(this string name)
         {
             name = name.ToLower();

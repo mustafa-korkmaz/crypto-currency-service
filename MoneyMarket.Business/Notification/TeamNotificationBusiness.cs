@@ -179,7 +179,7 @@ namespace MoneyMarket.Business.Notification
                 var keyArray = teamNotification.Key.Split(':');
                 var provider = Statics.GetProvider(int.Parse(keyArray[0]));
                 var currency = Statics.GetCurrency(int.Parse(keyArray[1]));
-                var limitAmount = decimal.Parse(keyArray[2]);
+                var limitAmount = keyArray[2].ToMoneyMarketDecimalFormat();
 
                 IEnumerable<Dto.CryptoCurrency> alarms;
 
