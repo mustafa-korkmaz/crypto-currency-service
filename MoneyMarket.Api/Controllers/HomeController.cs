@@ -79,10 +79,17 @@ namespace MoneyMarket.Api.Controllers
 
             if (isGranted)
             {
-                var isSlackTeamExists = IsSlackTeamExists(oAuthResp.team_id);
+                var existingTeam = GetTeamBySlackId(oAuthResp.team_id);
+                var isSlackTeamExists = existingTeam != null;
 
-                //if team already exists, do nothing.
-                if (!isSlackTeamExists)
+                //if team already exists, update access token.
+                if (isSlackTeamExists)
+                {
+                    existingTeam.BotAccessToken = oAuthResp.bot.bot_access_token; //refresh token
+
+                    EditSlackTeam(existingTeam);
+                }
+                else
                 {
                     SaveSlackTeam(oAuthResp);
                 }
@@ -123,6 +130,11 @@ namespace MoneyMarket.Api.Controllers
             _teamBusiness.Add(team);
         }
 
+        private void EditSlackTeam(Dto.Team team)
+        {
+            _teamBusiness.Edit(team);
+        }
+
         private ICollection<Dto.TeamScope> GetTeamScopes()
         {
             var scopes = CommonBusiness.GetSlackScopes();
@@ -148,11 +160,6 @@ namespace MoneyMarket.Api.Controllers
         private Dto.Team GetTeamBySlackId(string slackTeamId)
         {
             return _teamBusiness.GetTeamBySlackId(slackTeamId);
-        }
-
-        private bool IsSlackTeamExists(string slackTeamId)
-        {
-            return GetTeamBySlackId(slackTeamId) != null;
         }
 
         private SlackMessage GetWelcomeMessage(string token)

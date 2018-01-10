@@ -255,14 +255,14 @@ namespace MoneyMarket.Business.Slack.Integration
                 return;
             }
 
-            decimal balanceAmount;
-
-            if (!Parameters[2].ToMoneyMarketDecimalTryParseFormat(out balanceAmount) || Parameters[2].Contains(','))
+            if (Parameters[2].Contains(','))
             {
                 //post depth=3 message => Balance amount is invalid. Use only . (dot) and numbers for balances.
                 await PostMessage(GetSlackExecutionErrorMessage(3));
                 return;
             }
+
+            decimal balanceAmount = Parameters[2].ToMoneyMarketDecimalFormat();
 
             //everytihng is fine. add or update balance.
             var teamCryptoCurrencyBalanceBusiness = new TeamCryptoCurrencyBalanceBusiness();
@@ -272,7 +272,7 @@ namespace MoneyMarket.Business.Slack.Integration
                 TeamId = Team.Id,
                 Currency = currency,
                 Name = Parameters[1].ToLower(),
-                Balance = decimal.Parse(Parameters[2])
+                Balance = balanceAmount
             };
 
             teamCryptoCurrencyBalanceBusiness.Add(balance);
@@ -428,14 +428,14 @@ namespace MoneyMarket.Business.Slack.Integration
                 return;
             }
 
-            decimal limitAmount;
-
-            if (!decimal.TryParse(Parameters[2], out limitAmount) || Parameters[2].Contains(','))
+            if (Parameters[2].Contains(','))
             {
                 //post depth=3 message => Balance amount is invalid. Use only . (dot) and numbers for balances.
                 await PostMessage(GetSlackExecutionErrorMessage(3));
                 return;
             }
+
+            decimal limitAmount = Parameters[2].ToMoneyMarketDecimalFormat();
 
             SavePriceTrackerNotification(currency, provider, limitAmount);
 

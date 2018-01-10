@@ -88,8 +88,8 @@ namespace MoneyMarket.Common.Helper
 
         public static string ToMoneyMarketMoneyFormat(this decimal val)
         {
-            //return $"{val:#,0.00}"; // "1.234.256,58"
-            return val.ToString("n2");
+            var specifier = "#0.00;(#,0.00)";
+            return val.ToString(specifier, CultureInfo.InvariantCulture);
         }
 
         public static string ToDropCounterFormat(this decimal val)
@@ -99,25 +99,16 @@ namespace MoneyMarket.Common.Helper
 
         public static string ToMoneyMarketCryptoCurrencyFormat(this decimal val)
         {
-            var specifier = "#,0.00####;(#,0.00####)";
-            return val.ToString(specifier);
+            var specifier = "#0.00####;(#,0.00####)";
+            return val.ToString(specifier, CultureInfo.InvariantCulture);
         }
 
         public static decimal ToMoneyMarketDecimalFormat(this string val)
         {
             val = val.Replace(",", "");
-            var style = NumberStyles.Number | NumberStyles.AllowCurrencySymbol;
-            //"6,032.51";
-            CultureInfo provider = new CultureInfo("en-GB");
-            return decimal.Parse(val, style, provider);
-        }
-
-        public static bool ToMoneyMarketDecimalTryParseFormat(this string val, out decimal d)
-        {
-            var style = NumberStyles.Number | NumberStyles.AllowCurrencySymbol;
-            //"6,032.51";
-            CultureInfo provider = new CultureInfo("en-GB");
-            return decimal.TryParse(val, style, provider, out d);
+            var style = NumberStyles.AllowDecimalPoint;
+            //"6032.51";
+            return decimal.Parse(val, style, new CultureInfo("en-US"));
         }
 
         public static string ToDocumentName(this string name)
