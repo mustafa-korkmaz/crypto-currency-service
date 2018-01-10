@@ -114,8 +114,8 @@
     public static class SlackBotMessage
     {
         public const string Welcome =
-            "Selam!\nLütfen beni _#general_ kanalınıza davet edin ya da _direct message_ yazarak hemen kullanmaya başlayın."
-            + "\nHi there!\nPlease invite me your _#general_ channel or send a _direct message_ to start using.\nType `set lang en` for English";
+            "Selam!\nccs-bot uygulamasına _direct message_ yazarak beni kullanmaya başlayabilirsin."
+            + "\nHi there!\nSend ccs-bot app _direct message_ to start using me.\nType `set lang en` for English";
         public const string ExportTypeNotFound = "Export type not found";
     }
 
