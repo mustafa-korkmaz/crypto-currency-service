@@ -11,9 +11,11 @@ using MoneyMarket.Common.Helper;
 using MoneyMarket.Dto;
 using MoneyMarket.Business.CryptoCurrency;
 using MoneyMarket.Business.Notification;
+using MoneyMarket.Business.Exception;
 
 namespace MoneyMarket.Business.Slack.Integration
 {
+    [AppException]
     public class SlackIntegrationBusiness : SlackCommandExecuter, ISlackIntegration
     {
         private readonly SlackApiClient _client = SlackApiClient.Instance;
@@ -66,6 +68,7 @@ namespace MoneyMarket.Business.Slack.Integration
 
                 if (cmdValidationResp.ResponseCode != ResponseCode.Success)
                 {
+                    throw new System.ApplicationException("ekmek");
                     // this command is not valid or may be command is valid but the it won't be executed due to another error. 
                     //this case usually happens when user not have the rights to execute this command.
                     await PostMessage(cmdValidationResp.ResponseData);
