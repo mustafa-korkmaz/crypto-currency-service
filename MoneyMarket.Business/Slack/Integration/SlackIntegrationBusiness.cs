@@ -68,7 +68,6 @@ namespace MoneyMarket.Business.Slack.Integration
 
                 if (cmdValidationResp.ResponseCode != ResponseCode.Success)
                 {
-                    throw new System.ApplicationException("ekmek");
                     // this command is not valid or may be command is valid but the it won't be executed due to another error. 
                     //this case usually happens when user not have the rights to execute this command.
                     await PostMessage(cmdValidationResp.ResponseData);
@@ -258,7 +257,7 @@ namespace MoneyMarket.Business.Slack.Integration
 
             decimal balanceAmount;
 
-            if (!Parameters[2].ToMoneyMarketDecimalTryParseFormat(out balanceAmount))
+            if (!Parameters[2].ToMoneyMarketDecimalTryParseFormat(out balanceAmount) || Parameters[2].Contains(','))
             {
                 //post depth=3 message => Balance amount is invalid. Use only . (dot) and numbers for balances.
                 await PostMessage(GetSlackExecutionErrorMessage(3));
@@ -431,7 +430,7 @@ namespace MoneyMarket.Business.Slack.Integration
 
             decimal limitAmount;
 
-            if (!decimal.TryParse(Parameters[2], out limitAmount))
+            if (!decimal.TryParse(Parameters[2], out limitAmount) || Parameters[2].Contains(','))
             {
                 //post depth=3 message => Balance amount is invalid. Use only . (dot) and numbers for balances.
                 await PostMessage(GetSlackExecutionErrorMessage(3));

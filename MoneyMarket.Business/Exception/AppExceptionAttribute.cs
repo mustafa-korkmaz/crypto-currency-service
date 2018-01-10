@@ -14,7 +14,7 @@ namespace MoneyMarket.Business.Exception
         /// Runs when method get exception.
         /// </summary>
         /// <param name="args"></param>
-        public override void OnException(MethodExecutionArgs args)
+        public sealed override void OnException(MethodExecutionArgs args)
         {
             var excBusiness = new ExceptionBusiness();
             excBusiness.SaveExceptionAsync(args.Exception);

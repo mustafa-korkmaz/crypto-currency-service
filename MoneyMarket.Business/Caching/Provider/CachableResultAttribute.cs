@@ -24,7 +24,7 @@ namespace MoneyMarket.Business.Caching.Provider
         /// on cacheable method invoked.
         /// </summary>
         /// <param name="args"></param>
-        public override void OnInvoke(MethodInterceptionArgs args)
+        public sealed override void OnInvoke(MethodInterceptionArgs args)
         {
             var cacheProviderType = Assembly.GetExecutingAssembly()
                 .GetTypes()
