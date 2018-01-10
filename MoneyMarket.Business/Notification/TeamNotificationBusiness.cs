@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MoneyMarket.Business.Command;
 using MoneyMarket.Business.CryptoCurrency;
+using MoneyMarket.Business.Exception;
 using MoneyMarket.Business.Setting;
 using MoneyMarket.Business.Slack.Integration;
 using MoneyMarket.Common;
@@ -97,6 +98,7 @@ namespace MoneyMarket.Business.Notification
             }
         }
 
+        [AppException]
         public void SendSlackTeamNotifications()
         {
             var teamNotifications = GetTeamNotifications();

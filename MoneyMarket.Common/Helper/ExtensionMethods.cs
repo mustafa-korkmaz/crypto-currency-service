@@ -105,6 +105,7 @@ namespace MoneyMarket.Common.Helper
 
         public static decimal ToMoneyMarketDecimalFormat(this string val)
         {
+            val = val.Replace(",", "");
             var style = NumberStyles.Number | NumberStyles.AllowCurrencySymbol;
             //"6,032.51";
             CultureInfo provider = new CultureInfo("en-GB");

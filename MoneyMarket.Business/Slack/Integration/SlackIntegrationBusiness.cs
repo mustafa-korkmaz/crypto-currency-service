@@ -651,7 +651,7 @@ namespace MoneyMarket.Business.Slack.Integration
 
         private void SavePriceTrackerNotification(Currency currency, Provider provider, decimal limitAmount)
         {
-            var key = ((int)provider) + ":" + ((int)currency) + ":" + limitAmount.ToMoneyMarketCryptoCurrencyFormat();
+            var key = ((int)provider) + ":" + ((int)currency) + ":" + limitAmount;
 
             var teamNotification = new Dto.TeamNotification
             {
