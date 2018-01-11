@@ -99,9 +99,11 @@ namespace MoneyMarket.Business.Slack.Integration
 
         /// <summary>
         /// scope= set:alarms
-        /// cmd= 'set balance @p0 @p1'.
+        /// cmd= 'set balance @p0 @p1 @p2'.
         /// @p0 parameter for desired currency
-        /// @p1 parameter for balance amount
+        /// @p1 parameter for desired website
+        /// @p2 parameter for balance amount
+        /// @p2 parameter for currency code
         /// </summary>
         /// <returns></returns>
         public abstract Task SetAlarm();

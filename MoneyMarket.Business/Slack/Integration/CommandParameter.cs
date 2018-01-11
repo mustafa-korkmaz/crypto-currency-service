@@ -12,6 +12,9 @@ namespace MoneyMarket.Business.Slack.Integration
 
         public string ParameterValue { get; set; }
 
+        /// <summary>
+        /// dbo.responses.depth property
+        /// </summary>
         public int Depth { get; set; }
     }
 }

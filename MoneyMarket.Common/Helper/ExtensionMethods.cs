@@ -99,7 +99,7 @@ namespace MoneyMarket.Common.Helper
 
         public static string ToMoneyMarketCryptoCurrencyFormat(this decimal val)
         {
-            var specifier = "#0.00####;(#,0.00####)";
+            var specifier = "#0.00####";
             return val.ToString(specifier, CultureInfo.InvariantCulture);
         }
 

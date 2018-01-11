@@ -182,10 +182,11 @@ namespace MoneyMarket.Business.Notification
                 var provider = Statics.GetProvider(int.Parse(keyArray[0]));
                 var currency = Statics.GetCurrency(int.Parse(keyArray[1]));
                 var limitAmount = keyArray[2].ToMoneyMarketDecimalFormat();
+                var mainCurrency = Statics.GetMainCurrency(int.Parse(keyArray[3]));
 
                 IEnumerable<Dto.CryptoCurrency> alarms;
 
-                if (teamNotification.Team.MainCurrency == MainCurrency.Try)
+                if (mainCurrency == MainCurrency.Try)
                 {
                     alarms = cryptoCurrencies.Where(p => (p.UsdValue / usdSellRate) >= limitAmount &&
                                                          p.Currency == currency);
@@ -206,7 +207,7 @@ namespace MoneyMarket.Business.Notification
                     continue;
                 }
 
-                var successMessage = SlackMessageGenerator.GetCryptoCurrencyAlarmMessage(alarms, teamNotification.Team.MainCurrency, usdSellRate);
+                var successMessage = SlackMessageGenerator.GetCryptoCurrencyAlarmMessage(alarms, mainCurrency, usdSellRate);
 
                 await PostMessage(GetSlackExecutionSuccessMessage(successMessage, teamNotification.Team));
 

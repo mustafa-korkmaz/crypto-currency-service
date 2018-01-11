@@ -390,16 +390,38 @@ namespace MoneyMarket.Business.Slack.Integration
         /// <summary>
         /// scope= set:alarms
         /// cmd= 'set balance @p0 @p1 @p2'.
-        /// @p0 parameter for desired website
-        /// @p1 parameter for desired currency
+        /// @p0 parameter for desired currency
+        /// @p1 parameter for desired website
         /// @p2 parameter for balance amount
+        /// @p2 parameter for currency code
         /// </summary>
         /// <returns></returns>
         public override async Task SetAlarm()
         {
-            int parameterCount = 3;
+            int parameterCount = 4;
 
-            var validateResp = ValidateParameters(null, parameterCount);
+            string mainCurrencyText = string.Empty;
+
+            if (Parameters.Length > 3)
+            {
+                mainCurrencyText = Parameters[3];
+            }
+
+            var parameterSet = new List<CommandParameter>
+            {
+                new CommandParameter
+                {
+                    Depth = 5,
+                    ParameterValue = mainCurrencyText.ToLower(),
+                    ParameterSet = new List<string>
+                    {
+                        "tl",
+                        "usd"
+                    }
+                }
+            };
+
+            var validateResp = ValidateParameters(parameterSet, parameterCount);
 
             if (validateResp.ResponseCode != ResponseCode.Success)
             {
@@ -407,16 +429,16 @@ namespace MoneyMarket.Business.Slack.Integration
                 return;
             }
 
-            var provider = Statics.GetProvider(Parameters[0]);
+            var provider = Statics.GetProvider(Parameters[1]);
 
-            if (provider == Provider.Unknown && Parameters[0].ToLower() != "all")
+            if (provider == Provider.Unknown && Parameters[1].ToLower() != "all")
             {
                 //post depth=2 message => Given web site either not found or not supported.
                 await PostMessage(GetSlackExecutionErrorMessage(4));
                 return;
             }
 
-            var currency = Statics.GetCurrency(Parameters[1]);
+            var currency = Statics.GetCurrency(Parameters[0]);
 
             if (currency == Currency.Unknown)
             {
@@ -437,7 +459,9 @@ namespace MoneyMarket.Business.Slack.Integration
 
             decimal limitAmount = Parameters[2].ToMoneyMarketDecimalFormat();
 
-            SavePriceTrackerNotification(currency, provider, limitAmount);
+            var mainCurrency = Statics.GetMainCurrency(Parameters[3]);
+
+            SavePriceTrackerNotification(currency, provider, limitAmount, mainCurrency);
 
             if (limitAmount == 0)
             {
@@ -446,9 +470,10 @@ namespace MoneyMarket.Business.Slack.Integration
                 return;
             }
 
+
             var successText = ExecutingCommand.Responses.First(p => p.Language == Team.Language && p.Depth == 0).SuccessText;
 
-            var successMessage = SlackMessageGenerator.GetAlarmMessage(successText, currency, limitAmount, Team.MainCurrency);
+            var successMessage = SlackMessageGenerator.GetAlarmMessage(successText, currency, limitAmount, mainCurrency);
 
             await PostMessage(GetSlackExecutionSuccessMessage(successMessage));
         }
@@ -649,9 +674,9 @@ namespace MoneyMarket.Business.Slack.Integration
             teamNotificationBusiness.Add(teamNotification);
         }
 
-        private void SavePriceTrackerNotification(Currency currency, Provider provider, decimal limitAmount)
+        private void SavePriceTrackerNotification(Currency currency, Provider provider, decimal limitAmount, MainCurrency mainCurrency)
         {
-            var key = ((int)provider) + ":" + ((int)currency) + ":" + limitAmount;
+            var key = (int)provider + ":" + (int)currency + ":" + limitAmount.ToMoneyMarketCryptoCurrencyFormat() + ":" + (int)mainCurrency;
 
             var teamNotification = new Dto.TeamNotification
             {

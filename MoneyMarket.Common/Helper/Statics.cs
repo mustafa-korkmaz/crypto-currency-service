@@ -105,6 +105,11 @@ namespace MoneyMarket.Common.Helper
             return MainCurrency.Unknown;
         }
 
+        public static MainCurrency GetMainCurrency(int mainCurrency)
+        {
+            return (MainCurrency)mainCurrency;
+        }
+
         public static Currency GetCurrency(string currencyText)
         {
             /*
