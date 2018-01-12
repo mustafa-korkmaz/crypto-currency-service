@@ -14,6 +14,15 @@ namespace MoneyMarket.Business.Slack.Integration
         {
             var retMessage = new StringBuilder();
 
+            decimal usdSellRate = 0;
+
+            if (teamMainCurrency == MainCurrency.Try)
+            {
+                var settingBusiness = new SettingBusiness();
+
+                usdSellRate = settingBusiness.GetUsdValue();
+            }
+
             decimal totalUsdValueOfCryptoCurrencies = 0;
 
             foreach (var tccb in teamCryptoCurrencybalances)
@@ -28,12 +37,13 @@ namespace MoneyMarket.Business.Slack.Integration
 
             if (teamMainCurrency == MainCurrency.Try)
             {
-                var settingBusiness = new SettingBusiness();
+                var totalTryValueOfCryptoCurrencies = totalUsdValueOfCryptoCurrencies * usdSellRate;
 
-                totalUsdValueOfCryptoCurrencies *= settingBusiness.GetUsdValue();
+                retMessage.Append(string.Format("{0} {1} {2:G} ({3} {4:G})", successText, totalUsdValueOfCryptoCurrencies.ToMoneyMarketMoneyFormat(), MainCurrency.Usd, totalTryValueOfCryptoCurrencies.ToMoneyMarketMoneyFormat(), MainCurrency.Try));
             }
+            else
+                retMessage.Append(string.Format("{0} {1} {2:G}", successText, totalUsdValueOfCryptoCurrencies.ToMoneyMarketMoneyFormat(), teamMainCurrency));
 
-            retMessage.Append(string.Format("{0} {1} {2:G}", successText, totalUsdValueOfCryptoCurrencies.ToMoneyMarketMoneyFormat(), teamMainCurrency));
 
             return retMessage.ToString();
         }
@@ -53,11 +63,17 @@ namespace MoneyMarket.Business.Slack.Integration
 
             foreach (var cryptoCurrency in cryptoCurrencies)
             {
-                var valueStr = usdSellRate == 0 ? cryptoCurrency.UsdValue.ToMoneyMarketCryptoCurrencyFormat() : (cryptoCurrency.UsdValue * usdSellRate).ToMoneyMarketMoneyFormat();
+                var usdValueStr = cryptoCurrency.UsdValue.ToMoneyMarketCryptoCurrencyFormat();
 
-                var cryptoCurrencyLine = string.Format("{0:G} {1:G}: {2} {3:G}{4}", cryptoCurrency.Provider, cryptoCurrency.Currency, valueStr, teamMainCurrency, "{lf}");
+                var tryValueStr = teamMainCurrency == MainCurrency.Usd ? "" : string.Format(" ({0} {1:G})", (cryptoCurrency.UsdValue * usdSellRate).ToMoneyMarketMoneyFormat(), MainCurrency.Try);
 
-                retMessage.Append(cryptoCurrencyLine);
+                if (teamMainCurrency == MainCurrency.Try)
+                {
+                    retMessage.Append(string.Format("{0:G} {1:G}: {2} {3:G}{4}{5}", cryptoCurrency.Provider, cryptoCurrency.Currency, usdValueStr, MainCurrency.Usd, tryValueStr, "{lf}"));
+                }
+                else
+                    retMessage.Append(string.Format("{0:G} {1:G}: {2} {3:G}{4}", cryptoCurrency.Provider, cryptoCurrency.Currency, usdValueStr, teamMainCurrency, "{lf}"));
+
             }
 
             return retMessage.ToString();
@@ -69,11 +85,13 @@ namespace MoneyMarket.Business.Slack.Integration
 
             foreach (var cryptoCurrency in cryptoCurrencies)
             {
-                var valueStr = mainCurrency == MainCurrency.Usd ? cryptoCurrency.UsdValue.ToMoneyMarketCryptoCurrencyFormat() : (cryptoCurrency.UsdValue * usdSellRate).ToMoneyMarketMoneyFormat();
+                var usdValueStr = cryptoCurrency.UsdValue.ToMoneyMarketCryptoCurrencyFormat();
+
+                var tryValueStr = mainCurrency == MainCurrency.Usd ? "" : string.Format(" ({0} {1:G})", (cryptoCurrency.UsdValue * usdSellRate).ToMoneyMarketMoneyFormat(), MainCurrency.Try);
 
                 var alarmEmoji = ":bell: ";
 
-                var cryptoCurrencyLine = string.Format("{0}{1:G} {2:G}: {3} {4:G}{5}", alarmEmoji, cryptoCurrency.Provider, cryptoCurrency.Currency, valueStr, mainCurrency, "{lf}");
+                var cryptoCurrencyLine = string.Format("{0}{1:G} {2:G}: {3} {4:G}{5}{6}", alarmEmoji, cryptoCurrency.Provider, cryptoCurrency.Currency, usdValueStr, mainCurrency, tryValueStr, "{lf}");
 
                 retMessage.Append(cryptoCurrencyLine);
             }
