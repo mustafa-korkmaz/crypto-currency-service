@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using MoneyMarket.Business.HttpClient;
 using MoneyMarket.Common;
-using MoneyMarket.Common.Helper;
 using Newtonsoft.Json;
 
 namespace MoneyMarket.Business.CryptoCurrency.Tickers.CoinMarketCap
@@ -20,7 +20,7 @@ namespace MoneyMarket.Business.CryptoCurrency.Tickers.CoinMarketCap
             var tickers = JsonConvert.DeserializeObject<IEnumerable<JsonTicker>>(resp.ResponseData);
 
             var list = new List<Dto.CryptoCurrency>();
-            var now = Statics.GetTurkeyCurrentDateTime();
+            var now = DateTime.UtcNow;
 
             foreach (var ticker in tickers)
             {
@@ -61,6 +61,8 @@ namespace MoneyMarket.Business.CryptoCurrency.Tickers.CoinMarketCap
                     return Currency.Nxt;
                 case "LSK":
                     return Currency.Lisk;
+                case "TRX":
+                    return Currency.Tron;
             }
 
             return Currency.Unknown;

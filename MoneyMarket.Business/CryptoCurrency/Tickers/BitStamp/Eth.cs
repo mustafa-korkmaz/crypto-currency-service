@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using MoneyMarket.Business.HttpClient;
 using MoneyMarket.Common;
-using MoneyMarket.Common.Helper;
 using Newtonsoft.Json;
 
 namespace MoneyMarket.Business.CryptoCurrency.Tickers.BitStamp
@@ -21,7 +21,7 @@ namespace MoneyMarket.Business.CryptoCurrency.Tickers.BitStamp
 
             var ticker = JsonConvert.DeserializeObject<JsonTicker>(resp.ResponseData);
 
-            var now = Statics.GetTurkeyCurrentDateTime();
+            var now = DateTime.UtcNow;
 
             var list = new List<Dto.CryptoCurrency>();
 

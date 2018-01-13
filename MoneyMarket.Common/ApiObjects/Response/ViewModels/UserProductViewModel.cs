@@ -112,11 +112,6 @@ namespace MoneyMarket.Common.ApiObjects.Response.ViewModels
         public ModificationType ModificationType { get; set; }
 
         /// <summary>
-        /// userProduct ModificationType text
-        /// </summary>
-        public string ModificationTypeText => Statics.GetModificationTypeText(ModificationType);
-
-        /// <summary>
         /// create dateTime of userProductHistory
         /// </summary>
         public DateTime CreatedAt { get; set; }

@@ -102,6 +102,7 @@
     <Compile Include="Common\CommonBusiness.cs" />
     <Compile Include="CryptoCurrency\TeamCryptoCurrencyBalanceBusiness.cs" />
     <Compile Include="CryptoCurrency\Tickers\BitStamp\Ripple.cs" />
+    <Compile Include="CryptoCurrency\Tickers\CoinMarketCap\Ignis.cs" />
     <Compile Include="Exception\AppExceptionAttribute.cs" />
     <Compile Include="Notification\TeamNotificationBusiness.cs" />
     <Compile Include="Notification\NotificationBusiness.cs" />

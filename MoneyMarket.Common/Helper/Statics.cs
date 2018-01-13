@@ -98,6 +98,7 @@ namespace MoneyMarket.Common.Helper
                 case "tl":
                     return MainCurrency.Try;
                 case "usd":
+                case "$":
                     return MainCurrency.Usd;
 
             }
@@ -134,11 +135,9 @@ namespace MoneyMarket.Common.Helper
                 case "etc":
                     return Currency.Etc;
                 case "stellar":
-                    return Currency.Stellar;
                 case "xlm":
                     return Currency.Stellar;
                 case "ripple":
-                    return Currency.Ripple;
                 case "xrp":
                     return Currency.Ripple;
                 case "nxt":
@@ -146,11 +145,16 @@ namespace MoneyMarket.Common.Helper
                 case "lisk":
                     return Currency.Lisk;
                 case "nem":
-                    return Currency.Nem;
                 case "xem":
                     return Currency.Nem;
                 case "eos":
                     return Currency.Eos;
+                case "trx":
+                case "tron":
+                    return Currency.Tron;
+                case "ıgnis":
+                case "ignis":
+                    return Currency.Ignis;
 
             }
 
@@ -189,29 +193,6 @@ namespace MoneyMarket.Common.Helper
             return (Provider)provider;
         }
 
-
-        public static string GetModificationTypeText(ModificationType modificationType)
-        {
-            switch (modificationType)
-            {
-                case ModificationType.PriceIncreased:
-                    return "Fiyat yükseldi";
-                case ModificationType.PriceDecreased:
-                    return "Fiyat düştü";
-                case ModificationType.QuantityIncreased:
-                    return "Stoklar arttı.";
-                case ModificationType.QuantityDecreased:
-                    return "Stoklar azaldı.";
-                case ModificationType.PropertiesUpdated:
-                    return "Ürün özellikleri güncellendi.";
-                case ModificationType.StatusUpdated:
-                    return "Statü değiştirildi.";
-                case ModificationType.Initialization:
-                    return "Ürün kaydedildi.";
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(modificationType), modificationType, null);
-            }
-        }
 
         public static string GetNotificationStatusText(NotificationStatus notificationStatus)
         {

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using MoneyMarket.Business.HttpClient;
 using MoneyMarket.Common;
@@ -27,7 +28,7 @@ namespace MoneyMarket.Business.CryptoCurrency.Tickers.BtcTurk
             var ethTicker = tickers.First(t => t.pair == "ETHTRY");
             var btcTicker = tickers.First(t => t.pair == "BTCTRY");
 
-            var now = Statics.GetTurkeyCurrentDateTime();
+            var now = DateTime.UtcNow;
 
             var list = new List<Dto.CryptoCurrency>();
 

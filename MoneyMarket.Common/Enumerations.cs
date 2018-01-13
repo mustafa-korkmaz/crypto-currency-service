@@ -199,7 +199,9 @@
         Nxt,
         Lisk,
         Nem,
-        Eos
+        Eos,
+        Tron,
+        Ignis
         //etc..
     }
 
