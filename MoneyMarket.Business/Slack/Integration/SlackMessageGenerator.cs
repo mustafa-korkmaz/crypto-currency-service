@@ -99,12 +99,32 @@ namespace MoneyMarket.Business.Slack.Integration
             return retMessage.ToString();
         }
 
-
         public static string GetAlarmMessage(string message, Currency currency, decimal limitAmount, MainCurrency teamMainCurrency)
         {
             var valStr = limitAmount.ToMoneyMarketCryptoCurrencyFormat();
 
             return string.Format(message, currency, valStr, teamMainCurrency);
         }
+
+        public static string GetInvestmentMessage(IEnumerable<Dto.TeamInvestment> teamInvestments, MainCurrency teamMainCurrency, string successText)
+        {
+            var retMessage = new StringBuilder();
+
+            decimal totalValueOfInvestments = 0;
+
+            foreach (var investment in teamInvestments)
+            {
+                var balanceLine = string.Format("{0} {1:G}: {2} {3:G}{4}", investment.Name, investment.Currency, investment.Balance.ToMoneyMarketMoneyFormat(), teamMainCurrency, "{lf}");
+
+                retMessage.Append(balanceLine);
+
+                totalValueOfInvestments += investment.Balance;
+            }
+
+            retMessage.Append(string.Format("{0} {1} {2:G}", successText, totalValueOfInvestments.ToMoneyMarketMoneyFormat(), teamMainCurrency));
+
+            return retMessage.ToString();
+        }
+
     }
 }

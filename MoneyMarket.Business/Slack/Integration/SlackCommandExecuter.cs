@@ -89,6 +89,25 @@ namespace MoneyMarket.Business.Slack.Integration
         public abstract Task GetBalance();
 
         /// <summary>
+        /// scope= set:balance
+        /// cmd= 'set inv @p0 @p1 @p2'.
+        /// @p0 parameter for desired currency
+        /// @p1 parameter for investment name
+        /// @p2 parameter for investment amount
+        /// </summary>
+        /// <returns></returns>
+        public abstract Task SetInvestment();
+
+        /// <summary>
+        /// scope= get:balance
+        /// cmd= 'get inv @p0'.
+        /// @p0 parameter for desired currency (all for all investments)
+        /// </summary>
+        /// <returns></returns>
+        public abstract Task GetInvestment();
+
+
+        /// <summary>
         /// scope= set:alarm
         /// cmd= 'set balance @p0 @p1 @p2'.
         /// @p0 parameter for desired currency

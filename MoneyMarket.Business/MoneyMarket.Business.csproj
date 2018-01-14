@@ -100,6 +100,7 @@
     <Compile Include="Caching\Provider\LocalMemory\LocalMemoryCacheProvider.cs" />
     <Compile Include="Caching\Provider\Redis\RedisCacheProvider.cs" />
     <Compile Include="Common\CommonBusiness.cs" />
+    <Compile Include="TeamInvestment\TeamInvestmentBusiness.cs" />
     <Compile Include="CryptoCurrency\TeamCryptoCurrencyBalanceBusiness.cs" />
     <Compile Include="CryptoCurrency\Tickers\BitStamp\Ripple.cs" />
     <Compile Include="CryptoCurrency\Tickers\CoinMarketCap\Ignis.cs" />

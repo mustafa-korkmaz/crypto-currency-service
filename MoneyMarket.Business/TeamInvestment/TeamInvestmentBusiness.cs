@@ -5,31 +5,31 @@ using MoneyMarket.Common.Response;
 using MoneyMarket.DataAccess;
 using MoneyMarket.Dto;
 
-namespace MoneyMarket.Business.CryptoCurrency
+namespace MoneyMarket.Business.TeamInvestment
 {
-    public class TeamCryptoCurrencyBalanceBusiness : ICrudOperationBusiness
+    public class TeamInvestmentBusiness : ICrudOperationBusiness
     {
         private readonly UnitOfWork _uow = new UnitOfWork();
-        private readonly IRepository<DataAccess.Models.TeamCryptoCurrencyBalance> _repository;
+        private readonly IRepository<DataAccess.Models.TeamInvestment> _repository;
 
         public string CurrentUserId { get; set; }
 
-        public TeamCryptoCurrencyBalanceBusiness()
+        public TeamInvestmentBusiness()
         {
-            _repository = _uow.Repository<DataAccess.Models.TeamCryptoCurrencyBalance>();
+            _repository = _uow.Repository<DataAccess.Models.TeamInvestment>();
         }
 
         #region CRUD operations
 
         public void Add(DtoBase dto)
         {
-            var balanceDto = (Dto.TeamCryptoCurrencyBalance)dto;
+            var teamInvesmentDto = (Dto.TeamInvestment)dto;
 
-            var entity = GetTeamBalanceByNameAndCurrency(balanceDto);
+            var entity = GetTeamTeamInvesmentByNameAndCurrency(teamInvesmentDto);
 
             if (entity == null)
             {
-                entity = MappingConfigurator.Mapper.Map<DataAccess.Models.TeamCryptoCurrencyBalance>(dto);
+                entity = MappingConfigurator.Mapper.Map<DataAccess.Models.TeamInvestment>(dto);
 
                 _repository.Insert(entity);
 
@@ -40,7 +40,7 @@ namespace MoneyMarket.Business.CryptoCurrency
             }
 
             //data exists, update record.
-            entity.Balance = balanceDto.Balance;
+            entity.Balance = teamInvesmentDto.Balance;
 
             _repository.Update(entity);
 
@@ -49,7 +49,7 @@ namespace MoneyMarket.Business.CryptoCurrency
 
         public void Edit(DtoBase dto)
         {
-            var teamDto = (Dto.Team)dto;
+            var teamDto = (Dto.TeamInvestment)dto;
 
             var entity = _repository.GetById(teamDto.Id);
 
@@ -71,9 +71,9 @@ namespace MoneyMarket.Business.CryptoCurrency
 
         public void Delete(DtoBase dto)
         {
-            var balanceDto = (Dto.TeamCryptoCurrencyBalance)dto;
+            var invesmentDto = (Dto.TeamInvestment)dto;
 
-            var entity = GetTeamBalanceByNameAndCurrency(balanceDto);
+            var entity = GetTeamTeamInvesmentByNameAndCurrency(invesmentDto);
 
             if (entity != null)
             {
@@ -106,7 +106,7 @@ namespace MoneyMarket.Business.CryptoCurrency
 
         #endregion CRUD operations
 
-        public IEnumerable<Dto.TeamCryptoCurrencyBalance> GetTeamCryptoCurrencyBalances(int teamId, Currency currency)
+        public IEnumerable<Dto.TeamInvestment> GetTeamInvesments(int teamId, Currency currency)
         {
             var query = _repository.GetAsQueryable(p => p.TeamId == teamId);
 
@@ -115,8 +115,8 @@ namespace MoneyMarket.Business.CryptoCurrency
                 query = query.Where(p => p.Currency == currency);
             }
 
-            var balances = query
-                 .Select(p => new Dto.TeamCryptoCurrencyBalance
+            var invesments = query
+                 .Select(p => new Dto.TeamInvestment
                  {
                      Id = p.Id,
                      Balance = p.Balance,
@@ -126,19 +126,19 @@ namespace MoneyMarket.Business.CryptoCurrency
                  })
                 .ToList();
 
-            return balances;
+            return invesments;
         }
 
         /// <summary>
-        /// returns balance if exists by teamId, currency and name search filter
+        /// returns teamInvesment if exists by teamId, currency and name search filter
         /// </summary>
         /// <returns></returns>
-        private DataAccess.Models.TeamCryptoCurrencyBalance GetTeamBalanceByNameAndCurrency(Dto.TeamCryptoCurrencyBalance teamBalance)
+        private DataAccess.Models.TeamInvestment GetTeamTeamInvesmentByNameAndCurrency(Dto.TeamInvestment teamInvesment)
         {
             return _repository.AsQueryable()
-                .FirstOrDefault(p => p.Currency == teamBalance.Currency
-                && p.Name == teamBalance.Name
-                && p.TeamId == teamBalance.TeamId);
+                .FirstOrDefault(p => p.Currency == teamInvesment.Currency
+                && p.Name == teamInvesment.Name
+                && p.TeamId == teamInvesment.TeamId);
         }
 
     }

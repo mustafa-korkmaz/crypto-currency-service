@@ -32,6 +32,9 @@ namespace MoneyMarket.Business
             cfg.CreateMap<DataAccess.Models.TeamNotification, Dto.TeamNotification>();
             cfg.CreateMap<Dto.TeamNotification, DataAccess.Models.TeamNotification>();
 
+            cfg.CreateMap<DataAccess.Models.TeamInvestment, Dto.TeamInvestment>();
+            cfg.CreateMap<Dto.TeamInvestment, DataAccess.Models.TeamInvestment>();
+
         });
 
         public static IMapper Mapper = Config.CreateMapper();

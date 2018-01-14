@@ -49,6 +49,7 @@
     <Compile Include="Response.cs" />
     <Compile Include="Scope.cs" />
     <Compile Include="Team.cs" />
+    <Compile Include="TeamInvestment.cs" />
     <Compile Include="TeamCryptoCurrencyBalance.cs" />
     <Compile Include="TeamNotification.cs" />
     <Compile Include="TeamScope.cs" />

@@ -12,6 +12,7 @@ using MoneyMarket.Dto;
 using MoneyMarket.Business.CryptoCurrency;
 using MoneyMarket.Business.Notification;
 using MoneyMarket.Business.Exception;
+using MoneyMarket.Business.TeamInvestment;
 
 namespace MoneyMarket.Business.Slack.Integration
 {
@@ -194,7 +195,8 @@ namespace MoneyMarket.Business.Slack.Integration
                     ParameterSet = new List<string>
                     {
                         "tl",
-                        "usd"
+                        "usd",
+                        "$"
                     }
                 }
             };
@@ -275,6 +277,15 @@ namespace MoneyMarket.Business.Slack.Integration
                 Balance = balanceAmount
             };
 
+            if (balanceAmount == 0)
+            {
+                teamCryptoCurrencyBalanceBusiness.Delete(balance);
+
+                //balance has been deleted.
+                await PostMessage(GetSlackExecutionSuccessMessage(1));
+                return;
+            }
+
             teamCryptoCurrencyBalanceBusiness.Add(balance);
 
             await PostMessage(GetSlackExecutionSuccessMessage());
@@ -331,6 +342,124 @@ namespace MoneyMarket.Business.Slack.Integration
             var successText = ExecutingCommand.Responses.First(p => p.Language == Team.Language && p.Depth == 0).SuccessText;
 
             var successMessage = SlackMessageGenerator.GetCryptoCurrencyBalanceMessage(balances, Team.MainCurrency, cryptoCurrencies, successText);
+
+            await PostMessage(GetSlackExecutionSuccessMessage(successMessage));
+        }
+
+        /// <summary>
+        /// scope= set:balance
+        /// cmd= 'set inv @p0 @p1 @p2'.
+        /// @p0 parameter for desired currency
+        /// @p1 parameter for investment name
+        /// @p2 parameter for investment amount
+        /// </summary>
+        /// <returns></returns>
+        public override async Task SetInvestment()
+        {
+            int parameterCount = 3;
+
+            var validateResp = ValidateParameters(null, parameterCount);
+
+            if (validateResp.ResponseCode != ResponseCode.Success)
+            {
+                await PostMessage(GetSlackExecutionErrorMessage(validateResp.ResponseData));
+                return;
+            }
+
+            var currency = Statics.GetCurrency(Parameters[0]);
+
+            if (currency == Currency.Unknown)
+            {
+                var errorMesssage = GetSlackExecutionErrorMessage(2);
+
+                //post depth=2 message => Given crypto currency either not found or not supported.
+                errorMesssage.text = string.Format(errorMesssage.text, Parameters[0]);
+                await PostMessage(errorMesssage);
+                return;
+            }
+
+            if (Parameters[2].Contains(','))
+            {
+                //post depth=3 message => Balance amount is invalid. Use only . (dot) and numbers for balances.
+                await PostMessage(GetSlackExecutionErrorMessage(3));
+                return;
+            }
+
+            decimal balanceAmount = Parameters[2].ToMoneyMarketDecimalFormat();
+
+            //everytihng is fine. add or update investment.
+            var teamInvestmentBusiness = new TeamInvestmentBusiness();
+
+            var investment = new Dto.TeamInvestment
+            {
+                TeamId = Team.Id,
+                Currency = currency,
+                Name = Parameters[1].ToLower(),
+                Balance = balanceAmount
+            };
+
+            if (balanceAmount == 0)
+            {
+                teamInvestmentBusiness.Delete(investment);
+
+                //investment has been deleted.
+                await PostMessage(GetSlackExecutionSuccessMessage(1));
+                return;
+            }
+
+            teamInvestmentBusiness.Add(investment);
+
+            await PostMessage(GetSlackExecutionSuccessMessage());
+        }
+
+        /// <summary>
+        /// scope= get:balance
+        /// cmd= 'get inv @p0'.
+        /// @p0 parameter for desired currency (all for all investments)
+        /// </summary>
+        /// <returns></returns>
+        public override async Task GetInvestment()
+        {
+            int parameterCount = 1;
+
+            var validateResp = ValidateParameters(null, parameterCount);
+
+            if (validateResp.ResponseCode != ResponseCode.Success)
+            {
+                await PostMessage(GetSlackExecutionErrorMessage(validateResp.ResponseData));
+                return;
+            }
+
+            var currency = Currency.Unknown;
+            var parameter = Parameters[0];
+
+            if (parameter.ToLower() != "all")
+            {
+                currency = Statics.GetCurrency(Parameters[0]);
+
+                if (currency == Currency.Unknown)
+                {
+                    var errorMesssage = GetSlackExecutionErrorMessage(2);
+
+                    //post depth=2 message => Given crypto currency either not found or not supported.
+                    errorMesssage.text = string.Format(errorMesssage.text, Parameters[0]);
+                    await PostMessage(errorMesssage);
+                    return;
+                }
+            }
+
+            var investments = GetTeamInvestments(currency);
+
+            if (!investments.Any())
+            {
+                // you have no investment with this crypto currency.
+                await PostMessage(GetSlackExecutionErrorMessage(3));
+                return;
+            }
+
+            var successText = ExecutingCommand.Responses.First(p => p.Language == Team.Language && p.Depth == 0).SuccessText;
+
+            var successMessage = SlackMessageGenerator.GetInvestmentMessage(investments, Team.MainCurrency, successText);
 
             await PostMessage(GetSlackExecutionSuccessMessage(successMessage));
         }
@@ -416,7 +545,8 @@ namespace MoneyMarket.Business.Slack.Integration
                     ParameterSet = new List<string>
                     {
                         "tl",
-                        "usd"
+                        "usd",
+                        "$"
                     }
                 }
             };
@@ -469,7 +599,6 @@ namespace MoneyMarket.Business.Slack.Integration
                 await PostMessage(GetSlackExecutionSuccessMessage(1));
                 return;
             }
-
 
             var successText = ExecutingCommand.Responses.First(p => p.Language == Team.Language && p.Depth == 0).SuccessText;
 
@@ -648,6 +777,13 @@ namespace MoneyMarket.Business.Slack.Integration
             var crpytoCurrencyBusiness = new CryptoCurrencyBusiness();
 
             return crpytoCurrencyBusiness.GetCryptoCurrenciesByProvider(Team.Provider);
+        }
+
+        private IEnumerable<Dto.TeamInvestment> GetTeamInvestments(Currency currency)
+        {
+            var teamInvestmentBusiness = new TeamInvestmentBusiness();
+
+            return teamInvestmentBusiness.GetTeamInvesments(Team.Id, currency);
         }
 
         private void SaveAssetReminderTrackerNotification(Currency currency, int timeInterval)
