@@ -86,15 +86,15 @@ namespace MoneyMarket.Business.TeamInvestment
 
             DataAccess.Models.TeamInvestment entity;
 
-            if (teamInvesmentDto.IsRevenue)
+            if (invesmentDto.IsRevenue)
             {
                 //it is a revenue
-                entity = GetTeamRevenueByNameAndCurrency(teamInvesmentDto);
+                entity = GetTeamRevenueByNameAndCurrency(invesmentDto);
             }
             else
             {
                 // it is an investment
-                entity = GetTeamInvesmentByNameAndCurrency(teamInvesmentDto);
+                entity = GetTeamInvesmentByNameAndCurrency(invesmentDto);
             }
 
             if (entity != null)

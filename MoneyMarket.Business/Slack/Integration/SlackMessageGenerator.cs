@@ -114,11 +114,12 @@ namespace MoneyMarket.Business.Slack.Integration
 
             foreach (var investment in teamInvestments)
             {
-                var balanceLine = string.Format("{0} {1:G}: {2} {3:G}{4}", investment.Name, investment.Currency, investment.Balance.ToMoneyMarketMoneyFormat(), teamMainCurrency, "{lf}");
+                var invAmount = 0 - investment.Balance;
+                var balanceLine = string.Format("{0} {1:G}: {2} {3:G}{4}", investment.Name, investment.Currency, invAmount.ToMoneyMarketMoneyFormat(), teamMainCurrency, "{lf}");
 
                 retMessage.Append(balanceLine);
 
-                totalValueOfInvestments += investment.Balance;
+                totalValueOfInvestments += invAmount;
             }
 
             retMessage.Append(string.Format("{0} {1} {2:G}", successText, totalValueOfInvestments.ToMoneyMarketMoneyFormat(), teamMainCurrency));

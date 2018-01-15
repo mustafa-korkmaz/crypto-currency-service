@@ -395,7 +395,7 @@ namespace MoneyMarket.Business.Slack.Integration
                 TeamId = Team.Id,
                 Currency = currency,
                 Name = Parameters[1].ToLower(),
-                Balance = balanceAmount
+                Balance = 0 - balanceAmount // -balance for investments
             };
 
             if (balanceAmount == 0)
