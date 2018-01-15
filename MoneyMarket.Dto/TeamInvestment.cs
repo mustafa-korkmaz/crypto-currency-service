@@ -16,6 +16,12 @@ namespace MoneyMarket.Dto
 
         public decimal Balance { get; set; }
 
+        /// <summary>
+        /// not mapped property to separate revenues and investments.
+        /// if it is not a revenue then it is an investment
+        /// </summary>
+        public bool IsRevenue { get; set; }
+
         ///// <summary>
         ///// not mapped value
         ///// </summary>

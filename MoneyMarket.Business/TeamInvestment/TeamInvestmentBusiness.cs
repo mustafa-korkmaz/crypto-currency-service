@@ -25,7 +25,18 @@ namespace MoneyMarket.Business.TeamInvestment
         {
             var teamInvesmentDto = (Dto.TeamInvestment)dto;
 
-            var entity = GetTeamTeamInvesmentByNameAndCurrency(teamInvesmentDto);
+            DataAccess.Models.TeamInvestment entity;
+
+            if (teamInvesmentDto.IsRevenue)
+            {
+                //it is a revenue
+                entity = GetTeamRevenueByNameAndCurrency(teamInvesmentDto);
+            }
+            else
+            {
+                // it is an investment
+                entity = GetTeamInvesmentByNameAndCurrency(teamInvesmentDto);
+            }
 
             if (entity == null)
             {
@@ -73,7 +84,18 @@ namespace MoneyMarket.Business.TeamInvestment
         {
             var invesmentDto = (Dto.TeamInvestment)dto;
 
-            var entity = GetTeamTeamInvesmentByNameAndCurrency(invesmentDto);
+            DataAccess.Models.TeamInvestment entity;
+
+            if (teamInvesmentDto.IsRevenue)
+            {
+                //it is a revenue
+                entity = GetTeamRevenueByNameAndCurrency(teamInvesmentDto);
+            }
+            else
+            {
+                // it is an investment
+                entity = GetTeamInvesmentByNameAndCurrency(teamInvesmentDto);
+            }
 
             if (entity != null)
             {
@@ -108,14 +130,14 @@ namespace MoneyMarket.Business.TeamInvestment
 
         public IEnumerable<Dto.TeamInvestment> GetTeamInvesments(int teamId, Currency currency)
         {
-            var query = _repository.GetAsQueryable(p => p.TeamId == teamId);
+            var query = _repository.GetAsQueryable(p => p.TeamId == teamId && p.Balance < 0);
 
             if (currency != Currency.Unknown)
             {
                 query = query.Where(p => p.Currency == currency);
             }
 
-            var invesments = query
+            var investments = query
                  .Select(p => new Dto.TeamInvestment
                  {
                      Id = p.Id,
@@ -126,20 +148,59 @@ namespace MoneyMarket.Business.TeamInvestment
                  })
                 .ToList();
 
-            return invesments;
+            return investments;
+        }
+
+        public IEnumerable<Dto.TeamInvestment> GetTeamRevenues(int teamId, Currency currency)
+        {
+            var query = _repository.GetAsQueryable(p => p.TeamId == teamId && p.Balance > 0);
+
+            if (currency != Currency.Unknown)
+            {
+                query = query.Where(p => p.Currency == currency);
+            }
+
+            var revenues = query
+                 .Select(p => new Dto.TeamInvestment
+                 {
+                     Id = p.Id,
+                     Balance = p.Balance,
+                     Currency = p.Currency,
+                     Name = p.Name,
+                     TeamId = teamId
+                 })
+                .ToList();
+
+            return revenues;
         }
 
         /// <summary>
         /// returns teamInvesment if exists by teamId, currency and name search filter
+        /// if balance smaller than 0, it is a investment
         /// </summary>
         /// <returns></returns>
-        private DataAccess.Models.TeamInvestment GetTeamTeamInvesmentByNameAndCurrency(Dto.TeamInvestment teamInvesment)
+        private DataAccess.Models.TeamInvestment GetTeamInvesmentByNameAndCurrency(Dto.TeamInvestment teamInvesment)
         {
             return _repository.AsQueryable()
                 .FirstOrDefault(p => p.Currency == teamInvesment.Currency
                 && p.Name == teamInvesment.Name
-                && p.TeamId == teamInvesment.TeamId);
+                && p.TeamId == teamInvesment.TeamId
+                && p.Balance < 0);
         }
 
+
+        /// <summary>
+        /// returns teamInvesment if exists by teamId, currency and name search filter
+        /// if balance bigger than 0, it is a revenue
+        /// </summary>
+        /// <returns></returns>
+        private DataAccess.Models.TeamInvestment GetTeamRevenueByNameAndCurrency(Dto.TeamInvestment teamInvesment)
+        {
+            return _repository.AsQueryable()
+                .FirstOrDefault(p => p.Currency == teamInvesment.Currency
+                && p.Name == teamInvesment.Name
+                && p.TeamId == teamInvesment.TeamId
+                && p.Balance > 0);
+        }
     }
 }

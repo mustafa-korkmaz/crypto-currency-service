@@ -126,5 +126,25 @@ namespace MoneyMarket.Business.Slack.Integration
             return retMessage.ToString();
         }
 
+        public static string GetRevenueMessage(IEnumerable<Dto.TeamInvestment> teamRevenues, MainCurrency teamMainCurrency, string successText)
+        {
+            var retMessage = new StringBuilder();
+
+            decimal totalValueOfRevenues = 0;
+
+            foreach (var revenue in teamRevenues)
+            {
+                var balanceLine = string.Format("{0} {1:G}: {2} {3:G}{4}", revenue.Name, revenue.Currency, revenue.Balance.ToMoneyMarketMoneyFormat(), teamMainCurrency, "{lf}");
+
+                retMessage.Append(balanceLine);
+
+                totalValueOfRevenues += revenue.Balance;
+            }
+
+            retMessage.Append(string.Format("{0} {1} {2:G}", successText, totalValueOfRevenues.ToMoneyMarketMoneyFormat(), teamMainCurrency));
+
+            return retMessage.ToString();
+        }
+
     }
 }

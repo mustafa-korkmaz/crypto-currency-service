@@ -106,6 +106,24 @@ namespace MoneyMarket.Business.Slack.Integration
         /// <returns></returns>
         public abstract Task GetInvestment();
 
+        /// <summary>
+        /// scope= set:balance
+        /// cmd= 'set rev @p0 @p1 @p2'.
+        /// @p0 parameter for desired currency
+        /// @p1 parameter for revenue name
+        /// @p2 parameter for revenue amount
+        /// </summary>
+        /// <returns></returns>
+        public abstract Task SetRevenue();
+
+        /// <summary>
+        /// scope= get:balance
+        /// cmd= 'get revenue @p0'.
+        /// @p0 parameter for desired currency (all for all revenues)
+        /// </summary>
+        /// <returns></returns>
+        public abstract Task GetRevenue();
+
 
         /// <summary>
         /// scope= set:alarm
