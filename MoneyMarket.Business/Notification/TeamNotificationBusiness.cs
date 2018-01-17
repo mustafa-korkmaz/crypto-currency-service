@@ -107,9 +107,13 @@ namespace MoneyMarket.Business.Notification
 
             var assetReminderNotifications = teamNotifications.Where(p => p.NotificationType == NotificationType.AssetReminder);
 
+            var arbitrageAlarmNotifications = teamNotifications.Where(p => p.NotificationType == NotificationType.Arbitrage);
+
             SendPriceTrackerAlarmNotifications(priceTrackerAlarmNotifications);
 
             SendAssetReminderNotifications(assetReminderNotifications);
+
+            SendArbitrageAlarmNotifications(arbitrageAlarmNotifications);
         }
 
         /// <summary>
@@ -132,8 +136,8 @@ namespace MoneyMarket.Business.Notification
             //for arbitrage and price tracker alarms we need to check existance for splitted value of key
             var keyArray = teamNotification.Key.Split(':');
 
-            //price tracker => BtcTurk:btc:44000:1
-            //arbitrage tracker => arbit:btc:10
+            //price tracker => 3:1:44000.55:1
+            //arbitrage tracker => arb:3:10.00
 
             key = keyArray[0] + ":" + keyArray[1] + ":";
 
@@ -262,6 +266,38 @@ namespace MoneyMarket.Business.Notification
                 teamNotification.LastExecutedAt = DateTime.UtcNow;
 
                 Edit(teamNotification);
+            }
+        }
+
+        private async void SendArbitrageAlarmNotifications(IEnumerable<Dto.TeamNotification> arbitrageAlarmNotifications)
+        {
+            //:bell: slack alarm emoji
+            /*
+             BtcTurk/BitStamp Eth Diff
+             1420.30 - 1397.87 = 22.43 Usd
+             BtcTurk/BitStamp Btc Diff
+             14411.95 - 14180.73 = 231.22 Usd
+             Eth profit = 1.58
+             Btc profit = 1.60
+             */
+
+            //get all crypto currencies
+            var cryptoCurrencies = GetCryptoCurrencies();
+
+            foreach (var teamNotification in arbitrageAlarmNotifications)
+            {
+                var keyArray = teamNotification.Key.Split(':');
+                var currency = Statics.GetCurrency(int.Parse(keyArray[1]));
+                var profitLimitAmount = keyArray[2].ToMoneyMarketDecimalFormat();
+
+                var successMessage = SlackMessageGenerator.GetArbitrageAlarmMessage(cryptoCurrencies, currency, profitLimitAmount);
+
+                if (!string.IsNullOrEmpty(successMessage))
+                {
+                    await PostMessage(GetSlackExecutionSuccessMessage(successMessage, teamNotification.Team));
+                    Delete(teamNotification.Id);
+                }
+
             }
         }
 

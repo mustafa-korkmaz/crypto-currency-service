@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -147,5 +148,94 @@ namespace MoneyMarket.Business.Slack.Integration
             return retMessage.ToString();
         }
 
+        public static string GetArbitrageMessage(IEnumerable<Dto.CryptoCurrency> cryptoCurrencies, Currency currency)
+        {
+            var filteredCryptoCurrencies = cryptoCurrencies
+                .Where(p => p.Currency == Currency.Btc || p.Currency == Currency.Eth)
+                .OrderBy(p => p.Currency).ThenBy(p => p.UsdValue);
+
+            var ethMin = filteredCryptoCurrencies.FirstOrDefault(p => p.Currency == Currency.Eth);
+            var ethMax = filteredCryptoCurrencies.LastOrDefault(p => p.Currency == Currency.Eth);
+            decimal ethProfitPercentage = 0;
+            string ethText = string.Empty;
+
+            if (ethMin != null && ethMax != null)
+            {
+                var ethDiff = ethMax.UsdValue - ethMin.UsdValue;
+                ethProfitPercentage = 100 * ethDiff / ethMax.UsdValue;
+
+                ethText =
+                    $"{ethMax.Provider:G}/{ethMin.Provider:G} Eth Diff\n{ethMax.UsdValue.ToMoneyMarketMoneyFormat()} - {ethMin.UsdValue.ToMoneyMarketMoneyFormat()} = {ethDiff.ToMoneyMarketMoneyFormat()} Usd\n";
+            }
+
+            var btcMin = filteredCryptoCurrencies.FirstOrDefault(p => p.Currency == Currency.Btc);
+            var btcMax = filteredCryptoCurrencies.LastOrDefault(p => p.Currency == Currency.Btc);
+
+            decimal btcProfitPercentage = 0;
+            string btcText = string.Empty;
+
+            if (btcMin != null && btcMax != null)
+            {
+                var btcDiff = btcMax.UsdValue - btcMin.UsdValue;
+                btcProfitPercentage = 100 * btcDiff / btcMax.UsdValue;
+                btcText =
+                    $"{btcMax.Provider:G}/{btcMin.Provider:G} Btc Diff\n{btcMax.UsdValue.ToMoneyMarketMoneyFormat()} - {btcMin.UsdValue.ToMoneyMarketMoneyFormat()} = {btcDiff.ToMoneyMarketMoneyFormat()} Usd\n";
+            }
+
+            var ethProfitText = Math.Abs(ethProfitPercentage) > 0 ? $"Eth profit = {ethProfitPercentage.ToMoneyMarketMoneyFormat()}\n" : "";
+            var btcProfitText = Math.Abs(btcProfitPercentage) > 0 ? $"Btc profit = {btcProfitPercentage.ToMoneyMarketMoneyFormat()}\n" : "";
+
+            //return all
+            var message = $"{ethText}{btcText}{ethProfitText}{btcProfitText}";
+            return message;
+        }
+
+        public static string GetArbitrageAlarmMessage(IEnumerable<Dto.CryptoCurrency> cryptoCurrencies, Currency currency, decimal profitLimitAmount)
+        {
+            var filteredCryptoCurrencies = cryptoCurrencies
+                .Where(p => p.Currency == Currency.Btc || p.Currency == Currency.Eth)
+                .OrderBy(p => p.Currency).ThenBy(p => p.UsdValue);
+
+            var ethMin = filteredCryptoCurrencies.FirstOrDefault(p => p.Currency == Currency.Eth);
+            var ethMax = filteredCryptoCurrencies.LastOrDefault(p => p.Currency == Currency.Eth);
+            decimal ethProfitPercentage = 0;
+            string ethText = string.Empty;
+
+            if (ethMin != null && ethMax != null)
+            {
+                var ethDiff = ethMax.UsdValue - ethMin.UsdValue;
+                ethProfitPercentage = 100 * ethDiff / ethMax.UsdValue;
+
+                ethText =
+                    $"{ethMax.Provider:G}/{ethMin.Provider:G} Eth Diff\n{ethMax.UsdValue.ToMoneyMarketMoneyFormat()} - {ethMin.UsdValue.ToMoneyMarketMoneyFormat()} = {ethDiff.ToMoneyMarketMoneyFormat()} Usd\n";
+            }
+
+            var btcMin = filteredCryptoCurrencies.FirstOrDefault(p => p.Currency == Currency.Btc);
+            var btcMax = filteredCryptoCurrencies.LastOrDefault(p => p.Currency == Currency.Btc);
+
+            decimal btcProfitPercentage = 0;
+            string btcText = string.Empty;
+
+            if (btcMin != null && btcMax != null)
+            {
+                var btcDiff = btcMax.UsdValue - btcMin.UsdValue;
+                btcProfitPercentage = 100 * btcDiff / btcMax.UsdValue;
+                btcText =
+                    $"{btcMax.Provider:G}/{btcMin.Provider:G} Btc Diff\n{btcMax.UsdValue.ToMoneyMarketMoneyFormat()} - {btcMin.UsdValue.ToMoneyMarketMoneyFormat()} = {btcDiff.ToMoneyMarketMoneyFormat()} Usd\n";
+            }
+
+            var alarmEmoji = ":bell:";
+            var ethMessage = Math.Abs(ethProfitPercentage) > profitLimitAmount ? $"{alarmEmoji}{ethText}Eth profit = {ethProfitPercentage.ToMoneyMarketMoneyFormat()}\n" : "";
+            var btcMessage = Math.Abs(btcProfitPercentage) > profitLimitAmount ? $"{alarmEmoji}{btcText}Btc profit = {btcProfitPercentage.ToMoneyMarketMoneyFormat()}\n" : "";
+
+            //return one of btc or eth
+
+            if (currency == Currency.Btc)
+            {
+                return btcMessage;
+            }
+
+            return ethMessage;
+        }
     }
 }

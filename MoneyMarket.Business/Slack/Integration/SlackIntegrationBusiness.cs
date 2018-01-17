@@ -612,7 +612,15 @@ namespace MoneyMarket.Business.Slack.Integration
 
             if (validateResp.ResponseCode != ResponseCode.Success)
             {
-                await PostMessage(GetSlackExecutionErrorMessage(validateResp.ResponseData));
+                var errorMessage = GetSlackExecutionErrorMessage(validateResp.ResponseData);
+
+                if (validateResp.ResponseData == 2)
+                {
+                    //post depth=2 message => Given crypto currency either not found or not supported.
+                    errorMessage.text = string.Format(errorMessage.text, Parameters[0], "Eth, Btc");
+                }
+
+                await PostMessage(errorMessage);
                 return;
             }
 
@@ -625,11 +633,15 @@ namespace MoneyMarket.Business.Slack.Integration
                 return;
             }
 
-            decimal percentage = Parameters[2].ToMoneyMarketDecimalFormat();
+            decimal percentage = Parameters[1].ToMoneyMarketDecimalFormat();
 
             SaveArbitrageNotification(currency, percentage);
 
-            await PostMessage(GetSlackExecutionSuccessMessage());
+            var successText = ExecutingCommand.Responses.First(p => p.Language == Team.Language && p.Depth == 0).SuccessText;
+
+            var successMessage = string.Format(successText, currency, percentage.ToMoneyMarketMoneyFormat());
+
+            await PostMessage(GetSlackExecutionSuccessMessage(successMessage));
         }
 
         /// <summary>
@@ -640,7 +652,47 @@ namespace MoneyMarket.Business.Slack.Integration
         /// <returns></returns>
         public override async Task GetArbitrage()
         {
+            int parameterCount = 1;
 
+            var parameterSet = new List<CommandParameter>
+            {
+                new CommandParameter
+                {
+                    Depth = 2,
+                    ParameterValue = Parameters[0].ToLower(),
+                    ParameterSet = new List<string>
+                    {
+                        "eth",
+                        "btc",
+                        "all"
+                    }
+                }
+            };
+
+            var validateResp = ValidateParameters(parameterSet, parameterCount);
+
+            if (validateResp.ResponseCode != ResponseCode.Success)
+            {
+                var errorMessage = GetSlackExecutionErrorMessage(validateResp.ResponseData);
+
+                if (validateResp.ResponseData == 2 && Parameters[0].ToLower() != "all")
+                {
+                    //post depth=2 message => Given crypto currency either not found or not supported.
+                    errorMessage.text = string.Format(errorMessage.text, Parameters[0], "Eth, Btc");
+                }
+
+                await PostMessage(errorMessage);
+                return;
+            }
+
+            var currency = Statics.GetCurrency(Parameters[0]);
+
+            //get crypto currencies by currency
+            var cryptoCurrencies = GetCryptoCurrencies(currency);
+
+            var successMessage = SlackMessageGenerator.GetArbitrageMessage(cryptoCurrencies, currency);
+
+            await PostMessage(GetSlackExecutionSuccessMessage(successMessage));
         }
 
         /// <summary>
@@ -1024,7 +1076,7 @@ namespace MoneyMarket.Business.Slack.Integration
 
         private void SaveArbitrageNotification(Currency currency, decimal percentage)
         {
-            var key = "arbit:" + (int)currency + ":" + percentage.ToMoneyMarketCryptoCurrencyFormat();
+            var key = "arb:" + (int)currency + ":" + percentage.ToMoneyMarketMoneyFormat();
 
             var teamNotification = new Dto.TeamNotification
             {
