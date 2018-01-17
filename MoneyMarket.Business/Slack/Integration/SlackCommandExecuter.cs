@@ -124,6 +124,22 @@ namespace MoneyMarket.Business.Slack.Integration
         /// <returns></returns>
         public abstract Task GetRevenue();
 
+        /// <summary>
+        /// scope= set:arbitrage
+        /// cmd= 'set arbit @p0 @p1'.
+        /// @p0 parameter for desired currency
+        /// @p1 parameter for profit percentage of arbitrage
+        /// </summary>
+        /// <returns></returns>
+        public abstract Task SetArbitrage();
+
+        /// <summary>
+        /// scope= get:arbitrage
+        /// cmd= 'get arbit @p0'.
+        /// @p0 parameter for desired currency
+        /// </summary>
+        /// <returns></returns>
+        public abstract Task GetArbitrage();
 
         /// <summary>
         /// scope= set:alarm

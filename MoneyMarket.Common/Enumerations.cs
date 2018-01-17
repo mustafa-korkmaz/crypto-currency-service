@@ -161,7 +161,8 @@
     public enum NotificationType : byte
     {
         PriceTracker,
-        AssetReminder
+        AssetReminder,
+        Arbitrage
     }
 
     public enum SearchType

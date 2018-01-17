@@ -120,23 +120,28 @@ namespace MoneyMarket.Business.Notification
         {
             var key = teamNotification.Key;
 
-            if (teamNotification.NotificationType == NotificationType.PriceTracker)
+            if (teamNotification.NotificationType == NotificationType.AssetReminder)
             {
-                //for alarms we need to check existance for splitted value of key
-                var keyArray = teamNotification.Key.Split(':');
-
-                key = keyArray[0] + ":" + keyArray[1] + ":";
 
                 return _repository.AsQueryable()
-                    .FirstOrDefault(p => p.Key.Contains(key)
+                    .FirstOrDefault(p => p.Key == key
                                          && p.NotificationType == teamNotification.NotificationType
                                          && p.TeamId == teamNotification.TeamId);
             }
 
+            //for arbitrage and price tracker alarms we need to check existance for splitted value of key
+            var keyArray = teamNotification.Key.Split(':');
+
+            //price tracker => BtcTurk:btc:44000:1
+            //arbitrage tracker => arbit:btc:10
+
+            key = keyArray[0] + ":" + keyArray[1] + ":";
+
             return _repository.AsQueryable()
-                .FirstOrDefault(p => p.Key == key
+                .FirstOrDefault(p => p.Key.Contains(key)
                                      && p.NotificationType == teamNotification.NotificationType
                                      && p.TeamId == teamNotification.TeamId);
+
         }
 
         private IEnumerable<Dto.TeamNotification> GetTeamNotifications()

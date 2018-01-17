@@ -584,6 +584,66 @@ namespace MoneyMarket.Business.Slack.Integration
         }
 
         /// <summary>
+        /// scope= set:arbitrage
+        /// cmd= 'set arbit @p0 @p1'.
+        /// @p0 parameter for desired currency
+        /// @p1 parameter for profit percentage of arbitrage
+        /// </summary>
+        /// <returns></returns>
+        public override async Task SetArbitrage()
+        {
+            int parameterCount = 2;
+
+            var parameterSet = new List<CommandParameter>
+            {
+                new CommandParameter
+                {
+                    Depth = 2,
+                    ParameterValue = Parameters[0].ToLower(),
+                    ParameterSet = new List<string>
+                    {
+                        "eth",
+                        "btc"
+                    }
+                }
+            };
+
+            var validateResp = ValidateParameters(parameterSet, parameterCount);
+
+            if (validateResp.ResponseCode != ResponseCode.Success)
+            {
+                await PostMessage(GetSlackExecutionErrorMessage(validateResp.ResponseData));
+                return;
+            }
+
+            var currency = Statics.GetCurrency(Parameters[0]);
+
+            if (Parameters[1].Contains(','))
+            {
+                //post depth=3 message => Percentage amount is invalid. Use only . (dot) and numbers for percentage.
+                await PostMessage(GetSlackExecutionErrorMessage(3));
+                return;
+            }
+
+            decimal percentage = Parameters[2].ToMoneyMarketDecimalFormat();
+
+            SaveArbitrageNotification(currency, percentage);
+
+            await PostMessage(GetSlackExecutionSuccessMessage());
+        }
+
+        /// <summary>
+        /// scope= get:arbitrage
+        /// cmd= 'get arbit @p0'.
+        /// @p0 parameter for desired currency
+        /// </summary>
+        /// <returns></returns>
+        public override async Task GetArbitrage()
+        {
+
+        }
+
+        /// <summary>
         /// scope= set:alarm
         /// cmd= 'set balance @p0 @p1 @p2'.
         /// @p0 parameter for desired currency
@@ -957,6 +1017,25 @@ namespace MoneyMarket.Business.Slack.Integration
                 teamNotificationBusiness.Delete(teamNotification);
                 return;
             }
+
+            // add or update notification
+            teamNotificationBusiness.Add(teamNotification);
+        }
+
+        private void SaveArbitrageNotification(Currency currency, decimal percentage)
+        {
+            var key = "arbit:" + (int)currency + ":" + percentage.ToMoneyMarketCryptoCurrencyFormat();
+
+            var teamNotification = new Dto.TeamNotification
+            {
+                TeamId = Team.Id,
+                NotificationType = NotificationType.Arbitrage,
+                Key = key,
+                LastExecutedAt = DateTime.UtcNow,
+                TimeInterval = 0
+            };
+
+            var teamNotificationBusiness = new TeamNotificationBusiness();
 
             // add or update notification
             teamNotificationBusiness.Add(teamNotification);
