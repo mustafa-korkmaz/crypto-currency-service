@@ -13,6 +13,7 @@ using MoneyMarket.Business.CryptoCurrency;
 using MoneyMarket.Business.Notification;
 using MoneyMarket.Business.Exception;
 using MoneyMarket.Business.TeamInvestment;
+using MoneyMarket.Business.Setting;
 
 namespace MoneyMarket.Business.Slack.Integration
 {
@@ -237,7 +238,24 @@ namespace MoneyMarket.Business.Slack.Integration
         {
             int parameterCount = 3;
 
-            var validateResp = ValidateParameters(null, parameterCount);
+            string limitAmountText = string.Empty;
+
+            if (Parameters.Length > 2)
+            {
+                limitAmountText = Parameters[2];
+            }
+
+            var parameterSet = new List<CommandParameter>
+            {
+                new CommandParameter
+                {
+                    Depth = 3,
+                    ParameterValue = limitAmountText,
+                    IsNumber = true
+                }
+            };
+
+            var validateResp = ValidateParameters(parameterSet, parameterCount);
 
             if (validateResp.ResponseCode != ResponseCode.Success)
             {
@@ -254,13 +272,6 @@ namespace MoneyMarket.Business.Slack.Integration
                 //post depth=2 message => Given crypto currency either not found or not supported.
                 errorMesssage.text = string.Format(errorMesssage.text, Parameters[0]);
                 await PostMessage(errorMesssage);
-                return;
-            }
-
-            if (Parameters[2].Contains(','))
-            {
-                //post depth=3 message => Balance amount is invalid. Use only . (dot) and numbers for balances.
-                await PostMessage(GetSlackExecutionErrorMessage(3));
                 return;
             }
 
@@ -358,7 +369,24 @@ namespace MoneyMarket.Business.Slack.Integration
         {
             int parameterCount = 3;
 
-            var validateResp = ValidateParameters(null, parameterCount);
+            string limitAmountText = string.Empty;
+
+            if (Parameters.Length > 2)
+            {
+                limitAmountText = Parameters[2];
+            }
+
+            var parameterSet = new List<CommandParameter>
+            {
+                new CommandParameter
+                {
+                    Depth = 3,
+                    ParameterValue = limitAmountText,
+                    IsNumber = true
+                }
+            };
+
+            var validateResp = ValidateParameters(parameterSet, parameterCount);
 
             if (validateResp.ResponseCode != ResponseCode.Success)
             {
@@ -375,13 +403,6 @@ namespace MoneyMarket.Business.Slack.Integration
                 //post depth=2 message => Given crypto currency either not found or not supported.
                 errorMesssage.text = string.Format(errorMesssage.text, Parameters[0]);
                 await PostMessage(errorMesssage);
-                return;
-            }
-
-            if (Parameters[2].Contains(','))
-            {
-                //post depth=3 message => Balance amount is invalid. Use only . (dot) and numbers for balances.
-                await PostMessage(GetSlackExecutionErrorMessage(3));
                 return;
             }
 
@@ -476,7 +497,24 @@ namespace MoneyMarket.Business.Slack.Integration
         {
             int parameterCount = 3;
 
-            var validateResp = ValidateParameters(null, parameterCount);
+            string balanceAmountText = string.Empty;
+
+            if (Parameters.Length > 2)
+            {
+                balanceAmountText = Parameters[2];
+            }
+
+            var parameterSet = new List<CommandParameter>
+            {
+                new CommandParameter
+                {
+                    Depth = 3,
+                    ParameterValue = balanceAmountText,
+                    IsNumber = true
+                }
+            };
+
+            var validateResp = ValidateParameters(parameterSet, parameterCount);
 
             if (validateResp.ResponseCode != ResponseCode.Success)
             {
@@ -493,13 +531,6 @@ namespace MoneyMarket.Business.Slack.Integration
                 //post depth=2 message => Given crypto currency either not found or not supported.
                 errorMesssage.text = string.Format(errorMesssage.text, Parameters[0]);
                 await PostMessage(errorMesssage);
-                return;
-            }
-
-            if (Parameters[2].Contains(','))
-            {
-                //post depth=3 message => Balance amount is invalid. Use only . (dot) and numbers for balances.
-                await PostMessage(GetSlackExecutionErrorMessage(3));
                 return;
             }
 
@@ -594,6 +625,13 @@ namespace MoneyMarket.Business.Slack.Integration
         {
             int parameterCount = 2;
 
+            string percentageText = string.Empty;
+
+            if (Parameters.Length > 1)
+            {
+                percentageText = Parameters[1];
+            }
+
             var parameterSet = new List<CommandParameter>
             {
                 new CommandParameter
@@ -605,6 +643,12 @@ namespace MoneyMarket.Business.Slack.Integration
                         "eth",
                         "btc"
                     }
+                },
+                new CommandParameter
+                {
+                    Depth = 3,
+                    ParameterValue = percentageText,
+                    IsNumber = true
                 }
             };
 
@@ -625,13 +669,6 @@ namespace MoneyMarket.Business.Slack.Integration
             }
 
             var currency = Statics.GetCurrency(Parameters[0]);
-
-            if (Parameters[1].Contains(','))
-            {
-                //post depth=3 message => Percentage amount is invalid. Use only . (dot) and numbers for percentage.
-                await PostMessage(GetSlackExecutionErrorMessage(3));
-                return;
-            }
 
             decimal percentage = Parameters[1].ToMoneyMarketDecimalFormat();
 
@@ -761,9 +798,11 @@ namespace MoneyMarket.Business.Slack.Integration
             int parameterCount = 4;
 
             string mainCurrencyText = string.Empty;
+            string limitAmountText = string.Empty;
 
             if (Parameters.Length > 3)
             {
+                limitAmountText = Parameters[2];
                 mainCurrencyText = Parameters[3];
             }
 
@@ -779,6 +818,12 @@ namespace MoneyMarket.Business.Slack.Integration
                         "usd",
                         "$"
                     }
+                },
+                new CommandParameter
+                {
+                    Depth = 3,
+                    ParameterValue = limitAmountText,
+                    IsNumber = true
                 }
             };
 
@@ -808,13 +853,6 @@ namespace MoneyMarket.Business.Slack.Integration
                 //post depth=2 message => Given crypto currency either not found or not supported.
                 errorMesssage.text = string.Format(errorMesssage.text, Parameters[0]);
                 await PostMessage(errorMesssage);
-                return;
-            }
-
-            if (Parameters[2].Contains(','))
-            {
-                //post depth=3 message => Balance amount is invalid. Use only . (dot) and numbers for balances.
-                await PostMessage(GetSlackExecutionErrorMessage(3));
                 return;
             }
 
@@ -944,18 +982,10 @@ namespace MoneyMarket.Business.Slack.Integration
         /// <param name="methodName"></param>
         private void InvokeExecutingCommandAction(string methodName)
         {
-            try
-            {
-                Type thisType = this.GetType();
-                MethodInfo method = thisType.GetMethod(methodName);
+            Type thisType = this.GetType();
+            MethodInfo method = thisType.GetMethod(methodName);
 
-                method.Invoke(this, null);
-            }
-            catch (System.Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
+            method.Invoke(this, null);
         }
 
         private string[] GetExecutionCommandParameters(string cmdText)
@@ -1000,7 +1030,7 @@ namespace MoneyMarket.Business.Slack.Integration
                 return cryptoCurrencyBusiness.All().OrderBy(p => p.Currency);
             }
 
-            return cryptoCurrencyBusiness.GetCryptoCurrenciesByCurrency(currency).OrderBy(p => p.Currency);
+            return cryptoCurrencyBusiness.GetCryptoCurrenciesByCurrency(currency).OrderBy(p => p.Provider);
         }
 
         private IEnumerable<Dto.CryptoCurrency> GetCryptoCurrencies()
@@ -1050,7 +1080,24 @@ namespace MoneyMarket.Business.Slack.Integration
 
         private void SavePriceTrackerNotification(Currency currency, Provider provider, decimal limitAmount, MainCurrency mainCurrency)
         {
-            var key = (int)provider + ":" + (int)currency + ":" + limitAmount.ToMoneyMarketCryptoCurrencyFormat() + ":" + (int)mainCurrency;
+            var cryptoCurrencies = GetCryptoCurrencies(currency);
+
+            var limitAmountUsdValue = GetCurrentUsdValueByMainCurrency(limitAmount, mainCurrency);
+
+            Dto.CryptoCurrency cryptoCurrency;
+
+            if (provider == Provider.Unknown)
+            {
+                cryptoCurrency = cryptoCurrencies.First(p => p.Provider == Provider.CoinMarketCap);
+            }
+            else
+            {
+                cryptoCurrency = cryptoCurrencies.First(p => p.Provider == provider);
+            }
+
+            var alarmType = cryptoCurrency.UsdValue > limitAmountUsdValue ? AlarmType.Purchase : AlarmType.Sell;
+
+            var key = (int)provider + ":" + (int)currency + ":" + limitAmount.ToMoneyMarketCryptoCurrencyFormat() + ":" + (int)mainCurrency + ":" + (int)alarmType;
 
             var teamNotification = new Dto.TeamNotification
             {
@@ -1091,6 +1138,25 @@ namespace MoneyMarket.Business.Slack.Integration
 
             // add or update notification
             teamNotificationBusiness.Add(teamNotification);
+        }
+
+        private decimal GetCurrentUsdValueByMainCurrency(decimal amount, MainCurrency mainCurrency)
+        {
+            if (mainCurrency == MainCurrency.Usd)
+            {
+                return amount;
+            }
+
+            if (mainCurrency == MainCurrency.Try)
+            {
+                var settingBusiness = new SettingBusiness();
+
+                var usdSellRate = settingBusiness.GetUsdValue();
+
+                return amount / usdSellRate;
+            }
+
+            return 0;
         }
     }
 }

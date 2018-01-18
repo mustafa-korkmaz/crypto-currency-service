@@ -317,6 +317,28 @@ namespace MoneyMarket.Business.Slack.Integration
             {
                 foreach (var item in commandParameters)
                 {
+                    if (item.IsNumber)
+                    {
+                        if (item.ParameterValue.Contains(','))
+                        {
+                            // parameter value is not valid for decimal or integer type
+                            //post depth=3 message => Balance amount is invalid. Use only . (dot) and numbers for balances.
+                            resp.ResponseData = item.Depth;
+                            return resp;
+                        }
+
+                        decimal d;
+                        if (!decimal.TryParse(item.ParameterValue, out d))
+                        {
+                            //post depth=3 message => Balance amount is invalid. Use only . (dot) and numbers for balances.
+                            resp.ResponseData = item.Depth;
+                            return resp;
+                        }
+
+                        //no validation error
+                        continue;
+                    }
+
                     if (!item.ParameterSet.Contains(item.ParameterValue))
                     {
                         // parameter not found in parameter set

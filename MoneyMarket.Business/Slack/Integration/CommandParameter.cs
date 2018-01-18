@@ -16,5 +16,10 @@ namespace MoneyMarket.Business.Slack.Integration
         /// dbo.responses.depth property
         /// </summary>
         public int Depth { get; set; }
+
+        /// <summary>
+        /// tp validate decimal or integer parameters
+        /// </summary>
+        public bool IsNumber { get; set; }
     }
 }

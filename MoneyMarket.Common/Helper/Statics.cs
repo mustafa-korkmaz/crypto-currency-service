@@ -111,6 +111,11 @@ namespace MoneyMarket.Common.Helper
             return (MainCurrency)mainCurrency;
         }
 
+        public static AlarmType GetAlarmType(int alarmType)
+        {
+            return (AlarmType)alarmType;
+        }
+
         public static Currency GetCurrency(string currencyText)
         {
             /*

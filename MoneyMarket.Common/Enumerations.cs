@@ -165,10 +165,10 @@
         Arbitrage
     }
 
-    public enum SearchType
+    public enum AlarmType
     {
-        Authors = 1,
-        Events = 2
+        Sell = 1,
+        Purchase = 2
     }
 
     public enum DeviceType : byte

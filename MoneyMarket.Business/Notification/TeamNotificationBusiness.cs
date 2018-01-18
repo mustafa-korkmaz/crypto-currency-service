@@ -192,17 +192,39 @@ namespace MoneyMarket.Business.Notification
                 var currency = Statics.GetCurrency(int.Parse(keyArray[1]));
                 var limitAmount = keyArray[2].ToMoneyMarketDecimalFormat();
                 var mainCurrency = Statics.GetMainCurrency(int.Parse(keyArray[3]));
+                var alarmType = Statics.GetAlarmType(int.Parse(keyArray[4]));
 
                 IEnumerable<Dto.CryptoCurrency> alarms;
 
                 if (mainCurrency == MainCurrency.Try)
                 {
-                    alarms = cryptoCurrencies.Where(p => (p.UsdValue / usdSellRate) >= limitAmount &&
-                                                         p.Currency == currency);
+                    switch (alarmType)
+                    {
+                        case AlarmType.Sell:
+                            alarms = cryptoCurrencies.Where(p => (p.UsdValue / usdSellRate) >= limitAmount &&
+                                                                 p.Currency == currency);
+                            break;
+                        case AlarmType.Purchase:
+                            alarms = cryptoCurrencies.Where(p => (p.UsdValue / usdSellRate) < limitAmount &&
+                                                                 p.Currency == currency);
+                            break;
+                        default:
+                            continue;
+                    }
                 }
                 else
                 {
-                    alarms = cryptoCurrencies.Where(p => p.UsdValue >= limitAmount && p.Currency == currency);
+                    switch (alarmType)
+                    {
+                        case AlarmType.Sell:
+                            alarms = cryptoCurrencies.Where(p => p.UsdValue >= limitAmount && p.Currency == currency);
+                            break;
+                        case AlarmType.Purchase:
+                            alarms = cryptoCurrencies.Where(p => p.UsdValue < limitAmount && p.Currency == currency);
+                            break;
+                        default:
+                            continue;
+                    }
                 }
 
                 if (provider != Provider.Unknown)
