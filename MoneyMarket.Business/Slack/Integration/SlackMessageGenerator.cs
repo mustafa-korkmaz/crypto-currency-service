@@ -64,7 +64,7 @@ namespace MoneyMarket.Business.Slack.Integration
 
             foreach (var cryptoCurrency in cryptoCurrencies)
             {
-                var usdValueStr = cryptoCurrency.UsdValue.ToMoneyMarketCryptoCurrencyFormat();
+                var usdValueStr = cryptoCurrency.UsdValue.ToMoneyMarketMoneyFormat();
 
                 var tryValueStr = teamMainCurrency == MainCurrency.Usd ? "" : string.Format(" ({0} {1:G})", (cryptoCurrency.UsdValue * usdSellRate).ToMoneyMarketMoneyFormat(), MainCurrency.Try);
 
