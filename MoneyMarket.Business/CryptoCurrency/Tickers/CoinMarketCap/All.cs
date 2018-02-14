@@ -63,6 +63,10 @@ namespace MoneyMarket.Business.CryptoCurrency.Tickers.CoinMarketCap
                     return Currency.Lisk;
                 case "TRX":
                     return Currency.Tron;
+                case "IGNIS":
+                    return Currency.Ignis;
+                case "POLY":
+                    return Currency.Poly;
             }
 
             return Currency.Unknown;

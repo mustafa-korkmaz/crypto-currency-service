@@ -160,7 +160,8 @@ namespace MoneyMarket.Common.Helper
                 case "ıgnis":
                 case "ignis":
                     return Currency.Ignis;
-
+                case "poly":
+                    return Currency.Poly;
             }
 
             return Currency.Unknown;

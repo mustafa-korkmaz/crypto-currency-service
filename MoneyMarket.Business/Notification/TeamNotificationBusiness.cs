@@ -201,11 +201,11 @@ namespace MoneyMarket.Business.Notification
                     switch (alarmType)
                     {
                         case AlarmType.Sell:
-                            alarms = cryptoCurrencies.Where(p => (p.UsdValue / usdSellRate) >= limitAmount &&
+                            alarms = cryptoCurrencies.Where(p => (p.UsdValue * usdSellRate) >= limitAmount &&
                                                                  p.Currency == currency);
                             break;
                         case AlarmType.Purchase:
-                            alarms = cryptoCurrencies.Where(p => (p.UsdValue / usdSellRate) < limitAmount &&
+                            alarms = cryptoCurrencies.Where(p => (p.UsdValue * usdSellRate) < limitAmount &&
                                                                  p.Currency == currency);
                             break;
                         default:

@@ -202,7 +202,8 @@
         Nem,
         Eos,
         Tron,
-        Ignis
+        Ignis,
+        Poly
         //etc..
     }
 
