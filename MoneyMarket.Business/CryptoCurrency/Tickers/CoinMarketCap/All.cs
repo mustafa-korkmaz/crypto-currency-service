@@ -67,6 +67,8 @@ namespace MoneyMarket.Business.CryptoCurrency.Tickers.CoinMarketCap
                     return Currency.Ignis;
                 case "POLY":
                     return Currency.Poly;
+                case "LTC":
+                    return Currency.Ltc;
             }
 
             return Currency.Unknown;

@@ -203,7 +203,8 @@
         Eos,
         Tron,
         Ignis,
-        Poly
+        Poly,
+        Ltc
         //etc..
     }
 
