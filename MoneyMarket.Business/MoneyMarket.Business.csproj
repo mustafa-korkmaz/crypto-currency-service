@@ -124,7 +124,7 @@
     <Compile Include="CryptoCurrency\CryptoCurrencyBusiness.cs" />
     <Compile Include="CryptoCurrency\Tickers\BitStamp\Btc.cs" />
     <Compile Include="CryptoCurrency\Tickers\BitStamp\Eth.cs" />
-    <Compile Include="CryptoCurrency\Tickers\BtcTurk\EthBtc.cs" />
+    <Compile Include="CryptoCurrency\Tickers\BtcTurk\BtcTurk.cs" />
     <Compile Include="CryptoCurrency\Tickers\ITicker.cs" />
     <Compile Include="CryptoCurrency\Tickers\JsonTicker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

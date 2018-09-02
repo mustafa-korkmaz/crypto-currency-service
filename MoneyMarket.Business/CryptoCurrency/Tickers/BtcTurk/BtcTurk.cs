@@ -8,11 +8,12 @@ using Newtonsoft.Json;
 
 namespace MoneyMarket.Business.CryptoCurrency.Tickers.BtcTurk
 {
-    public class EthBtc : ITicker
+    public class BtcTurk : ITicker
     {
         private Dto.CryptoCurrency _eth;
-
         private Dto.CryptoCurrency _btc;
+        private Dto.CryptoCurrency _xrp;
+        private Dto.CryptoCurrency _ltc;
 
         public decimal UsdSellRate { get; set; }
 
@@ -27,6 +28,9 @@ namespace MoneyMarket.Business.CryptoCurrency.Tickers.BtcTurk
 
             var ethTicker = tickers.First(t => t.pair == "ETHTRY");
             var btcTicker = tickers.First(t => t.pair == "BTCTRY");
+
+            var ltcTicker = tickers.First(t => t.pair == "LTCTRY");
+            var xrpTicker = tickers.First(t => t.pair == "XRPTRY");
 
             var now = DateTime.UtcNow;
 
@@ -48,8 +52,26 @@ namespace MoneyMarket.Business.CryptoCurrency.Tickers.BtcTurk
                 ModifiedAt = now
             };
 
+            _xrp = new Dto.CryptoCurrency
+            {
+                UsdValue = xrpTicker.last / UsdSellRate,
+                Currency = Currency.Ripple,
+                Provider = Provider.BtcTurk,
+                ModifiedAt = now
+            };
+
+            _ltc = new Dto.CryptoCurrency
+            {
+                UsdValue = ltcTicker.last / UsdSellRate,
+                Currency = Currency.Ltc,
+                Provider = Provider.BtcTurk,
+                ModifiedAt = now
+            };
+
             list.Add(_eth);
             list.Add(_btc);
+            list.Add(_xrp);
+            list.Add(_ltc);
 
             return list;
         }

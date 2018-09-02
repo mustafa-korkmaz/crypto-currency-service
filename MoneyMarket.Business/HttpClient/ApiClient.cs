@@ -22,6 +22,8 @@ namespace MoneyMarket.Business.HttpClient
             client.Encoding = Encoding.UTF8;
             client.Headers.Add("User-Agent: Other");
 
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
             try
             {
                 string html = client.DownloadString(url);
