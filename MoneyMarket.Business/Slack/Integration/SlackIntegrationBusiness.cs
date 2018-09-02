@@ -701,6 +701,8 @@ namespace MoneyMarket.Business.Slack.Integration
                     {
                         "eth",
                         "btc",
+                        "xrp",
+                        "ltc",
                         "all"
                     }
                 }
@@ -715,7 +717,7 @@ namespace MoneyMarket.Business.Slack.Integration
                 if (validateResp.ResponseData == 2 && Parameters[0].ToLower() != "all")
                 {
                     //post depth=2 message => Given crypto currency either not found or not supported.
-                    errorMessage.text = string.Format(errorMessage.text, Parameters[0], "Eth, Btc");
+                    errorMessage.text = string.Format(errorMessage.text, Parameters[0], "Eth, Btc, Ltc, Xrp");
                 }
 
                 await PostMessage(errorMessage);

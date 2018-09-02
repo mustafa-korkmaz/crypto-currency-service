@@ -151,7 +151,8 @@ namespace MoneyMarket.Business.Slack.Integration
         public static string GetArbitrageMessage(IEnumerable<Dto.CryptoCurrency> cryptoCurrencies, Currency currency)
         {
             var filteredCryptoCurrencies = cryptoCurrencies
-                .Where(p => p.Currency == Currency.Btc || p.Currency == Currency.Eth)
+                .Where(p => p.Currency == Currency.Btc || p.Currency == Currency.Eth
+                || p.Currency == Currency.Ltc || p.Currency == Currency.Ripple)
                 .OrderBy(p => p.Currency).ThenBy(p => p.UsdValue);
 
             var ethMin = filteredCryptoCurrencies.FirstOrDefault(p => p.Currency == Currency.Eth);
@@ -182,11 +183,42 @@ namespace MoneyMarket.Business.Slack.Integration
                     $"{btcMax.Provider:G}/{btcMin.Provider:G} Btc Diff\n{btcMax.UsdValue.ToMoneyMarketMoneyFormat()} - {btcMin.UsdValue.ToMoneyMarketMoneyFormat()} = {btcDiff.ToMoneyMarketMoneyFormat()} Usd\n";
             }
 
+            var xrpMin = filteredCryptoCurrencies.FirstOrDefault(p => p.Currency == Currency.Ripple);
+            var xrpMax = filteredCryptoCurrencies.LastOrDefault(p => p.Currency == Currency.Ripple);
+            decimal xrpProfitPercentage = 0;
+            string xrpText = string.Empty;
+
+            if (xrpMin != null && xrpMax != null)
+            {
+                var xrpDiff = xrpMax.UsdValue - xrpMin.UsdValue;
+                xrpProfitPercentage = 100 * xrpDiff / xrpMax.UsdValue;
+
+                xrpText =
+                    $"{xrpMax.Provider:G}/{xrpMin.Provider:G} Xrp Diff\n{xrpMax.UsdValue.ToMoneyMarketMoneyFormat()} - {xrpMin.UsdValue.ToMoneyMarketMoneyFormat()} = {xrpDiff.ToMoneyMarketMoneyFormat()} Usd\n";
+            }
+
+            var ltcMin = filteredCryptoCurrencies.FirstOrDefault(p => p.Currency == Currency.Ltc);
+            var ltcMax = filteredCryptoCurrencies.LastOrDefault(p => p.Currency == Currency.Ltc);
+            decimal ltcProfitPercentage = 0;
+            string ltcText = string.Empty;
+
+            if (ltcMin != null && ltcMax != null)
+            {
+                var ltcDiff = ltcMax.UsdValue - ltcMin.UsdValue;
+                ltcProfitPercentage = 100 * ltcDiff / ltcMax.UsdValue;
+
+                ltcText =
+                    $"{ltcMax.Provider:G}/{ltcMin.Provider:G} Ltc Diff\n{ltcMax.UsdValue.ToMoneyMarketMoneyFormat()} - {ltcMin.UsdValue.ToMoneyMarketMoneyFormat()} = {ltcDiff.ToMoneyMarketMoneyFormat()} Usd\n";
+            }
+
             var ethProfitText = Math.Abs(ethProfitPercentage) > 0 ? $"Eth profit = {ethProfitPercentage.ToMoneyMarketMoneyFormat()}\n" : "";
             var btcProfitText = Math.Abs(btcProfitPercentage) > 0 ? $"Btc profit = {btcProfitPercentage.ToMoneyMarketMoneyFormat()}\n" : "";
 
+            var xrpProfitText = Math.Abs(xrpProfitPercentage) > 0 ? $"Xrp profit = {xrpProfitPercentage.ToMoneyMarketMoneyFormat()}\n" : "";
+            var ltcProfitText = Math.Abs(ltcProfitPercentage) > 0 ? $"Ltc profit = {ltcProfitPercentage.ToMoneyMarketMoneyFormat()}\n" : "";
+
             //return all
-            var message = $"{ethText}{btcText}{ethProfitText}{btcProfitText}";
+            var message = $"{ethText}{btcText}{xrpText}{ltcText}{ethProfitText}{btcProfitText}{xrpProfitText}{ltcProfitText}";
             return message;
         }
 
