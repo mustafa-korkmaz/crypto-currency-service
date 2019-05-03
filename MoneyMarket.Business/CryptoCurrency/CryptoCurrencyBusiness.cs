@@ -60,7 +60,7 @@ namespace MoneyMarket.Business.CryptoCurrency
                 ResponseCode = ResponseCode.Fail
             };
 
-            var usdSellRate = GetLatestUsdSellRate();
+            var usdSellRate = Statics.GetLatestUsdSellRate();
 
             var cryptoCurrencies = new List<Dto.CryptoCurrency>();
 
@@ -177,18 +177,6 @@ namespace MoneyMarket.Business.CryptoCurrency
             _repository.Update(entity);
 
             _uow.Save();
-        }
-
-        private decimal GetLatestUsdSellRate()
-        {
-            var apiClient = new ApiClient();
-
-            var resp = apiClient.GetWebResponse("https://www.doviz.com/api/v1/currencies/USD/latest");
-
-            var usd = JsonConvert.DeserializeObject<JsonCurrency>(resp.ResponseData);
-
-            return usd.selling;
-
         }
 
         private void SendSlackNotification(IEnumerable<Dto.CryptoCurrency> cryptoCurrencies)

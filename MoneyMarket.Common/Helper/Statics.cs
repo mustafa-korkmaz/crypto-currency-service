@@ -1,8 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Text;
 using System.Web;
+using System.Xml.Serialization;
+using MoneyMarket.Common.Response;
 
 namespace MoneyMarket.Common.Helper
 {
@@ -401,5 +407,112 @@ namespace MoneyMarket.Common.Helper
             return string.Join(", ", inValues.Select(p => p.ToString()));
         }
 
+        public static decimal GetLatestUsdSellRate()
+        {
+            var currencyApiUrl = GetConfigKey(ConfigKeys.CurrencyApiUrl);
+
+            var resp = GetWebResponse(currencyApiUrl);
+
+            using (TextReader sr = new StringReader(resp.ResponseData))
+            {
+                var serializer = new XmlSerializer(typeof(TcmbDate));
+                TcmbDate root = (TcmbDate)serializer.Deserialize(sr);
+
+                var list = root.Currency; //usd.selling;
+
+                var dollar = list.First(p => p.CurrencyCode == "USD").BanknoteSelling;
+
+                CultureInfo provider = new CultureInfo("en-GB");
+                return decimal.Parse(dollar, provider);
+            }
+        }
+
+        /// <summary>
+        /// default http client
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        public static HttpClientResponse<string> GetWebResponse(string url)
+        {
+            var resp = new HttpClientResponse<string>();
+
+            WebClient client = new WebClient();
+
+            client.Encoding = Encoding.UTF8;
+            client.Headers.Add("User-Agent: Doviz/5.2.0");
+
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
+            try
+            {
+                string html = client.DownloadString(url);
+                if (!string.IsNullOrEmpty(html))
+                {
+                    resp.ResponseData = html;
+                    resp.HttpStatusCode = HttpStatusCode.OK;
+                }
+                else
+                {
+                    resp.HttpStatusCode = HttpStatusCode.BadRequest;
+                    resp.ResponseMessage = "ContentNoFound";
+                }
+            }
+            catch (WebException exc)
+            {
+                var excResp = exc.Response as HttpWebResponse;
+
+                if (excResp == null)
+                {
+                    resp.HttpStatusCode = HttpStatusCode.InternalServerError;
+                    return resp;
+                }
+
+                resp.HttpStatusCode = excResp.StatusCode;
+            }
+
+            return resp;
+        }
+    }
+
+    [XmlRoot(ElementName = "Currency")]
+    public class TcmbCurrency
+    {
+        [XmlElement(ElementName = "Unit")]
+        public string Unit { get; set; }
+        [XmlElement(ElementName = "Isim")]
+        public string Isim { get; set; }
+        [XmlElement(ElementName = "CurrencyName")]
+        public string CurrencyName { get; set; }
+        [XmlElement(ElementName = "ForexBuying")]
+        public string ForexBuying { get; set; }
+        [XmlElement(ElementName = "ForexSelling")]
+        public string ForexSelling { get; set; }
+        [XmlElement(ElementName = "BanknoteBuying")]
+        public string BanknoteBuying { get; set; }
+        [XmlElement(ElementName = "BanknoteSelling")]
+        public string BanknoteSelling { get; set; }
+        [XmlElement(ElementName = "CrossRateUSD")]
+        public string CrossRateUSD { get; set; }
+        [XmlElement(ElementName = "CrossRateOther")]
+        public string CrossRateOther { get; set; }
+        [XmlAttribute(AttributeName = "CrossOrder")]
+        public string CrossOrder { get; set; }
+        [XmlAttribute(AttributeName = "Kod")]
+        public string Kod { get; set; }
+        [XmlAttribute(AttributeName = "CurrencyCode")]
+        public string CurrencyCode { get; set; }
+    }
+
+    [XmlRoot(ElementName = "Tarih_Date")]
+    public class TcmbDate
+    {
+        [XmlElement(ElementName = "Currency")]
+        public List<TcmbCurrency> Currency { get; set; }
+        [XmlAttribute(AttributeName = "Tarih")]
+        public string Tarih { get; set; }
+        [XmlAttribute(AttributeName = "Date")]
+        public string Date { get; set; }
+        [XmlAttribute(AttributeName = "Bulten_No")]
+        public string Bulten_No { get; set; }
     }
 }

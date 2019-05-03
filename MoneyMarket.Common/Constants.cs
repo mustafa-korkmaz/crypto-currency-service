@@ -313,6 +313,10 @@
 
     public static class ConfigKeys
     {
+        /// <summary>
+        /// currency api url key
+        /// </summary>
+        public const string CurrencyApiUrl = "CurrencyApiUrl";
         public const string ApiUrl = "ApiUrl";
         public const string SlackApiUrl = "SlackApiUrl";
         public const string SlackToken = "SlackToken";
