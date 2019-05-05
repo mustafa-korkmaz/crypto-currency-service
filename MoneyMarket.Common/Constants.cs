@@ -270,7 +270,7 @@
         public const string Logout = "Account/Logout";
         public const string SlackOAuth = "oauth.access";
         public const string SlackGrant = "https://slack.com/oauth/authorize?client_id={0}&scope={1}&redirect_uri={2}";
-        public const string SlackRedirectUri = "https://ccs.raqun.co/grantsuccess";
+        public const string SlackRedirectUri = "grantsuccess";
     }
 
     #endregion api urls

@@ -32,12 +32,14 @@ namespace MoneyMarket.Business.Slack.Integration
 
             var clientSecret = (string)configurationAppSettings.GetValue(ConfigKeys.SlackClientSecret, typeof(string));
 
+            var redirectUrl = Statics.GetApiUrl() + ApiUrl.SlackRedirectUri;
+
             var request = new OAuthRequest
             {
                 client_secret = clientSecret,
                 client_id = clientId,
                 code = accessCode,
-                redirect_uri = ApiUrl.SlackRedirectUri
+                redirect_uri = redirectUrl
             };
 
             var resp = await _client.InvokeApi<OAuthRequest, OAuthResponse>(ApiUrl.SlackOAuth, request);
